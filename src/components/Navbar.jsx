@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Phone, Mail, Menu, X, ChevronDown } from "lucide-react";
+import { Phone, Mail, Menu, X, ChevronDown, Facebook, Youtube,  } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,26 +18,32 @@ const Navbar = () => {
       {/* Top Header Bar */}
       <div className="bg-[#0D47A1] text-white py-4 px-4 relative overflow-hidden">
         {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent animate-pulse"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-sm relative z-10">
+        <div
+          className="absolute left-0 top-0 w-[240px] h-[100px] bg-white"
+          style={{ clipPath: 'polygon(0 0, 45% 0, 100% 100%, 0% 100%)' }}
+        ></div>
+        
+        <div className="max-w-7xl ml-auto flex justify-between items-center text-sm relative z-10">
           <span className="truncate">
             Join with us and be a part of the success
           </span>
 
           <div className="flex items-center space-x-3">
-            <button className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center text-xs">
-              ×
-            </button>
-            <button className="w-6 h-6 bg-[#0D47A1] rounded-full flex items-center justify-center text-xs">
-              f
-            </button>
-            <button className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-xs">
-              ▶
-            </button>
-          </div>
+      
+      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#0D47A1] shadow hover:bg-gray-100">
+        <X />
+      </button>
+
+      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-sky-500 shadow hover:bg-gray-100">
+        <Facebook />
+      </button>
+
+      {/* YouTube */}
+      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-600 shadow hover:bg-gray-100">
+        <Youtube />
+      </button>
+    </div>
+
         </div>
       </div>
 
@@ -49,10 +55,10 @@ const Navbar = () => {
           <div className="absolute bottom-0 right-0 w-24 h-24 bg-[#0D47A1]/60 rounded-full translate-x-12 translate-y-12"></div>
         </div>
 
-                 <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10">
+          <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10">
            {/* Logo Section */}
-           <div className="flex items-center gap-2">
-             <div className="flex items-center">
+           <div className="flex items-center gap-3">
+             <div className="flex">
                <img
                  src="logo.png"
                  alt="School Logo"
@@ -73,10 +79,10 @@ const Navbar = () => {
               className="flex items-start gap-3 hover:text-blue-800 transition-colors"
               title="Call: 0479-2562489, 2664989"
             >
-              <Phone className="w-6 h-6 mt-1" />
+              <Phone className="w-8 h-8 my-auto" />
               <div className="flex flex-col">
-                <span className="text-sm font-medium">Phone</span>
-                <span className="text-sm">0479-2562489, 2664989</span>
+                <span className="text-sm font-medium text-dark mb-1">Phone</span>
+                <span className="text-sm mt-1">0479-2562489, 2664989</span>
               </div>
             </a>
 
@@ -87,10 +93,10 @@ const Navbar = () => {
               className="flex items-start gap-3 hover:text-blue-800 transition-colors"
               title="Email: sbcskarunagappally@gmail.com"
             >
-              <Mail className="w-6 h-6 mt-1" />
+              <Mail className="w-8 h-8 my-auto" />
               <div className="flex flex-col">
-                <span className="text-sm font-medium">Email</span>
-                <span className="text-sm">sbcskarunagappally@gmail.com</span>
+                <span className="text-sm font-medium text-dark mb-1">Email</span>
+                <span className="text-sm mt-1">sbcskarunagappally@gmail.com</span>
               </div>
             </a>
           </div>
