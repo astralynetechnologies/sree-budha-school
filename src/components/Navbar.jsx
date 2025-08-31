@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <div className="w-full">
       {/* Top Header Bar */}
-      <div className="bg-[#0D47A1] text-white py-4 px-4 relative overflow-hidden">
+      <div className="bg-[#0D47A1] text-white py-2 px-4 relative overflow-hidden">
         {/* Animated background pattern */}
         <div
           className="absolute left-0 top-0 w-[240px] h-[100px] bg-white"
@@ -30,16 +30,16 @@ const Navbar = () => {
 
           <div className="flex items-center space-x-3">
       
-      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#0D47A1] shadow hover:bg-gray-100">
+      <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0D47A1] shadow hover:bg-gray-100">
         <X />
       </button>
 
-      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-sky-500 shadow hover:bg-gray-100">
+      <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-sky-500 shadow hover:bg-gray-100">
         <Facebook />
       </button>
 
       {/* YouTube */}
-      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-600 shadow hover:bg-gray-100">
+      <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-red-600 shadow hover:bg-gray-100">
         <Youtube />
       </button>
     </div>
@@ -49,25 +49,20 @@ const Navbar = () => {
 
       {/* Main Header */}
       <div className="bg-gradient-to-r from-white to-[#0D47A1]/5 px-6 shadow-lg relative overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-32 h-32 bg-[#0D47A1] rounded-full -translate-x-16 -translate-y-16"></div>
-          <div className="absolute bottom-0 right-0 w-24 h-24 bg-[#0D47A1]/60 rounded-full translate-x-12 translate-y-12"></div>
-        </div>
+        
 
-          <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10">
+          <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10 py-1.5">
            {/* Logo Section */}
-           <div className="flex items-center gap-3">
-             <div className="flex">
+           <div className="flex items-center relative right-8">
+             
                <img
                  src="logo.png"
                  alt="School Logo"
-                 className="w-114 h-30 object-contain"
+                 className="w-72 h-17 object-contain"
                />
-             </div>
 
              {/* 25th Anniversary Badge */}
-             <img src="excellence.png" alt="25th Anniversary" className="w-30 h-20 object-contain" />
+             <img src="excellence.png" alt="25th Anniversary" className="w-30 h-16 object-contain" />
            </div>
 
           {/* Contact Info (Icon Left, Label Above Value) */}
