@@ -5,12 +5,13 @@ import SchoolEvents from "@/components/SchoolEvents";
 import LeadersMessages from "@/components/LeadersMessages";
 import Gallery from "@/components/Galler";
 import Footer from "@/components/Footer";
+import AnnouncementBoard from "@/components/AnnouncementBoard";
 
 export default function Home() {
   const images = [
     "/school-front.png",
-    // Add more images to public/ and include their paths here
-    // e.g., "/school-campus-2.jpg", "/auditorium.jpg"
+    "/class-room.png",
+    "/lab.png",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,6 +24,14 @@ export default function Home() {
     }, 5000);
     return () => clearInterval(intervalId);
   }, [images.length]);
+
+  const previousImage = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
 
   return (
     <div>
@@ -40,23 +49,29 @@ export default function Home() {
         {/* Content overlay */}
         <div className="relative z-10 h-full flex items-end justify-start p-4 md:p-6 lg:p-8">
           {/* Dropdown Button */}
-          <div className="relative z-20">
-            <button
-              onClick={() => setIsDropdownOpen((v) => !v)}
-              className="bg-white/90 text-[#0D47A1] px-4 py-2 rounded-md shadow hover:bg-white transition-colors"
-            >
-              Announcements & Events
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute mt-2 w-44 left-0 bg-white rounded-md shadow-xl overflow-hidden z-30">
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Admissions</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Curriculum</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Documents</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Contact</a>
-              </div>
-            )}
-          </div>
+        <AnnouncementBoard />
         </div>
+
+        {/* Navigation Buttons */}
+        <button
+          onClick={previousImage}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40"
+          aria-label="Previous image"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button
+          onClick={nextImage}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40"
+          aria-label="Next image"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
       <QuickInformation />
