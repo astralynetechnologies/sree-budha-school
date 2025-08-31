@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import QuickInformation from "@/components/QuickInformation";
 import SchoolEvents from "@/components/SchoolEvents";
 import LeadersMessages from "@/components/LeadersMessages";
-import Gallery from "@/components/Galler";
-import Footer from "@/components/Footer";
+import Gallery from "@/components/Gallery";
 import AnnouncementBoard from "@/components/AnnouncementBoard";
 
 export default function Home() {
@@ -35,7 +34,7 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar />
+      
       {/* Hero Section with Background Carousel */}
       <div className="relative h-[55vh] md:h-[60vh] lg:h-[70vh] overflow-visible">
         {/* Background image */}
@@ -169,7 +168,6 @@ export default function Home() {
 
     <Gallery />
 
-    <Footer />
 
     </div>
     </div>
