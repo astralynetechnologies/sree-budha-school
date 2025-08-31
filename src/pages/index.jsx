@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
 import QuickInformation from "@/components/QuickInformation";
 import SchoolEvents from "@/components/SchoolEvents";
@@ -14,7 +13,6 @@ export default function Home() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (images.length <= 1) return; // Skip rotation if only one image
