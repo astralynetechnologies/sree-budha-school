@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Phone, Mail, Menu, X, ChevronDown, Facebook, Youtube,  } from "lucide-react";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,18 +31,18 @@ const Navbar = () => {
 
           <div className="flex items-center space-x-3">
       
-      <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0D47A1] shadow hover:bg-gray-100">
+      <Link href="#" className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0D47A1] shadow hover:bg-gray-100">
         <X />
-      </button>
+      </Link>
 
-      <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-sky-500 shadow hover:bg-gray-100">
+      <Link href="#" className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-sky-500 shadow hover:bg-gray-100">
         <Facebook />
-      </button>
+      </Link>
 
       {/* YouTube */}
-      <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-red-600 shadow hover:bg-gray-100">
+      <Link href="#" className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-red-600 shadow hover:bg-gray-100">
         <Youtube />
-      </button>
+      </Link>
     </div>
 
         </div>
@@ -56,19 +57,19 @@ const Navbar = () => {
            <div className="flex items-center relative right-8">
              
                <img
-                 src="logo.png"
+                 src="/logo.png"
                  alt="School Logo"
                  className="w-72 h-17 object-contain"
                />
 
              {/* 25th Anniversary Badge */}
-             <img src="excellence.png" alt="25th Anniversary" className="w-30 h-16 object-contain" />
+             <img src="/excellence.png" alt="25th Anniversary" className="w-30 h-16 object-contain" />
            </div>
 
           {/* Contact Info (Icon Left, Label Above Value) */}
           <div className="hidden lg:flex items-center gap-10 text-[#0D47A1]">
             {/* Phone */}
-            <a
+            <Link
               href="tel:04792562489"
               aria-label="Call us"
               className="flex items-start gap-3 hover:text-blue-800 transition-colors"
@@ -79,10 +80,10 @@ const Navbar = () => {
                 <span className="text-sm font-medium text-dark mb-1">Phone</span>
                 <span className="text-sm mt-1">0479-2562489, 2664989</span>
               </div>
-            </a>
+            </Link>
 
             {/* Email */}
-            <a
+            <Link
               href="mailto:sbcskarunagappally@gmail.com"
               aria-label="Email us"
               className="flex items-start gap-3 hover:text-blue-800 transition-colors"
@@ -93,7 +94,7 @@ const Navbar = () => {
                 <span className="text-sm font-medium text-dark mb-1">Email</span>
                 <span className="text-sm mt-1">sbcskarunagappally@gmail.com</span>
               </div>
-            </a>
+            </Link>
           </div>
 
 
@@ -121,24 +122,24 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "foundation" && (
                   <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-52 z-50 border border-gray-100">
-                    <a
-                      href="#"
+                    <Link
+                      href="/about-foundation/objectives"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition-colors"
                     >
-                      Foundation History
-                    </a>
-                    <a
-                      href="#"
+                      Objectives
+                    </Link>
+                    <Link
+                      href="/about-foundation/management"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition-colors"
                     >
-                      Mission & Vision
-                    </a>
-                    <a
-                      href="#"
+                      Management
+                    </Link>
+                    <Link
+                      href="/about-foundation/institutions"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition-colors"
                     >
-                      Leadership
-                    </a>
+                      Institutions
+                    </Link>
                   </div>
                 )}
               </div>
@@ -154,24 +155,31 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "school" && (
                   <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 w-48 z-50">
-                    <a
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
-                      School Profile
-                    </a>
-                    <a
+                      Chairman’s and Principal’s Messages
+                    </Link>
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
-                      Infrastructure
-                    </a>
-                    <a
+                      Mission & Vision
+                    </Link>
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
-                      Faculty
-                    </a>
+                      Associations
+                    </Link>
+                    <Link
+                      href="#"
+                      className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                    >
+                      Mandatory Disclosure
+                    </Link>
+                    
                   </div>
                 )}
               </div>
@@ -187,24 +195,24 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "curriculum" && (
                   <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 w-48 z-50">
-                    <a
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Academic Programs
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Subjects Offered
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Assessment
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -220,41 +228,41 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "documents" && (
                   <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 w-48 z-50">
-                    <a
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Admission Forms
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Policies
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Certificates
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
 
-              <a
+              <Link
                 href="#"
                 className="px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
               >
                 Gallery
-              </a>
+              </Link>
             </div>
 
             {/* Admission Form Button */}
             <div className="ml-auto">
-              <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
+              <Link href="#" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
                 Admission Form
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -262,26 +270,26 @@ const Navbar = () => {
            {isMenuOpen && (
              <div className="lg:hidden bg-[#0D47A1] py-4">
                <div className="space-y-1">
-                 <button className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
+                 <Link href="#" className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
                    About Foundation
-                 </button>
-                 <button className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
+                 </Link>
+                 <Link href="#" className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
                    About School
-                 </button>
-                 <button className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
+                 </Link>
+                 <Link href="#" className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
                    Curriculum
-                 </button>
-                 <button className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
+                 </Link>
+                 <Link href="#" className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
                    Documents
-                 </button>
-                 <button className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
+                 </Link>
+                 <Link href="#" className="block w-full text-left px-4 py-2 text-white hover:bg-[#0D47A1]/80">
                    Gallery
-                 </button>
+                 </Link>
 
                 <div className="px-4 pt-2">
-                  <button className="w-full bg-yellow-400 text-[#0D47A1] px-6 py-2 font-semibold rounded hover:bg-yellow-300 transition-colors">
+                  <Link href="#" className="w-full bg-yellow-400 text-[#0D47A1] px-6 py-2 font-semibold rounded hover:bg-yellow-300 transition-colors">
                     Admission Form
-                  </button>
+                  </Link>
                 </div>
 
                 {/* Contact Info for Mobile */}
