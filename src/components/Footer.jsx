@@ -3,7 +3,7 @@ import { Facebook, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white py-16 px-4">
+    <footer className="bg-[#012050] text-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Logo Section */}
         <div className="flex justify-center mb-12">
