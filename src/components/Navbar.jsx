@@ -56,11 +56,13 @@ const Navbar = () => {
            {/* Logo Section */}
            <div className="flex items-center relative right-8">
              
-               <img
+              <Link href="/">
+              <img
                  src="/logo.png"
                  alt="School Logo"
                  className="w-72 h-17 object-contain"
                />
+              </Link>
 
              {/* 25th Anniversary Badge */}
              <img src="/excellence.png" alt="25th Anniversary" className="w-30 h-16 object-contain" />
@@ -156,25 +158,25 @@ const Navbar = () => {
                 {activeDropdown === "school" && (
                   <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 w-48 z-50">
                     <Link
-                      href="#"
+                      href="/about-school/messages"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Chairman’s and Principal’s Messages
                     </Link>
                     <Link
-                      href="#"
+                      href="/about-school/missionandvission"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Mission & Vision
                     </Link>
                     <Link
-                      href="#"
+                      href="/about-school/associations"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Associations
                     </Link>
                     <Link
-                      href="#"
+                      href="/about-school/disclosure"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                     >
                       Mandatory Disclosure
