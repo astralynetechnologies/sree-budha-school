@@ -14,6 +14,10 @@ const Navbar = () => {
     setActiveDropdown(activeDropdown === menu ? null : menu);
   };
 
+  const closeDropdown = () => {
+    setActiveDropdown(null);
+  };
+
   return (
     <div className="w-full">
       {/* Top Header Bar */}
@@ -127,18 +131,21 @@ const Navbar = () => {
                     <Link
                       href="/about-foundation/objectives"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                      onClick={closeDropdown}
                     >
                       Objectives
                     </Link>
                     <Link
                       href="/about-foundation/management"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                      onClick={closeDropdown}
                     >
                       Management
                     </Link>
                     <Link
                       href="/about-foundation/institutions"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                      onClick={closeDropdown}
                     >
                       Institutions
                     </Link>
@@ -160,24 +167,28 @@ const Navbar = () => {
                     <Link
                       href="/about-school/messages"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
-                      Chairman’s and Principal’s Messages
+                      Chairman's and Principal's Messages
                     </Link>
                     <Link
                       href="/about-school/missionandvission"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Mission & Vision
                     </Link>
                     <Link
                       href="/about-school/associations"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Associations
                     </Link>
                     <Link
                       href="/about-school/disclosure"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Mandatory Disclosure
                     </Link>
@@ -200,18 +211,21 @@ const Navbar = () => {
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Academic Programs
                     </Link>
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Subjects Offered
                     </Link>
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Assessment
                     </Link>
@@ -233,18 +247,21 @@ const Navbar = () => {
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Admission Forms
                     </Link>
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Policies
                     </Link>
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                      onClick={closeDropdown}
                     >
                       Certificates
                     </Link>
