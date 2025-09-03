@@ -209,25 +209,25 @@ const Navbar = () => {
                 {activeDropdown === "curriculum" && (
                   <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 w-48 z-50">
                     <Link
-                      href="#"
+                      href="/carriculum/academics"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                       onClick={closeDropdown}
                     >
-                      Academic Programs
+                      Academics
                     </Link>
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                       onClick={closeDropdown}
                     >
-                      Subjects Offered
+                      Non-Academics
                     </Link>
                     <Link
                       href="#"
                       className="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                       onClick={closeDropdown}
                     >
-                      Assessment
+                      Labs
                     </Link>
                   </div>
                 )}
