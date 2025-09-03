@@ -60,18 +60,12 @@ const academics = () => {
             {academicSections.map((section, index) => (
               <div 
                 key={index}
-                className=""
-                style={{ 
-                  width: '1120px', 
-                  height: '264px',
-                  maxWidth: '100%'
-                }}
+                className="mx-auto w-[1120px] h-[264px] max-w-full"
               >
                 <div className={`flex h-full ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                   {/* Image Section */}
                   <div 
-                    className="flex-shrink-0"
-                    style={{ width: '301px', height: '264px' }}
+                    className="flex-shrink-0 w-[301px] h-[264px]"
                   >
                     <img 
                       src={section.image}
