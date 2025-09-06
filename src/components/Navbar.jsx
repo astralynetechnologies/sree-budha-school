@@ -308,7 +308,7 @@ const Navbar = () => {
               </div>
 
               <Link
-                href="#"
+                href="/gallery"
                 className="px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
               >
                 Gallery
@@ -317,7 +317,7 @@ const Navbar = () => {
 
             {/* Admission Form Button */}
             <div className="ml-auto">
-              <Link href="#" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
+              <Link href="/AdmissionRegistrationForm" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
                 Admission Form
               </Link>
             </div>
@@ -491,7 +491,7 @@ const Navbar = () => {
 
             {/* Gallery - Simple Link */}
             <Link 
-              href="#" 
+              href="/gallery" 
               className="block w-full text-center px-4 py-2 text-white hover:text-secondary"
               onClick={closeMobileMenu}
             >
@@ -501,7 +501,7 @@ const Navbar = () => {
             {/* Admission Form Button */}
             <div className="px-4 pt-2 w-full flex justify-center">
               <Link 
-                href="#" 
+                href="/AdmissionRegistrationForm" 
                 className="block w-full max-w-xs bg-yellow-400 text-[#0D47A1] px-6 py-2 font-semibold rounded hover:bg-yellow-300 transition-colors text-center"
                 onClick={closeMobileMenu}
               >
