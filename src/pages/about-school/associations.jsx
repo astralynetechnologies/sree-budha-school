@@ -35,6 +35,7 @@ const associations = () => {
     { id: 25, name: "Sri Anil K P", role: "Teacher" }
   ];
 
+  // Column-major distribution: first 10 in col1, next 10 in col2, rest in col3
   const col1 = members.slice(0, 10);
   const col2 = members.slice(10, 20);
   const col3 = members.slice(20);
@@ -57,7 +58,7 @@ const associations = () => {
           <img
             src="/pta.png"
             alt="PTA Executive Committee Group Photo"
-            className="w-[1120px] h-[453px] object-cover rounded-lg"
+            className="w-full max-w-[1120px] h-auto max-h-[453px] object-cover rounded-lg"
           />
         </div>
       </div>
@@ -85,23 +86,23 @@ const associations = () => {
           </h3>
           <div className="space-y-2 mb-6">
             {executiveCommittee.map((member, index) => (
-              <div key={index} className="text-dark">
+              <div key={index} className="text-dark flex flex-wrap">
                 <span className="font-medium">{member.name}</span>
                 {member.role && <span className="text-light-dark"> ({member.role})</span>}
-                {member.phone && <span className="ml-2 text-secondary">{member.phone}</span>}
+                {member.phone && <span className="ml-2 text-secondary break-all">{member.phone}</span>}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Members List - 3 columns, column-major */}
-        <div className="flex gap-x-10">
-          <div className="flex-1 flex flex-col space-y-3">
+        {/* Members List - Responsive columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 lg:gap-x-10 gap-y-0">
+          <div className="flex flex-col space-y-3">
             {col1.map((member) => (
               <div key={member.id} className="flex text-sm text-dark">
-                <span className="w-6 text-light-dark">{member.id}.</span>
-                <div className="flex-1">
-                  <span className="font-medium">{member.name}</span>
+                <span className="w-6 text-light-dark flex-shrink-0">{member.id}.</span>
+                <div className="flex-1 min-w-0">
+                  <span className="font-medium break-words">{member.name}</span>
                   {member.role && (
                     <span className="text-light-dark"> ({member.role})</span>
                   )}
@@ -109,12 +110,12 @@ const associations = () => {
               </div>
             ))}
           </div>
-          <div className="flex-1 flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3">
             {col2.map((member) => (
               <div key={member.id} className="flex text-sm text-dark">
-                <span className="w-6 text-light-dark">{member.id}.</span>
-                <div className="flex-1">
-                  <span className="font-medium">{member.name}</span>
+                <span className="w-6 text-light-dark flex-shrink-0">{member.id}.</span>
+                <div className="flex-1 min-w-0">
+                  <span className="font-medium break-words">{member.name}</span>
                   {member.role && (
                     <span className="text-light-dark"> ({member.role})</span>
                   )}
@@ -122,12 +123,12 @@ const associations = () => {
               </div>
             ))}
           </div>
-          <div className="flex-1 flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3">
             {col3.map((member) => (
               <div key={member.id} className="flex text-sm text-dark">
-                <span className="w-6 text-light-dark">{member.id}.</span>
-                <div className="flex-1">
-                  <span className="font-medium">{member.name}</span>
+                <span className="w-6 text-light-dark flex-shrink-0">{member.id}.</span>
+                <div className="flex-1 min-w-0">
+                  <span className="font-medium break-words">{member.name}</span>
                   {member.role && (
                     <span className="text-light-dark"> ({member.role})</span>
                   )}

@@ -9,7 +9,7 @@ const missionandvission = () => {
           <h2 className="text-3xl md:text-2.5xl font-bold text-blue-900 mb-4">
             Mission & Vision
           </h2>
-          <p className="text-dark w-110 mx-auto">
+          <p className="text-dark max-w-110 mx-auto">
             Discover our purpose and future goals-learn what drives us and where we're headed.
           </p>
         </div>

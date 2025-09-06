@@ -16,28 +16,33 @@ const LeadersMessages = () => {
         </div>
 
         {/* Messages Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 text-justify">
           {/* Chairman's Message */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 overflow-hidden">
-
-          <div className="flex">
-                         <img src="/chairman.png" alt="" className="rounded-full w-36 h-36 object-cover object-center z-30"/>
-            <span
-              style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
-              className="absolute bg-primary h-9 w-72 sm:w-72 md:w-80 lg:w-80 ml-16 text-white flex items-center justify-center text-center"
-            >
-              Chairman's Message
-            </span>
-
-            <div className="ml-8 mt-8 flex flex-col justify-center z-40 relative">
-              <p className="text-lg font-semibold text-blue-900">Prof. K. Sasikumar</p>
-              <p className="text-sm text-gray-600">Founder Chairman</p>
+            <div className="relative mb-6">
+              <div className="flex items-start">
+                <div className="relative flex-shrink-0">
+                  <img 
+                    src="/chairman.png" 
+                    alt="" 
+                    className="rounded-full w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 object-cover object-center z-30 relative"
+                  />
+                  <span
+                    style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
+                    className="absolute top-0 left-12 sm:left-16 lg:left-16 bg-primary h-8 sm:h-9 w-56 sm:w-68 lg:w-80 text-white flex items-center justify-center text-center text-sm sm:text-base font-medium z-20"
+                  >
+                    Chairman's Message
+                  </span>
+                </div>
+                <div className="ml-4 sm:ml-6 lg:ml-8 mt-10 sm:mt-8 md:mt-15 flex flex-col justify-center">
+                  <p className="text-base sm:text-lg font-semibold text-blue-900">Prof. K. Sasikumar</p>
+                  <p className="text-xs sm:text-sm text-gray-600">Founder Chairman</p>
+                </div>
+              </div>
             </div>
 
-          </div>
-
             {/* Message */}
-            <div className="space-y-4 text-gray-700 leading-relaxed text-[15px]">
+            <div className="space-y-4 text-gray-700 leading-relaxed text-sm sm:text-[15px]">
               <p>
                 It is truly remarkable that Sree Buddha Central School has
                 completed 30 years of dedicated service in the field of
@@ -65,26 +70,30 @@ const LeadersMessages = () => {
 
           {/* Principal's Message */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 overflow-hidden">
-            {/* Header */}
-            <div className="flex relative">
-            <img src="/principal.png" alt="" className="rounded-full w-36 h-36 object-cover object-center z-30"/>
-                         <span
-               style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
-               className="absolute bg-primary h-9 w-72 sm:w-72 md:w-80 lg:w-80 ml-16 text-white flex items-center justify-center text-center"
-             >
-               Principal's Message
-             </span>
-
-            <div className="ml-8 mt-8 flex flex-col justify-center z-40 relative">
-              <p className="text-lg font-semibold text-blue-900">Mr. Vijayakumar K</p>
-              <p className="text-sm text-gray-600">The guiding force behind our success</p>
+            <div className="relative mb-6">
+              <div className="flex items-start">
+                <div className="relative flex-shrink-0">
+                  <img 
+                    src="/principal.png" 
+                    alt="" 
+                    className="rounded-full w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 object-cover object-center z-30 relative"
+                  />
+                  <span
+                    style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
+                    className="absolute top-0 left-12 sm:left-16 lg:left-16 bg-primary h-8 sm:h-9 w-56 sm:w-64 lg:w-80 text-white flex items-center justify-center text-center text-sm sm:text-base font-medium z-20"
+                  >
+                    Principal's Message
+                  </span>
+                </div>
+                <div className="ml-4 sm:ml-6 lg:ml-8 mt-10 sm:mt-8 md:mt-15 flex flex-col justify-center">
+                  <p className="text-base sm:text-lg font-semibold text-blue-900">Mr. Vijayakumar K</p>
+                  <p className="text-xs sm:text-sm text-gray-600">The guiding force behind our success</p>
+                </div>
+              </div>
             </div>
 
-          </div>
-          
-
             {/* Message */}
-            <div className="space-y-4 text-gray-700 leading-relaxed text-[15px]">
+            <div className="space-y-4 text-gray-700 leading-relaxed text-sm sm:text-[15px]">
               <p>
                 As the Principal, I feel privileged to lead an institution where
                 every stakeholder is a learner and each day brings new
@@ -92,7 +101,7 @@ const LeadersMessages = () => {
                 School, learning is a shared journey for students, teachers, and
                 staff alike. We value the vital role of parents as partners in
                 shaping the future of their children, believing that a strong
-                homeâ€"school connection greatly benefits a childâ€™s growth.
+                home–school connection greatly benefits a child's growth.
               </p>
               <p>
                 Our mission goes beyond academic excellence. We aim to inspire
@@ -106,7 +115,7 @@ const LeadersMessages = () => {
                 With child-centric approaches and evolving teaching methods, we
                 make learning engaging and effective. The success of our alumni,
                 excelling in fields such as engineering, medicine, business, and
-                administration, is a testament to the schoolâ€™s commitment to
+                administration, is a testament to the school's commitment to
                 excellence and its enduring impact on society.
               </p>
             </div>

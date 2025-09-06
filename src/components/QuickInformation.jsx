@@ -8,56 +8,64 @@ export default function QuickInformation() {
       title: "Admissions Open",
       description: "Apply for Academic Year 2024-25. Limited seats available.",
       buttonText: "Apply Now",
-      buttonStyle: "bg-primary text-white hover:bg-blue-700"
+      buttonStyle: "bg-primary text-white hover:bg-blue-700",
+      linkTo: "/AdmissionRegistrationForm"
     },
     {
       icon: <Bus className="w-8 h-8 text-primary" />,
       title: "Transport Facility",
       description: "Safe and reliable bus service covering major routes in the city.",
       buttonText: "View Routes",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/transport"
     },
     {
       icon: <Calendar className="w-8 h-8 text-primary" />,
       title: "Academic Calendar",
       description: "Check important dates, holidays, and examination schedule.",
       buttonText: "View Calendar",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/calendar"
     },
     {
       icon: <FileText className="w-8 h-8 text-primary" />,
       title: "TC Certificate",
       description: "Download or apply for Transfer Certificate online.",
       buttonText: "Get TC",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/tc-certificate"
     },
     {
       icon: <Phone className="w-8 h-8 text-primary" />,
       title: "Contact Support",
       description: "Get help with admissions, fees, or general inquiries.",
       buttonText: "Contact Now",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/ContactForm"
     },
     {
       icon: <Download className="w-8 h-8 text-primary" />,
       title: "Important Documents",
       description: "Download fee structure, syllabus, and other important documents.",
       buttonText: "Download",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/documents"
     },
     {
       icon: <Clock className="w-8 h-8 text-primary" />,
       title: "School Timings",
       description: "Morning: 8:00 AM - 2:00 PM | Evening Activities: 3:00 PM - 5:00 PM",
       buttonText: "View Details",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/timings"
     },
     {
       icon: <User className="w-8 h-8 text-primary" />,
       title: "Parent Portal",
       description: "Access your child's progress, attendance, and fee details.",
       buttonText: "Login",
-      buttonStyle: "border border-primary text-primary hover:bg-blue-50"
+      buttonStyle: "border border-primary text-primary hover:bg-blue-50",
+      linkTo: "/parent-portal"
     }
   ];
 
@@ -93,7 +101,7 @@ export default function QuickInformation() {
             >
               {/* Icon Container */}
               <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mb-4 mx-auto">
-                {card.icon}
+                {React.cloneElement(card.icon, { className: "w-8 h-8 text-blue-600" })}
               </div>
 
               {/* Card Content */}
@@ -105,21 +113,18 @@ export default function QuickInformation() {
                   {card.description}
                 </p>
 
-                {/* Action Button */}
-                <button
-                  className={`w-full py-2 px-4 rounded-md font-medium transition-colors duration-200 ${card.buttonStyle}`}
+                {/* Action Link styled as Button */}
+                <a
+                  href={card.linkTo}
+                  className={`inline-block w-full py-2 px-4 rounded-md font-medium transition-colors duration-200 text-center no-underline ${card.buttonStyle.replace('text-primary', 'text-blue-600').replace('border-primary', 'border-blue-600').replace('bg-primary', 'bg-primary')}`}
                 >
                   {card.buttonText}
-                </button>
+                </a>
               </div>
             </div>
           ))}
         </div>
-
-      
       </div>
-
-     
     </div>
   );
 }
