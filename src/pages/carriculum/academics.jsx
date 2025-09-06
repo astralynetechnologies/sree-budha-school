@@ -35,38 +35,36 @@ const academics = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4">
+    <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-blue-900">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-blue-900">
             Academics
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base md:text-lg text-gray-600">
             We make your child happy day after day
           </p>
         </div>
 
         {/* Medium of Instruction Section */}
         <div className="mb-8">
-          <div className="border-l-4 border-blue-600 pl-4 mb-8">
-            <h2 className="text-xl font-bold text-blue-900 uppercase tracking-wide">
+          <div className="border-l-4 border-blue-600 pl-4 mb-6 md:mb-8">
+            <h2 className="text-lg md:text-xl font-bold text-blue-900 uppercase tracking-wide">
               MEDIUM OF INSTRUCTION
             </h2>
           </div>
           
           {/* Content Blocks */}
-          <div className="space-y-8">
+          <div className="space-y-10 md:space-y-12">
             {academicSections.map((section, index) => (
               <div 
                 key={index}
-                className="mx-auto w-[1120px] h-[264px] max-w-full"
+                className="w-full max-w-full bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100"
               >
-                <div className={`flex h-full ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} h-full`}>
                   {/* Image Section */}
-                  <div 
-                    className="flex-shrink-0 w-[301px] h-[264px]"
-                  >
+                  <div className="flex-shrink-0 w-full md:w-[301px] h-48 md:h-64 lg:h-[264px]">
                     <img 
                       src={section.image}
                       alt={section.title}
@@ -76,12 +74,12 @@ const academics = () => {
                   
                   {/* Content Section */}
                   <div 
-                    className={`flex flex-col justify-start ${index % 2 === 0 ? 'ml-4' : 'mr-4'}`}
+                    className={`flex flex-col justify-start p-4 md:p-6 ${index % 2 === 0 ? 'md:ml-4' : 'md:mr-4'}`}
                   >
-                    <h3 className="text-lg font-semibold mb-3 text-gray-800">
+                    <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-gray-800">
                       {section.title}
                     </h3>
-                    <p className="text-sm leading-relaxed text-gray-700 text-justify">
+                    <p className="text-sm md:text-base leading-relaxed text-gray-700 text-justify">
                       {section.text}
                     </p>
                   </div>

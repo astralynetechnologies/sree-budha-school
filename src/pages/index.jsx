@@ -8,8 +8,8 @@ import AnnouncementBoard from "@/components/AnnouncementBoard";
 export default function Home() {
   const images = [
     "/school-front.png",
-    "/class-room.png",
-    "/lab.png",
+    "/biology-lab.png",
+    "/digital-class-room.png",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -122,7 +122,7 @@ export default function Home() {
           <span className="text-base mb-4">We make your child happy day after day</span>
           <div className="p-0.5 bg-secondary rounded-2xl max-w-64 m-auto my-2"></div>
           
-          <p className="text-l leading-relaxed">
+          <p className="text-l leading-relaxed text-start">
             The Sree Buddha Foundation has many programmes on the anvil. The first project is the Central School in Karunagappally. Sree Buddha College of Engineering, Pattoor is another venture sponsored by the Foundation. The cardinal points of the teaching of the Buddha viz kindness, humanism and equality, will be the guiding philosophy of this institution. Special efforts will be made, to inculcate these cherished values into the minds of the pupils. The scientific temper of the Buddhist teachings and its rationality are in perfect harmony with the scientific spirit of the modern age.
           </p>
         </div>
