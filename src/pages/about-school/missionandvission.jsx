@@ -1,53 +1,101 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-const missionandvission = () => {
+const MissionAndVision = () => {
+  const [missionData, setMissionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchMissionData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/mission`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        if (data.docs && data.docs.length > 0) {
+          setMissionData(data.docs[0]);
+        }
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching mission data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMissionData();
+  }, []);
+
+  if (error) {
+    return (
+      <section className="pt-6 pb-0 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto text-center py-10">
+          <p className="text-red-500">Error loading content: {error}</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="pt-6 pb-0 px-6 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-2.5xl font-bold text-blue-900 mb-4">
-            Mission & Vision
-          </h2>
-          <p className="text-dark max-w-110 mx-auto">
-            Discover our purpose and future goals-learn what drives us and where we're headed.
-          </p>
+          {loading ? (
+            <>
+              <Skeleton height={40} width={300} className="mx-auto mb-4" />
+              <Skeleton height={20} width={500} className="mx-auto" />
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl md:text-2.5xl font-bold text-blue-900 mb-4">
+                {missionData?.title || 'Mission & Vision'}
+              </h2>
+              <p className="text-dark max-w-110 mx-auto">
+                {missionData?.subtitle || 'Discover our purpose and future goals-learn what drives us and where we\'re headed.'}
+              </p>
+            </>
+          )}
         </div>
 
         {/* Content Section */}
         <div className="flex flex-col lg:flex-row gap-6 items-center">
           {/* Image Section */}
           <div className="relative flex-shrink-0">
-            
+            {loading ? (
+              <Skeleton width={380} height={453} />
+            ) : (
               <img 
-                src="/abt 1.png"
-                alt="Buddha statue in peaceful garden setting"
+                src={missionData?.image?.url || "/abt 1.png"}
+                alt={missionData?.image?.alt || "Buddha statue in peaceful garden setting"}
                 className="w-[380px] h-[453px] object-cover"
               />
-            
+            )}
           </div>
 
           {/* Text Content */}
           <div className="space-y-2 max-w-[717px] flex-1">
             <div className="prose prose-lg text-dark space-y-8 text-justify">
-              <p className="leading-relaxed">
-                The cardinal points of the teaching of Lord Buddha viz Kindness, Humanism and Equality,
-                is the guiding Philosophy of this institution. Special efforts are made, to inculcate
-                these cherished values into the minds of the pupils. The scientific temper of the Buddhist
-                teachings and its rationality are in perfect harmony with the scientific spirit of the modern age.
-                The purpose of education is not merely training a child for a career to earn his livelihood.
-                Education should aim at the all round development of the individual and help him to become
-                inheritor of our cultural heritage. Education should inculcate ethical idealism and try to bring out,
-                what is within. There should be an integrated growth of the body, mind and emotions, so as to
-                become a balanced personality. The school strives to achieve these aims by planning the daily
-                routine of the institution. A sense of competitive spirit is essential to excel in this age.
-                The school provides ample opportunities for the pupil’s physical, intellectual, moral and spiritual
-                growth. Absolute freedom is given to the pupils for the development of the personality.
-              </p>
-
-              <p className="leading-relaxed">
-              The Sree Buddha Foundation aims at providing quality education at various levels. After the establishment of the Central School in Karunagappally, Sree Buddha College of Engineering, Pattoor came into existence under the sponsorship of the foundation. Later, two more institutions viz.,  Sree  Buddha College of Engineering for women, Elavumthitta and Sree Buddha Central School, Pattoor were also established.
-              </p>
+              {loading ? (
+                <>
+                  <Skeleton count={5} height={20} className="mb-2" />
+                  <Skeleton count={4} height={20} className="mb-2" />
+                  <Skeleton count={5} height={20} className="mb-2" />
+                  <Skeleton count={3} height={20} />
+                </>
+              ) : (
+                missionData?.content?.map((paragraph, index) => (
+                  <p key={paragraph.id || index} className="leading-relaxed">
+                    {paragraph.paragraph}
+                  </p>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -56,4 +104,4 @@ const missionandvission = () => {
   );
 };
 
-export default missionandvission;
+export default MissionAndVision;

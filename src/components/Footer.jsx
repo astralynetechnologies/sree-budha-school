@@ -23,22 +23,17 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#home" className="text-white/90 hover:text-[#FBC02D] transition-colors">
+                <a href="/" className="text-white/90 hover:text-[#FBC02D] transition-colors">
                   Home
                 </a>
               </li>
               <li>
-                <a href="#quick-info" className="text-white/90 hover:text-[#FBC02D] transition-colors">
-                  Quick Info
-                </a>
-              </li>
-              <li>
-                <a href="#words-from-leaders" className="text-white/90 hover:text-[#FBC02D] transition-colors">
+                <a href="/about-school/messages" className="text-white/90 hover:text-[#FBC02D] transition-colors">
                   Words from Leaders
                 </a>
               </li>
               <li>
-                <a href="#gallery" className="text-white/90 hover:text-[#FBC02D] transition-colors">
+                <a href="/gallery" className="text-white/90 hover:text-[#FBC02D] transition-colors">
                   Our Gallery
                 </a>
               </li>
@@ -121,7 +116,7 @@ const Footer = () => {
           <p className="text-white/80 text-sm">
             All rights are reserved, ©2025 Sree Buddha Central School &nbsp; | &nbsp; 
             <span className="text-white/60">
-              Designed & Developed by <a href="#" className="hover:text-[#FBC02D] transition-colors">Astrelyne.com</a> association with ObotGyne
+              Designed & Developed by <a href="https://www.astralyne.com/" className="hover:text-[#FBC02D] transition-colors">Astrelyne.com</a> association with <a href="https://www.obsidyne.com/" className="hover:text-[#FBC02D] transition-colors">Obsidyne</a>
             </span>
           </p>
         </div>

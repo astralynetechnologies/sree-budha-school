@@ -231,13 +231,7 @@ const Navbar = () => {
                     >
                       Associations
                     </Link>
-                    <Link
-                      href="/about-school/disclosure"
-                      className="block px-4 py-2 text-gray-800 hover:text-secondary"
-                      onClick={closeDropdown}
-                    >
-                      Mandatory Disclosure
-                    </Link>
+                    
                   </div>
                 )}
               </div>
@@ -290,18 +284,18 @@ const Navbar = () => {
                 {activeDropdown === "documents" && (
                   <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 w-48 z-50">
                     <Link
-                      href="#"
-                      className="block px-4 py-2 text-gray-800 hover:text-secondary"
-                      onClick={closeDropdown}
-                    >
-                      School Info
-                    </Link>
-                    <Link
-                      href="#"
+                      href="/documents/tc"
                       className="block px-4 py-2 text-gray-800 hover:text-secondary"
                       onClick={closeDropdown}
                     >
                       TC Certificate
+                    </Link>
+                    <Link
+                      href="/documents/disclosure"
+                      className="block px-4 py-2 text-gray-800 hover:text-secondary"
+                      onClick={closeDropdown}
+                    >
+                      Mandatory Disclosure
                     </Link>
                   </div>
                 )}
@@ -317,7 +311,7 @@ const Navbar = () => {
 
             {/* Admission Form Button */}
             <div className="ml-auto">
-              <Link href="/AdmissionRegistrationForm" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
+              <Link href="/admission" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
                 Admission Form
               </Link>
             </div>
@@ -405,13 +399,6 @@ const Navbar = () => {
                   >
                     Associations
                   </Link>
-                  <Link
-                    href="/about-school/disclosure"
-                    className="block px-8 py-2 text-white hover:bg-[#0D47A1]/60 text-center"
-                    onClick={closeMobileMenu}
-                  >
-                    Mandatory Disclosure
-                  </Link>
                 </div>
               )}
             </div>
@@ -472,14 +459,14 @@ const Navbar = () => {
               {activeMobileDropdown === "documents" && (
                 <div className="bg-[#0D47A1]/50 py-1">
                   <Link
-                    href="#"
+                    href="/documents/disclosure"
                     className="block px-8 py-2 text-white hover:bg-[#0D47A1]/60 text-center"
                     onClick={closeMobileMenu}
                   >
-                    School Info
+                    Mandatory Disclosure
                   </Link>
                   <Link
-                    href="#"
+                    href="tc"
                     className="block px-8 py-2 text-white hover:bg-[#0D47A1]/60 text-center"
                     onClick={closeMobileMenu}
                   >
@@ -501,7 +488,7 @@ const Navbar = () => {
             {/* Admission Form Button */}
             <div className="px-4 pt-2 w-full flex justify-center">
               <Link 
-                href="/AdmissionRegistrationForm" 
+                href="/admission" 
                 className="block w-full max-w-xs bg-yellow-400 text-[#0D47A1] px-6 py-2 font-semibold rounded hover:bg-yellow-300 transition-colors text-center"
                 onClick={closeMobileMenu}
               >
