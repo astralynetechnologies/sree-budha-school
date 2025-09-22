@@ -44,6 +44,11 @@ export default function AdmissionForm() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // API endpoint from environment variable
+  const API_URL = process.env.NEXT_PUBLIC_CMS_URL ? 
+    `${process.env.NEXT_PUBLIC_CMS_URL}/api/admissions` : 
+    'http://localhost:3000/api/admissions';
+
   // Simulate loading
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -299,6 +304,13 @@ export default function AdmissionForm() {
     showPopupMessage('info', 'Form Cleared', 'All form fields have been cleared successfully.');
   };
 
+  // Format date for Payload CMS (YYYY-MM-DD format)
+  const formatDateForPayload = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  };
+
   const handleSubmit = async () => {
     if (!validateForm()) {
       showPopupMessage('error', 'Validation Error', 'Please correct the errors in the form before submitting.');
@@ -308,14 +320,50 @@ export default function AdmissionForm() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Prepare data for API submission
+      const submissionData = {
+        ...formData,
+        dateOfBirth: formatDateForPayload(formData.dateOfBirth),
+        // Convert age to number if it exists
+        ageOn31stMay: formData.ageOn31stMay ? parseInt(formData.ageOn31stMay) : undefined,
+      };
+
+      // Remove empty fields to avoid validation issues
+      Object.keys(submissionData).forEach(key => {
+        if (submissionData[key] === '' || submissionData[key] === undefined) {
+          delete submissionData[key];
+        }
+      });
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
       
       showPopupMessage('success', 'Success!', 'Your admission application has been submitted successfully. We will contact you soon.');
       handleClearForm();
     } catch (error) {
-      showPopupMessage('error', 'Network Error', 'Unable to connect to the server. Please check your internet connection and try again.');
-      console.error('Network error:', error);
+      console.error('Submission error:', error);
+      
+      let errorMessage = 'Unable to submit the form. Please try again later.';
+      
+      if (error.message.includes('Failed to fetch')) {
+        errorMessage = 'Unable to connect to the server. Please check your internet connection and try again.';
+      } else if (error.message.includes('HTTP error')) {
+        errorMessage = 'Server error occurred. Please try again later.';
+      }
+      
+      showPopupMessage('error', 'Submission Error', errorMessage);
     } finally {
       setIsSubmitting(false);
     }
