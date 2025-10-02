@@ -36,11 +36,13 @@ const Navbar = () => {
     <div className="w-full">
       {/* Top Header Bar - Desktop Only */}
       <div className="hidden lg:block bg-[#0D47A1] text-white py-2 px-4 relative overflow-hidden before:content-[''] before:absolute before:left-0 before:top-0 before:w-[240px] before:h-[100px] before:bg-white before:[clip-path:polygon(0_0,45%_0,100%_100%,0%_100%)]">
-        <div className="max-w-7xl ml-auto flex justify-between items-center text-sm relative z-10">
-          <span className="truncate">
-            Join with us and be a part of the success
-          </span>
-          <div className="flex items-center space-x-3">
+        <div className="w-full flex items-center gap-4 text-sm relative z-10 pl-[200px] pr-2">
+          <div className="flex-1 min-w-0">
+            <span className="block truncate">
+              Join with us and be a part of the success
+            </span>
+          </div>
+          <div className="flex items-center space-x-3 flex-shrink-0">
             <Link href="#" className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0D47A1] shadow hover:bg-gray-100">
               <X />
             </Link>
