@@ -59,7 +59,7 @@ export default function Home() {
 
   // Shimmer/Skeleton component for hero section
   const HeroSkeleton = () => (
-    <div className="relative h-[55vh] md:h-[60vh] lg:h-[70vh] overflow-hidden rounded-lg">
+    <div className="relative h-[55vh] md:h-[60vh] lg:h-[70vh] overflow-hidden rounded-lg animate-pulse">
       {/* Shimmer background */}
       <div className="absolute inset-0">
         <Skeleton 
@@ -111,16 +111,16 @@ export default function Home() {
   );
 
   return (
-    <div>
+    <div className="animate-fade-in">
       {/* Hero Section with Background Carousel */}
-      <div className="relative">
+      <div className="relative animate-slide-up">
         {isLoading ? (
           <HeroSkeleton />
         ) : (
           <>
             {/* Background image */}
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 rounded-lg"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 rounded-lg animate-zoom-in animation-delay-100"
               style={{ 
                 backgroundImage: images.length === 0
                   ? `url('/school-front.png')`
@@ -128,12 +128,14 @@ export default function Home() {
               }}
             />
             {/* Subtle overlay for contrast */}
-            <div className="absolute inset-0 bg-black/30 pointer-events-none rounded-lg" />
+            <div className="absolute inset-0 bg-black/30 pointer-events-none rounded-lg animate-fade-in animation-delay-200" />
 
             {/* Content overlay */}
-            <div className="relative z-10 h-[55vh] md:h-[60vh] lg:h-[70vh] flex items-end justify-start p-4 md:p-6 lg:p-8">
+            <div className="relative z-10 h-[55vh] md:h-[60vh] lg:h-[70vh] flex items-end justify-start p-4 md:p-6 lg:p-8 animate-slide-up animation-delay-300">
               {/* Dropdown Button */}
-              <AnnouncementBoard />
+              <div className="animate-bounce-in animation-delay-400">
+                <AnnouncementBoard />
+              </div>
             </div>
 
             {/* Navigation Buttons - only show if we have multiple images */}
@@ -141,7 +143,7 @@ export default function Home() {
               <>
                 <button
                   onClick={previousImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40"
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40 animate-slide-right animation-delay-500"
                   aria-label="Previous image"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,7 +153,7 @@ export default function Home() {
 
                 <button
                   onClick={nextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40 animate-slide-left animation-delay-600"
                   aria-label="Next image"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,12 +165,12 @@ export default function Home() {
 
             {/* Image indicators */}
             {images.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2 animate-fade-in-up animation-delay-700">
                 {images.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    className={`w-3 h-3 rounded-full transition-all duration-200 animate-pop-in animation-delay-${700 + index * 100} ${
                       index === currentIndex 
                         ? 'bg-white' 
                         : 'bg-white/50 hover:bg-white/75'
@@ -182,44 +184,46 @@ export default function Home() {
         )}
       </div>
 
-      <QuickInformation />
+      <div className="animate-fade-in-up animation-delay-800">
+        <QuickInformation />
+      </div>
 
       <div className="min-h-screen bg-white">
         {/* Hero Section with School Image */}
         <div 
-          className="relative h-96 bg-cover bg-center rounded-lg"
+          className="relative h-96 bg-cover bg-center rounded-lg animate-zoom-in animation-delay-900"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/school_sample.png')`
           }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4 animate-bounce-in animation-delay-1000">
               Welcome to Sree Buddha Central School
             </h1>
           </div>
         </div>
 
         {/* About Us Section */}
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-primary mb-6">About Us</h2>
+        <div className="max-w-6xl mx-auto px-4 py-12 animate-slide-up animation-delay-1100">
+          <h2 className="text-2xl font-bold text-primary mb-6 animate-fade-in animation-delay-1200">About Us</h2>
           
           <div className="grid md:grid-cols-2 gap-8 text-gray-700 leading-relaxed">
-            <div>
-              <p className="mb-4">
+            <div className="animate-fade-in-left animation-delay-1300">
+              <p className="mb-4 animate-fade-in animation-delay-1400">
                 Sree Buddha Central School, Karunagappally, was established in 1993 under the management of the Sree Buddha Foundation, Kollam. The Foundation is a registered voluntary social and cultural organization dedicated to promoting the noble teachings of Sree Buddha.
               </p>
               
-              <p className="mb-4">
+              <p className="mb-4 animate-fade-in animation-delay-1500">
                 The school was inaugurated on 7 June 1993 at its temporary campus in Karunagappally and moved to its permanent location at Edakulangara on 1 June 1994. What began with just 83 students and 5 teachers has now grown into a thriving institution with more than 3,500 students, 140 teachers, and 60 non-teaching staff.
               </p>
             </div>
             
-            <div>
-              <p className="mb-4">
+            <div className="animate-fade-in-right animation-delay-1600">
+              <p className="mb-4 animate-fade-in animation-delay-1700">
                 This growth has been possible thanks to the strong support of parents, the local community, and the dedicated efforts of our management and staff. Today, Sree Buddha Central School stands as a place where academic excellence and values go hand in hand, nurturing confident and responsible citizens.
               </p>
               
-              <p>
+              <p className="animate-fade-in animation-delay-1800">
                 With a focus on holistic development, the school offers a balanced blend of academics, extracurricular activities, and life skills training, ensuring every child is prepared to face the challenges of the future with confidence and compassion.
               </p>
             </div>
@@ -227,28 +231,32 @@ export default function Home() {
         </div>
 
         {/* Foundation Section */}
-        <div className="bg-primary text-white py-10">
+        <div className="bg-primary text-white py-10 animate-slide-up animation-delay-1900">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-3xl font-bold mb-2">Sree Buddha Foundation</h2>
-            <span className="text-base mb-4">We make your child happy day after day</span>
-            <div className="p-0.5 bg-secondary rounded-2xl max-w-64 m-auto my-2"></div>
+            <h2 className="text-3xl md:text-3xl font-bold mb-2 animate-fade-in animation-delay-2000">Sree Buddha Foundation</h2>
+            <span className="text-base mb-4 animate-fade-in animation-delay-2100">We make your child happy day after day</span>
+            <div className="p-0.5 bg-secondary rounded-2xl max-w-64 m-auto my-2 animate-scale-in animation-delay-2200"></div>
             
-            <p className="text-l leading-relaxed">
+            <p className="text-l leading-relaxed animate-fade-in animation-delay-2300">
               The Sree Buddha Foundation has many programmes on the anvil. The first project is the Central School in Karunagappally. Sree Buddha College of Engineering, Pattoor is another venture sponsored by the Foundation. The cardinal points of the teaching of the Buddha viz kindness, humanism and equality, will be the guiding philosophy of this institution. Special efforts will be made, to inculcate these cherished values into the minds of the pupils. The scientific temper of the Buddhist teachings and its rationality are in perfect harmony with the scientific spirit of the modern age.
             </p>
           </div>
         </div>
 
-        <SchoolEvents />
+        <div className="animate-fade-in-up animation-delay-2400">
+          <SchoolEvents />
+        </div>
 
-        <LeadersMessages />
+        <div className="animate-fade-in-up animation-delay-2500">
+          <LeadersMessages />
+        </div>
 
-        <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8 animate-slide-up animation-delay-2600">
           <div className="max-w-screen-md mx-auto">
             <figure className="text-center">
               {/* Quote Icon */}
               <svg 
-                className="w-10 h-10 mx-auto mb-3 text-blue-900" 
+                className="w-10 h-10 mx-auto mb-3 text-blue-900 animate-spin-in animation-delay-2700" 
                 aria-hidden="true" 
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="currentColor" 
@@ -259,23 +267,25 @@ export default function Home() {
 
               {/* Quote Text */}
               <blockquote>
-                <p className="text-2xl italic font-medium text-gray-900">
+                <p className="text-2xl italic font-medium text-gray-900 animate-fade-in animation-delay-2800">
                   "Together, we are building a foundation for excellence that will last generations"
                 </p>
               </blockquote>
 
               {/* Attribution */}
-              <figcaption className="flex items-center justify-center mt-6 space-x-3">
+              <figcaption className="flex items-center justify-center mt-6 space-x-3 animate-fade-in animation-delay-2900">
                 <div className="flex items-center divide-x-2 divide-gray-500">
-                  <cite className="pe-3 font-medium text-gray-900">Our Shared Vision</cite>
-                  <cite className="ps-3 text-sm text-gray-500">for Sree Buddha Central School</cite>
+                  <cite className="pe-3 font-medium text-gray-900 animate-fade-in-left animation-delay-3000">Our Shared Vision</cite>
+                  <cite className="ps-3 text-sm text-gray-500 animate-fade-in-right animation-delay-3100">for Sree Buddha Central School</cite>
                 </div>
               </figcaption>
             </figure>
           </div>
         </div>
 
-        <Gallery />
+        <div className="animate-fade-in-up animation-delay-3200">
+          <Gallery />
+        </div>
       </div>
     </div>
   );
