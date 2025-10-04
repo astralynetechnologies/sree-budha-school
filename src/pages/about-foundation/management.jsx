@@ -19,7 +19,8 @@ const Management = () => {
           throw new Error('Failed to fetch management data');
         }
         const managementData = await managementResponse.json();
-        setManagement(managementData.docs || []);
+        const sortedManagement = (managementData.docs || []).sort((a, b) => a.order - b.order);
+        setManagement(sortedManagement);
         
         // Fetch executive committee data
         const committeeResponse = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/executive-committee?limit=0`);
@@ -27,7 +28,8 @@ const Management = () => {
           throw new Error('Failed to fetch executive committee data');
         }
         const committeeData = await committeeResponse.json();
-        setExecutiveCommittee(committeeData.docs || []);
+        const sortedCommittee = (committeeData.docs || []).sort((a, b) => a.order - b.order);
+        setExecutiveCommittee(sortedCommittee);
         
       } catch (err) {
         console.error('Error fetching data:', err);
