@@ -43,7 +43,7 @@ export default function QuickInformation() {
       <div className="bg-primary text-white py-3 sm:py-4 px-4">
         <div className="max-w-7xl mx-auto">
           <p className="text-xs sm:text-sm md:text-base leading-relaxed">
-            <span className="font-semibold">News & Updates:</span> Nurturing young minds with values, knowledge, and skills for over 25 years. Experience excellence in education where every child matters.
+          Nurturing young minds with values, knowledge, and skills for over 25 years. Experience excellence in education where every child matters, achieving their potential.
           </p>
         </div>
       </div>
