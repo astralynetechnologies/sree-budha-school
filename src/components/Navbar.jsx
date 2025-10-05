@@ -309,6 +309,12 @@ const Navbar = () => {
               >
                 Gallery
               </Link>
+              <Link
+                href="/achievements"
+                className="px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
+              >
+                Achievements
+              </Link>
             </div>
 
             {/* Admission Form Button */}
@@ -485,6 +491,13 @@ const Navbar = () => {
               onClick={closeMobileMenu}
             >
               Gallery
+            </Link>
+            <Link 
+              href="/achievements" 
+              className="block w-full text-center px-4 py-2 text-white hover:text-secondary"
+              onClick={closeMobileMenu}
+            >
+              Achievements
             </Link>
 
             {/* Admission Form Button */}
