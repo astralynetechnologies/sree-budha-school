@@ -120,7 +120,7 @@ export default function Home() {
           <>
             {/* Background image */}
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 rounded-lg animate-zoom-in animation-delay-100"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 animate-zoom-in animation-delay-100"
               style={{ 
                 backgroundImage: images.length === 0
                   ? `url('/school-front.png')`
@@ -128,7 +128,7 @@ export default function Home() {
               }}
             />
             {/* Subtle overlay for contrast */}
-            <div className="absolute inset-0 bg-black/30 pointer-events-none rounded-lg animate-fade-in animation-delay-200" />
+            <div className="absolute inset-0 bg-black/30 pointer-events-none animate-fade-in animation-delay-200" />
 
             {/* Content overlay */}
             <div className="relative z-10 h-[55vh] md:h-[60vh] lg:h-[70vh] flex items-end justify-start p-4 md:p-6 lg:p-8 animate-slide-up animation-delay-300">
@@ -191,7 +191,7 @@ export default function Home() {
       <div className="min-h-screen bg-white">
         {/* Hero Section with School Image */}
         <div 
-          className="relative h-96 bg-cover bg-center rounded-lg animate-zoom-in animation-delay-900"
+          className="relative h-96 bg-cover bg-center animate-zoom-in animation-delay-900"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/school_sample.png')`
           }}
