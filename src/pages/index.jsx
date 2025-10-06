@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import QuickInformation from "@/components/QuickInformation";
 import SchoolEvents from "@/components/SchoolEvents";
 import LeadersMessages from "@/components/LeadersMessages";
@@ -6,6 +6,54 @@ import Gallery from "@/components/Gallery";
 import AnnouncementBoard from "@/components/AnnouncementBoard";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+
+// Scroll-reveal component using IntersectionObserver
+function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = "up" }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold, rootMargin: "0px 0px -10% 0px" }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  const hiddenTransform =
+    from === "left"
+      ? "-translate-x-6"
+      : from === "right"
+      ? "translate-x-6"
+      : from === "down"
+      ? "-translate-y-6"
+      : "translate-y-6"; // default up
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out will-change-transform ${
+        isVisible ? "opacity-100 translate-x-0 translate-y-0" : `opacity-0 ${hiddenTransform}`
+      } ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function Home() {
   // State for CMS images
@@ -184,79 +232,93 @@ export default function Home() {
         )}
       </div>
 
-      <div className="animate-fade-in-up animation-delay-800">
+      <Reveal>
         <QuickInformation />
-      </div>
+      </Reveal>
 
       <div className="min-h-screen bg-white">
         {/* Hero Section with School Image */}
+        <Reveal>
         <div 
-          className="relative h-96 bg-cover bg-center animate-zoom-in animation-delay-900"
+          className="relative h-96 bg-cover bg-center"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/school_sample.png')`
           }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4 animate-bounce-in animation-delay-1000">
+            <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
               Welcome to Sree Buddha Central School
             </h1>
           </div>
         </div>
+        </Reveal>
 
         {/* About Us Section */}
-        <div className="max-w-6xl mx-auto px-4 py-12 animate-slide-up animation-delay-1100">
-          <h2 className="text-2xl font-bold text-primary mb-6 animate-fade-in animation-delay-1200">About Us</h2>
-          
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <Reveal>
+            <h2 className="text-2xl font-bold text-primary mb-6">About Us</h2>
+          </Reveal>
           <div className="grid md:grid-cols-2 gap-8 text-gray-700 leading-relaxed">
-            <div className="animate-fade-in-left animation-delay-1300">
-              <p className="mb-4 animate-fade-in animation-delay-1400">
+            <Reveal delay={100}>
+              <p className="mb-4">
                 Sree Buddha Central School, Karunagappally, was established in 1993 under the management of the Sree Buddha Foundation, Kollam. The Foundation is a registered voluntary social and cultural organization dedicated to promoting the noble teachings of Sree Buddha.
               </p>
               
-              <p className="mb-4 animate-fade-in animation-delay-1500">
+              <p className="mb-4">
                 The school was inaugurated on 7 June 1993 at its temporary campus in Karunagappally and moved to its permanent location at Edakulangara on 1 June 1994. What began with just 83 students and 5 teachers has now grown into a thriving institution with more than 3,500 students, 140 teachers, and 60 non-teaching staff.
               </p>
-            </div>
+            </Reveal>
             
-            <div className="animate-fade-in-right animation-delay-1600">
-              <p className="mb-4 animate-fade-in animation-delay-1700">
+            <Reveal delay={200} from="right">
+              <p className="mb-4">
                 This growth has been possible thanks to the strong support of parents, the local community, and the dedicated efforts of our management and staff. Today, Sree Buddha Central School stands as a place where academic excellence and values go hand in hand, nurturing confident and responsible citizens.
               </p>
               
-              <p className="animate-fade-in animation-delay-1800">
+              <p>
                 With a focus on holistic development, the school offers a balanced blend of academics, extracurricular activities, and life skills training, ensuring every child is prepared to face the challenges of the future with confidence and compassion.
               </p>
-            </div>
+            </Reveal>
           </div>
         </div>
 
         {/* Foundation Section */}
-        <div className="bg-primary text-white py-10 animate-slide-up animation-delay-1900">
+        <Reveal>
+        <div className="bg-primary text-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-3xl font-bold mb-2 animate-fade-in animation-delay-2000">Sree Buddha Foundation</h2>
-            <span className="text-base mb-4 animate-fade-in animation-delay-2100">We make your child happy day after day</span>
-            <div className="p-0.5 bg-secondary rounded-2xl max-w-64 m-auto my-2 animate-scale-in animation-delay-2200"></div>
+            <Reveal>
+              <h2 className="text-3xl md:text-3xl font-bold mb-2">Sree Buddha Foundation</h2>
+            </Reveal>
+            <Reveal delay={100}>
+              <span className="text-base mb-4 block">We make your child happy day after day</span>
+            </Reveal>
+            <Reveal delay={200}>
+              <div className="p-0.5 bg-secondary rounded-2xl max-w-64 m-auto my-2"></div>
+            </Reveal>
             
-            <p className="text-l leading-relaxed animate-fade-in animation-delay-2300">
+            <Reveal delay={300}>
+            <p className="text-l leading-relaxed">
               The Sree Buddha Foundation has many programmes on the anvil. The first project is the Central School in Karunagappally. Sree Buddha College of Engineering, Pattoor is another venture sponsored by the Foundation. The cardinal points of the teaching of the Buddha viz kindness, humanism and equality, will be the guiding philosophy of this institution. Special efforts will be made, to inculcate these cherished values into the minds of the pupils. The scientific temper of the Buddhist teachings and its rationality are in perfect harmony with the scientific spirit of the modern age.
             </p>
+            </Reveal>
           </div>
         </div>
+        </Reveal>
 
-        <div className="animate-fade-in-up animation-delay-2400">
+        <Reveal>
           <SchoolEvents />
-        </div>
+        </Reveal>
 
-        <div className="animate-fade-in-up animation-delay-2500">
+        <Reveal delay={100}>
           <LeadersMessages />
-        </div>
+        </Reveal>
 
-        <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8 animate-slide-up animation-delay-2600">
+        <Reveal>
+        <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-screen-md mx-auto">
             <figure className="text-center">
               {/* Quote Icon */}
               <svg 
-                className="w-10 h-10 mx-auto mb-3 text-blue-900 animate-spin-in animation-delay-2700" 
+                className="w-10 h-10 mx-auto mb-3 text-blue-900" 
                 aria-hidden="true" 
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="currentColor" 
@@ -267,25 +329,26 @@ export default function Home() {
 
               {/* Quote Text */}
               <blockquote>
-                <p className="text-2xl italic font-medium text-gray-900 animate-fade-in animation-delay-2800">
+                <p className="text-2xl italic font-medium text-gray-900">
                   "Together, we are building a foundation for excellence that will last generations"
                 </p>
               </blockquote>
 
               {/* Attribution */}
-              <figcaption className="flex items-center justify-center mt-6 space-x-3 animate-fade-in animation-delay-2900">
+              <figcaption className="flex items-center justify-center mt-6 space-x-3">
                 <div className="flex items-center divide-x-2 divide-gray-500">
-                  <cite className="pe-3 font-medium text-gray-900 animate-fade-in-left animation-delay-3000">Our Shared Vision</cite>
-                  <cite className="ps-3 text-sm text-gray-500 animate-fade-in-right animation-delay-3100">for Sree Buddha Central School</cite>
+                  <cite className="pe-3 font-medium text-gray-900">Our Shared Vision</cite>
+                  <cite className="ps-3 text-sm text-gray-500">for Sree Buddha Central School</cite>
                 </div>
               </figcaption>
             </figure>
           </div>
         </div>
+        </Reveal>
 
-        <div className="animate-fade-in-up animation-delay-3200">
+        <Reveal>
           <Gallery />
-        </div>
+        </Reveal>
       </div>
     </div>
   );
