@@ -40,36 +40,31 @@ export default function QuickInformation() {
   return (
     <div className="w-full bg-gray-50">
       {/* Header Banner */}
-      <div className="bg-primary text-white py-3 sm:py-4 px-4">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-xs sm:text-sm md:text-base leading-relaxed">
-          Nurturing young minds with values, knowledge, and skills for over 25 years. Experience excellence in education where every child matters, achieving their potential.
-          </p>
-        </div>
-      </div>
+      
 
       {/* Main Content */}
       <div className="w-full max-w-7xl mx-auto px-4 py-8 sm:py-12">
         {/* Header Section */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
+        <div className="text-center mb-8 sm:mb-12 animate-fade-in-up">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4 animate-scale-in">
             Quick Information
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4 animate-fade-in-delayed">
             Access important information and services quickly with our convenient quick access cards.
           </p>
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-4 sm:gap-6 rounded-xl">
           {infoCards.map((card, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-4 sm:p-6 flex flex-col h-full"
+              className="bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-500 ease-out p-4 sm:p-6 flex flex-col h-full animate-fade-in-card group cursor-pointer"
+              style={{ animationDelay: `${index * 150}ms` }}
             >
               {/* Icon Container */}
-              <div className="bg-blue-50 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mb-3 sm:mb-4 mx-auto flex-shrink-0">
-                {React.cloneElement(card.icon, { className: "w-6 h-6 sm:w-8 sm:h-8 text-blue-600" })}
+              <div className="bg-blue-50 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mb-3 sm:mb-4 mx-auto flex-shrink-0 group-hover:bg-blue-100 transition-colors duration-300">
+                {React.cloneElement(card.icon, { className: "w-6 h-6 sm:w-8 sm:h-8 text-blue-600 group-hover:scale-110 transition-transform duration-300" })}
               </div>
 
               {/* Card Content */}
@@ -84,7 +79,7 @@ export default function QuickInformation() {
                 {/* Action Link styled as Button */}
                 <a
                   href={card.linkTo}
-                  className={`inline-block w-full py-2 sm:py-2.5 px-3 sm:px-4 rounded-md font-medium transition-colors duration-200 text-center text-xs sm:text-sm no-underline mt-auto ${card.buttonStyle.replace('text-primary', 'text-blue-600').replace('border-primary', 'border-blue-600').replace('bg-primary', 'bg-primary')}`}
+                  className={`inline-block w-full py-2 sm:py-2.5 px-3 sm:px-4 rounded-md font-medium transition-all duration-300 text-center text-xs sm:text-sm no-underline mt-auto hover:transform hover:-translate-y-0.5 active:scale-95 ${card.buttonStyle.replace('text-primary', 'text-blue-600').replace('border-primary', 'border-blue-600').replace('bg-primary', 'bg-primary')}`}
                 >
                   {card.buttonText}
                 </a>

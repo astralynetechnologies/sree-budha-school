@@ -246,7 +246,7 @@ export default function Home() {
           }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-white text-center px-4 leading-tight tracking-wide drop-shadow-2xl" style={{fontFamily: 'Montserrat, sans-serif'}}>
               Welcome to Sree Buddha Central School
             </h1>
           </div>
@@ -283,23 +283,95 @@ export default function Home() {
 
         {/* Foundation Section */}
         <Reveal>
-        <div className="bg-primary text-white py-10">
-          <div className="max-w-5xl mx-auto px-4 text-center">
-            <Reveal>
-              <h2 className="text-3xl md:text-3xl font-bold mb-2">Sree Buddha Foundation</h2>
-            </Reveal>
-            <Reveal delay={100}>
-              <span className="text-base mb-4 block">We make your child happy day after day</span>
-            </Reveal>
-            <Reveal delay={200}>
-              <div className="p-0.5 bg-secondary rounded-2xl max-w-64 m-auto my-2"></div>
-            </Reveal>
-            
-            <Reveal delay={300}>
-            <p className="text-l leading-relaxed">
-              The Sree Buddha Foundation has many programmes on the anvil. The first project is the Central School in Karunagappally. Sree Buddha College of Engineering, Pattoor is another venture sponsored by the Foundation. The cardinal points of the teaching of the Buddha viz kindness, humanism and equality, will be the guiding philosophy of this institution. Special efforts will be made, to inculcate these cherished values into the minds of the pupils. The scientific temper of the Buddhist teachings and its rationality are in perfect harmony with the scientific spirit of the modern age.
-            </p>
-            </Reveal>
+        <div className="bg-gradient-to-br from-primary via-primary-dark to-primary text-white py-20 relative overflow-hidden">
+          {/* Background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 left-10 w-32 h-32 border border-white/20 rounded-full"></div>
+            <div className="absolute bottom-20 right-20 w-24 h-24 border border-white/20 rounded-full"></div>
+            <div className="absolute top-32 right-32 w-16 h-16 border border-white/20 rounded-full"></div>
+          </div>
+          
+          <div className="max-w-6xl mx-auto px-6 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left Column - Header & Mission */}
+              <div className="text-left">
+                <Reveal>
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-1 bg-secondary mr-4"></div>
+                    <span className="text-secondary font-semibold tracking-wider uppercase text-sm">Our Foundation</span>
+                  </div>
+                </Reveal>
+                
+                <Reveal delay={100}>
+                  <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
+                    Sree Buddha Foundation
+                  </h2>
+                </Reveal>
+                
+                <Reveal delay={200}>
+                  <p className="text-xl text-white/90 mb-8 font-medium">
+                    Nurturing excellence through Buddhist values of kindness, humanism, and equality
+                  </p>
+                </Reveal>
+
+                {/* Core Values */}
+                <Reveal delay={300}>
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-secondary mb-1">1993</div>
+                      <div className="text-sm text-white/80">Established</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-secondary mb-1">3500+</div>
+                      <div className="text-sm text-white/80">Students</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-secondary mb-1">140+</div>
+                      <div className="text-sm text-white/80">Teachers</div>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Right Column - Content */}
+              <div className="text-left">
+                <Reveal delay={400}>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                    <h3 className="text-xl font-semibold mb-4 text-secondary">Our Mission & Vision</h3>
+                    <p className="text-white/90 leading-relaxed mb-6">
+                      The Sree Buddha Foundation operates multiple educational institutions, with the Central School in Karunagappally as our flagship project and Sree Buddha College of Engineering, Pattoor as another key venture.
+                    </p>
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <div className="w-2 h-2 bg-secondary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/90 text-sm">
+                          <strong>Kindness:</strong> Fostering compassion and empathy in every student
+                        </p>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-2 h-2 bg-secondary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/90 text-sm">
+                          <strong>Humanism:</strong> Developing well-rounded, ethical individuals
+                        </p>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-2 h-2 bg-secondary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <p className="text-white/90 text-sm">
+                          <strong>Equality:</strong> Ensuring equal opportunities for all students
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6 pt-6 border-t border-white/20">
+                      <p className="text-white/80 text-sm italic">
+                        "The scientific temper of Buddhist teachings and their rationality harmonize perfectly with the modern scientific spirit."
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+            </div>
           </div>
         </div>
         </Reveal>
