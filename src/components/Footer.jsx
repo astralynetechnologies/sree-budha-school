@@ -116,7 +116,7 @@ const Footer = () => {
           <p className="text-white/80 text-sm">
             All rights are reserved, ©2025 Sree Buddha Central School &nbsp; | &nbsp; 
             <span className="text-white/60">
-              Designed & Developed by <a href="https://www.astralyne.com/" className="hover:text-[#FBC02D] transition-colors">Astralyne.com</a> association with <a href="https://www.obsidyne.com/" className="hover:text-[#FBC02D] transition-colors">Obsidyne</a>
+              Designed & Developed by <a href="https://www.astralyne.com/" className="hover:text-[#FBC02D] transition-colors">Astralyne.com</a> in association with <a href="https://www.obsidyne.com/" className="hover:text-[#FBC02D] transition-colors">Obsidyne</a>
             </span>
           </p>
         </div>

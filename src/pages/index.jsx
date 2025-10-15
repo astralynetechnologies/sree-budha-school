@@ -237,48 +237,232 @@ export default function Home() {
       </Reveal>
 
       <div className="min-h-screen bg-white">
-        {/* Hero Section with School Image */}
+        {/* Enhanced Welcome Section */}
         <Reveal>
-        <div 
-          className="relative h-96 bg-cover bg-center"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/school_sample.png')`
-          }}
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-white text-center px-4 leading-tight tracking-wide drop-shadow-2xl" style={{fontFamily: 'Montserrat, sans-serif'}}>
-              Welcome to Sree Buddha Central School
-            </h1>
+        <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-[#0D47A1] rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#0D47A1] rounded-full translate-x-1/3 translate-y-1/3"></div>
+            <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-yellow-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
           </div>
+
+          {/* Main Content Container */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 lg:py-24">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              
+              {/* Left Column - Text Content */}
+              <div className="text-center lg:text-left space-y-8">
+                {/* Badge */}
+                <Reveal delay={100}>
+                  <div className="inline-flex items-center px-4 py-2 bg-[#0D47A1]/10 rounded-full border border-[#0D47A1]/20">
+                    {/* <div className="w-2 h-2 bg-[#0D47A1] rounded-full mr-2 animate-pulse"></div> */}
+                    <span className="text-[#0D47A1] font-semibold text-sm tracking-wide">ESTABLISHED 1993</span>
+                  </div>
+                </Reveal>
+
+                {/* Main Heading */}
+                <Reveal delay={200}>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                    <span className="text-gray-900">Welcome to</span>
+                    <br />
+                    <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">
+                      Sree Buddha
+                    </span>
+                    <br />
+                    <span className="text-gray-900">Central School</span>
+                  </h1>
+                </Reveal>
+
+                {/* Subtitle */}
+                <Reveal delay={300}>
+                  <p className="text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    Nurturing minds, building character, and fostering excellence through Buddhist values of 
+                    <span className="text-[#0D47A1] font-semibold"> kindness, humanism, and equality</span>
+                  </p>
+                </Reveal>
+
+                {/* Stats Row */}
+                <Reveal delay={400}>
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-8 pt-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-[#0D47A1]">3500+</div>
+                      <div className="text-sm text-gray-600 font-medium">Students</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-[#0D47A1]">140+</div>
+                      <div className="text-sm text-gray-600 font-medium">Teachers</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-[#0D47A1]">30+</div>
+                      <div className="text-sm text-gray-600 font-medium">Years</div>
+                    </div>
+                  </div>
+                </Reveal>
+
+                {/* Action Buttons */}
+                <Reveal delay={500}>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                    <a 
+                      href="about-foundation/objectives" 
+                      className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                    >
+                      Learn More
+                      <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                    <a 
+                      href="/admission" 
+                      className="group inline-flex items-center justify-center px-8 py-4 bg-white text-[#0D47A1] font-semibold rounded-xl border-2 border-[#0D47A1] hover:bg-[#0D47A1] hover:text-white transition-all duration-300 hover:scale-105"
+                    >
+                      Admissions Open
+                      {/* <div className="w-2 h-2 bg-yellow-400 rounded-full ml-2 animate-pulse"></div> */}
+                    </a>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Right Column - Enhanced Image */}
+              <div className="relative">
+                <Reveal delay={600} from="right">
+                  <div className="relative">
+                    {/* Main Image Container */}
+                    <div className="relative overflow-hidden rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                      <div 
+                        className="h-96 lg:h-[500px] bg-cover bg-center"
+                        style={{
+                          backgroundImage: `linear-gradient(rgba(13, 71, 161, 0.1), rgba(13, 71, 161, 0.2)), url('/school_sample.png')`
+                        }}
+                      />
+                      {/* Overlay Content */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4">
+                          <h3 className="font-semibold text-gray-900 mb-1">Excellence in Education</h3>
+                          <p className="text-sm text-gray-600">Empowering students since 1993</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Floating Elements */}
+                    {/* <div className="absolute -top-4 -right-4 w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                      <span className="text-2xl">🏆</span>
+                    </div> */}
+                    
+                    {/* <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-[#0D47A1]">
+                      <span className="text-xl">📚</span>
+                    </div> */}
+                  </div>
+                </Reveal>
+              </div>
+            </div>
+          </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-20 left-10 w-3 h-3 bg-[#0D47A1] rounded-full animate-pulse"></div>
+          <div className="absolute top-32 right-20 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-20 left-20 w-4 h-4 bg-[#0D47A1] rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
         </div>
         </Reveal>
 
-        {/* About Us Section */}
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <Reveal>
-            <h2 className="text-2xl font-bold text-primary mb-6">About Us</h2>
-          </Reveal>
-          <div className="grid md:grid-cols-2 gap-8 text-gray-700 leading-relaxed">
-            <Reveal delay={100}>
-              <p className="mb-4">
-                Sree Buddha Central School, Karunagappally, was established in 1993 under the management of the Sree Buddha Foundation, Kollam. The Foundation is a registered voluntary social and cultural organization dedicated to promoting the noble teachings of Sree Buddha.
-              </p>
-              
-              <p className="mb-4">
-                The school was inaugurated on 7 June 1993 at its temporary campus in Karunagappally and moved to its permanent location at Edakulangara on 1 June 1994. What began with just 83 students and 5 teachers has now grown into a thriving institution with more than 3,500 students, 140 teachers, and 60 non-teaching staff.
-              </p>
-            </Reveal>
-            
-            <Reveal delay={200} from="right">
-              <p className="mb-4">
-                This growth has been possible thanks to the strong support of parents, the local community, and the dedicated efforts of our management and staff. Today, Sree Buddha Central School stands as a place where academic excellence and values go hand in hand, nurturing confident and responsible citizens.
-              </p>
-              
-              <p>
-                With a focus on holistic development, the school offers a balanced blend of academics, extracurricular activities, and life skills training, ensuring every child is prepared to face the challenges of the future with confidence and compassion.
-              </p>
-            </Reveal>
+        {/* About Us Section - Consistent with Welcome Design */}
+        <div className="relative bg-gradient-to-br from-gray-50 via-white to-gray-50 py-20 overflow-hidden">
+          {/* Background Pattern - Consistent with Welcome Section */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-[#0D47A1] rounded-full translate-x-1/3 -translate-y-1/3"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-400 rounded-full -translate-x-1/2 translate-y-1/2"></div>
           </div>
+
+          <div className="max-w-7xl mx-auto px-4 relative z-10">
+            {/* Section Header - Consistent Style */}
+            <div className="text-center mb-16">
+              <Reveal>
+                <div className="inline-flex items-center px-4 py-2 bg-[#0D47A1]/10 rounded-full border border-[#0D47A1]/20 mb-6">
+                  <div className="w-2 h-2 bg-[#0D47A1] rounded-full mr-2 animate-pulse"></div>
+                  <span className="text-[#0D47A1] font-semibold text-sm tracking-wide">ABOUT US</span>
+                </div>
+              </Reveal>
+              
+              <Reveal delay={100}>
+                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                  Our <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Journey</span>
+                </h2>
+              </Reveal>
+              
+              <Reveal delay={200}>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  From 83 students to 3,500+ learners - three decades of nurturing minds through Buddhist values
+                </p>
+              </Reveal>
+            </div>
+
+            {/* Main Content Grid - Simplified */}
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              {/* Left Column - Story */}
+              <div className="space-y-8">
+                <Reveal delay={300}>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Foundation</h3>
+                    <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                      Established in 1993 under the Sree Buddha Foundation, our school began with just 83 students and 5 teachers. Today, we proudly serve over 3,500 students with 140 dedicated teachers.
+                    </p>
+                    <p className="text-lg text-gray-600 leading-relaxed">
+                      Guided by Buddhist teachings of kindness, humanism, and equality, we've grown into a leading educational institution that balances academic excellence with moral values.
+                    </p>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Right Column - Values & Stats */}
+              <div className="space-y-8">
+                <Reveal delay={400} from="right">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Commitment</h3>
+                    <p className="text-lg text-gray-600 leading-relaxed mb-8">
+                      We provide holistic education that prepares students for future challenges while nurturing their character and compassion.
+                    </p>
+                    
+                    {/* Stats Row - Consistent with Welcome */}
+                    <div className="grid grid-cols-3 gap-6">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-[#0D47A1]">1993</div>
+                        <div className="text-sm text-gray-600 font-medium">Founded</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-[#0D47A1]">3500+</div>
+                        <div className="text-sm text-gray-600 font-medium">Students</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-[#0D47A1]">140+</div>
+                        <div className="text-sm text-gray-600 font-medium">Teachers</div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+
+                {/* Call to Action - Consistent Style */}
+                <Reveal delay={500} from="right">
+                  <div className="pt-8">
+                    <a 
+                      href="/about-school/messages" 
+                      className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                    >
+                      Learn More About Us
+                      <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </Reveal>
+              </div>
+            </div>
+          </div>
+
+          {/* Decorative Elements - Consistent with Welcome */}
+          {/* <div className="absolute top-20 left-10 w-3 h-3 bg-[#0D47A1] rounded-full animate-pulse"></div> */}
+          {/* <div className="absolute top-32 right-20 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div> */}
+          {/* <div className="absolute bottom-20 left-20 w-4 h-4 bg-[#0D47A1] rounded-full animate-pulse" style={{animationDelay: '2s'}}></div> */}
         </div>
 
         {/* Foundation Section */}
