@@ -212,35 +212,42 @@ const Navbar = () => {
                   >
                     Associations
                   </Link>
+                  <Link
+                    href="/about-school/departments"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Departments
+                  </Link>
                 </div>
               </div>
 
-              {/* Curriculum Dropdown */}
+              {/* Facilities Dropdown */}
               <div className="relative group">
                 <button
                   className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
-                  onClick={() => handleDropdown("curriculum")}
+                  onClick={() => handleDropdown("Facilities")}
                 >
-                  Curriculum
+                  Facilities
                   <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-48 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
                   <Link
-                    href="/carriculum/academics"
+                    href="/facilities/academics"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
                     Academics
                   </Link>
                   <Link
-                    href="/carriculum/nonacademics"
+                    href="/facilities/nonacademics"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
                     Non-Academics
                   </Link>
                   <Link
-                    href="/carriculum/labs"
+                    href="/facilities/labs"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
@@ -401,41 +408,48 @@ const Navbar = () => {
                       >
                         Associations
                       </Link>
+                      <Link
+                        href="/about-school/departments"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Departments
+                      </Link>
                     </div>
                   </div>
                 </div>
 
-                {/* Curriculum Mobile Dropdown */}
+                {/* Facilities Mobile Dropdown */}
                 <div className="w-full">
                   <button
                     className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                    onClick={() => handleMobileDropdown("curriculum")}
+                    onClick={() => handleMobileDropdown("Facilities")}
                   >
-                    Curriculum
+                    Facilities
                     <ChevronDown 
                       className={`w-4 h-4 transition-transform duration-200 ${
-                        activeMobileDropdown === "curriculum" ? "rotate-180" : ""
+                        activeMobileDropdown === "Facilities" ? "rotate-180" : ""
                       }`} 
                     />
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "curriculum" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "Facilities" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
                       <Link
-                        href="/carriculum/academics"
+                        href="/facilities/academics"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
                         Academics
                       </Link>
                       <Link
-                        href="/carriculum/nonacademics"
+                        href="/facilities/nonacademics"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
                         Non-Academics
                       </Link>
                       <Link
-                        href="/carriculum/labs"
+                        href="/facilities/labs"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
