@@ -176,6 +176,12 @@ const Labs = () => {
           )}
         </div>
       </div>
+      {/* Decorative Elements */}
+      <div className="absolute top-50 left-10 w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+      <div className="absolute top-32 right-20 w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+      <div className="absolute bottom-20 left-20 w-4 h-4 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+      <div className="absolute bottom-40 right-32 w-3 h-3 bg-red-600 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+      <div className="absolute top-1/2 left-32 w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
     </div>
   );
 };

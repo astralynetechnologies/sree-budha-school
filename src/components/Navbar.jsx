@@ -247,11 +247,46 @@ const Navbar = () => {
                     Non-Academics
                   </Link>
                   <Link
+                    href="/facilities/smartclass"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Smart Class
+                  </Link>
+                  <Link
+                    href="/facilities/library"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Library
+                  </Link>
+                  <Link
                     href="/facilities/labs"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
                     Labs
+                  </Link>
+                  <Link
+                    href="/facilities/atl"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    ATL
+                  </Link>
+                  <Link
+                    href="/facilities/auditorium"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Auditorium
+                  </Link>
+                  <Link
+                    href="/facilities/conferencehall"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Conference Hall
                   </Link>
                 </div>
               </div>
@@ -449,12 +484,47 @@ const Navbar = () => {
                         Non-Academics
                       </Link>
                       <Link
+                        href="/facilities/smartclass"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Smart Class
+                      </Link>
+                      <Link
+                        href="/facilities/library"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Library
+                      </Link>
+                      <Link
                         href="/facilities/labs"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
                         Labs
                       </Link>
+                      <Link
+                        href="/facilities/atl"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        ATL
+                      </Link>
+                      <Link
+                        href="/facilities/auditorium"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Auditorium
+                      </Link>
+                      <Link
+                        href="/facilities/conferencehall"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        conference Hall
+                      </Link>      
                     </div>
                   </div>
                 </div>
