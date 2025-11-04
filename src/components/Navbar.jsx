@@ -288,6 +288,20 @@ const Navbar = () => {
                   >
                     Conference Hall
                   </Link>
+                  <Link
+                    href="/facilities/playground"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Playground
+                  </Link>
+                  <Link
+                    href="/facilities/sportsroom"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Sports Room
+                  </Link>
                 </div>
               </div>
 
@@ -524,6 +538,20 @@ const Navbar = () => {
                         onClick={closeMobileMenu}
                       >
                         conference Hall
+                      </Link>      
+                      <Link
+                        href="/facilities/playground"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Play ground
+                      </Link>      
+                      <Link
+                        href="/facilities/sportsroom"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Sports Room
                       </Link>      
                     </div>
                   </div>
