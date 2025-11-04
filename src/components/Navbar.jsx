@@ -305,6 +305,60 @@ const Navbar = () => {
                 </div>
               </div>
 
+              {/* academic Dropdown */}
+              <div className="relative group">
+                <button
+                  className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
+                  onClick={() => handleDropdown("documents")}
+                >
+                  Academic
+                  <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
+                </button>
+                <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-56 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                  <Link
+                    href="/academics/preprimary"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Pre-Primary
+                  </Link>
+                  <Link
+                    href="/academics/primary"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Primary
+                  </Link>
+                  <Link
+                    href="/academics/secondary"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    secondary
+                  </Link>
+                  <Link
+                    href="/academics/seniorSecondary"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Senior Secondary
+                  </Link>
+                  <Link
+                    href="/academics/yearPlanAndReport"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Year Plan & Annual Report
+                  </Link>
+                  <Link
+                    href="/academics/result"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Result
+                  </Link>
+                </div>
+              </div>
               {/* Documents Dropdown */}
               <div className="relative group">
                 <button
@@ -557,6 +611,66 @@ const Navbar = () => {
                   </div>
                 </div>
 
+                {/* academic Mobile Dropdown */}
+                <div className="w-full">
+                  <button
+                    className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
+                    onClick={() => handleMobileDropdown("academic")}
+                  >
+                    Academic
+                    <ChevronDown 
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        activeMobileDropdown === "academic" ? "rotate-180" : ""
+                      }`} 
+                    />
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "academic" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
+                      <Link
+                        href="/academics/preprimary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Pre-Primary
+                      </Link>
+                      <Link
+                        href="/academics/primary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Primary
+                      </Link>
+                      <Link
+                        href="/academics/secondary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Secondary
+                      </Link>
+                      <Link
+                        href="/academics/seniorSecondary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Senior Secondary
+                      </Link>
+                      <Link
+                        href="/academics/YearPlanAndReport"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Year Plan & Annual Report
+                      </Link>
+                      <Link
+                        href="/academics/result"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Result
+                      </Link>
+                    </div>
+                  </div>
+                </div>
                 {/* Documents Mobile Dropdown */}
                 <div className="w-full">
                   <button
