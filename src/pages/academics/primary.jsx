@@ -400,7 +400,7 @@ const PrimaryPage = () => {
         </div>
 
         {/* Features Grid Section */}
-        {!loading && !error && data?.features && (
+        {/* {!loading && !error && data?.features && (
           <div className="mb-20">
             <Reveal delay={600}>
               <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
@@ -432,10 +432,10 @@ const PrimaryPage = () => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Use Cases Section */}
-        {!loading && !error && data?.useCases && (
+        {/* {!loading && !error && data?.useCases && (
           <div className="mb-20">
             <Reveal delay={900}>
               <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
@@ -469,10 +469,10 @@ const PrimaryPage = () => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Specifications Card */}
-        {!loading && !error && data?.specifications && (
+        {/* {!loading && !error && data?.specifications && (
           <Reveal delay={1100}>
             <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl p-8 lg:p-12 shadow-2xl mb-20">
               <h3 className="text-3xl font-bold text-white text-center mb-8">
@@ -493,7 +493,7 @@ const PrimaryPage = () => {
               </div>
             </div>
           </Reveal>
-        )}
+        )} */}
       </div>
 
       {/* Decorative Elements */}

@@ -127,12 +127,12 @@ const ATLPage = () => {
   }, []);
 
   return (
-    <div className="relative bg-gradient-to-br from-purple-50 via-white to-blue-50 py-16 lg:py-24 overflow-hidden">
+    <div className="relative bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-16 lg:py-24 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600 rounded-full translate-x-1/3 -translate-y-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full -translate-x-1/2 translate-y-1/2"></div>
-        <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-yellow-400 rounded-full -translate-y-1/2"></div>
+        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600 rounded-full translate-x-1/3 -translate-y-1/3"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500 rounded-full -translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-sky-400 rounded-full -translate-y-1/2"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -177,9 +177,9 @@ const ATLPage = () => {
           ) : (
             <>
               <Reveal>
-                <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full border border-purple-300 mb-6">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mr-2 animate-pulse"></div>
-                  <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent font-semibold text-sm tracking-wide">INNOVATION HUB</span>
+                <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full border border-blue-300 mb-6">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
+                  <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent font-semibold text-sm tracking-wide">INNOVATION HUB</span>
                 </div>
               </Reveal>
               
@@ -188,13 +188,13 @@ const ATLPage = () => {
                   {data?.title ? (
                     <>
                       {data.title.split(' ').slice(0, -1).join(' ')}{' '}
-                      <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                      <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-sky-600 bg-clip-text text-transparent">
                         {data.title.split(' ').slice(-1)[0]}
                       </span>
                     </>
                   ) : (
                     <>
-                      Atal Tinkering <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Lab</span>
+                      Atal Tinkering <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Lab</span>
                     </>
                   )}
                 </h1>
@@ -233,7 +233,7 @@ const ATLPage = () => {
                         alt={data.image.alt}
                         className="w-full h-auto object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
                       
                       {/* Floating Badge */}
                       <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg">
@@ -281,11 +281,11 @@ const ATLPage = () => {
         </div>
 
         {/* Features Grid Section */}
-        {!loading && !error && data?.features && (
+        {/* {!loading && !error && data?.features && (
           <div className="mb-20">
             <Reveal delay={600}>
               <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
-                Our <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Facilities</span>
+                Our <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Facilities</span>
               </h3>
               <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
                 Cutting-edge tools and technologies to bring ideas to life
@@ -299,7 +299,7 @@ const ATLPage = () => {
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
                       {feature.icon}
                     </div>
-                    <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                    <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                       {feature.title}
                     </h4>
                     <p className="text-gray-600 leading-relaxed">
@@ -310,10 +310,10 @@ const ATLPage = () => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Stats Section */}
-        {!loading && !error && (
+        {/* {!loading && !error && (
           <Reveal delay={900}>
             <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 lg:p-12 shadow-2xl mb-20">
               <div className="grid md:grid-cols-3 gap-8 text-center text-white">
@@ -332,10 +332,10 @@ const ATLPage = () => {
               </div>
             </div>
           </Reveal>
-        )}
+        )} */}
 
         {/* Call to Action Section */}
-        {!loading && !error && (
+        {/* {!loading && !error && (
           <Reveal delay={1000}>
             <div className="text-center pt-12 border-t border-gray-200">
               <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
@@ -344,7 +344,7 @@ const ATLPage = () => {
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
                 Join us in our journey to nurture the next generation of innovators and problem solvers
               </p>
-              {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
                   href="/contact" 
                   className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
@@ -360,17 +360,17 @@ const ATLPage = () => {
                 >
                   View Gallery
                 </a>
-              </div> */}
+              </div>
             </div>
           </Reveal>
-        )}
+        )} */}
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-3 h-3 bg-purple-600 rounded-full animate-pulse"></div>
-      <div className="absolute top-32 right-20 w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-      <div className="absolute bottom-20 left-20 w-4 h-4 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-      <div className="absolute bottom-40 right-32 w-3 h-3 bg-purple-600 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+        {/* Decorative Elements */}
+      <div className="absolute top-20 left-10 w-3 h-3 bg-blue-600 rounded-full animate-pulse"></div>
+      <div className="absolute top-32 right-20 w-2 h-2 bg-cyan-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+      <div className="absolute bottom-20 left-20 w-4 h-4 bg-sky-400 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+      <div className="absolute bottom-40 right-32 w-3 h-3 bg-blue-600 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
     </div>
   );
 };
