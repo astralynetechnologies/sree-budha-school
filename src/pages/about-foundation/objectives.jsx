@@ -220,7 +220,12 @@ const Objectives = () => {
                     {data?.content?.map((item, index) => (
                       <Reveal key={item.id} delay={500 + index * 100} from="right">
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
+                          {item.paragraph?.split('\n').map((line, i, arr) => (
+                            <React.Fragment key={i}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </Reveal>
                     )) || (

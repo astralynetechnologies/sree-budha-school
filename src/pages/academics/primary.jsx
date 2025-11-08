@@ -66,134 +66,15 @@ const PrimaryPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        const mockData = {
-          title: "Primary Section",
-          subtitle:
-            "Building Strong Academic Foundations with Joy and Excellence",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80",
-            alt: "Primary school students in classroom",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80",
-              alt: "Students learning together",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&q=80",
-              alt: "Interactive classroom activities",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80",
-              alt: "Engaged primary learners",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Primary Section at Sree Buddha Central School marks the beginning of formal academic education, where young minds transition from play-based learning to structured academics. Catering to students from Classes I to V (ages 6-10 years), this crucial phase lays the foundation for all future learning. Our carefully designed curriculum balances academic rigor with creative exploration, ensuring that students not only master fundamental concepts in language, mathematics, science, and social studies but also develop critical thinking, problem-solving abilities, and a genuine love for learning.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Our experienced faculty employs innovative teaching methodologies that make learning engaging and meaningful. Through interactive lessons, hands-on activities, visual aids, educational technology, and collaborative projects, we ensure that every child grasps concepts thoroughly. The curriculum follows CBSE guidelines while incorporating experiential learning, value education, and skill development programs. Special attention is given to reading habits, computational skills, scientific temper, and creative expression through various co-curricular activities integrated into the daily schedule.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "We recognize that primary education shapes not just academic abilities but also character, confidence, and social skills. Our supportive learning environment encourages students to ask questions, express ideas, make mistakes, and learn from them. Regular assessments, personalized attention, and parent-teacher collaboration ensure that each child receives the guidance needed to excel. With well-equipped classrooms, libraries, laboratories, and activity areas, we provide a comprehensive learning ecosystem that prepares students for the challenges of middle school and beyond.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "📖",
-              title: "CBSE Curriculum",
-              description:
-                "Comprehensive syllabus aligned with national standards and learning outcomes",
-            },
-            {
-              id: "f2",
-              icon: "👨‍🏫",
-              title: "Experienced Teachers",
-              description:
-                "Qualified educators trained in child psychology and modern pedagogy",
-            },
-            {
-              id: "f3",
-              icon: "🔬",
-              title: "Activity-Based Learning",
-              description:
-                "Hands-on experiments, projects, and practical activities for better understanding",
-            },
-            {
-              id: "f4",
-              icon: "🎯",
-              title: "Individual Attention",
-              description:
-                "Small class sizes ensuring personalized guidance for every student",
-            },
-            {
-              id: "f5",
-              icon: "📚",
-              title: "Library & Resources",
-              description: "Well-stocked library with age-appropriate books and learning materials",
-            },
-            {
-              id: "f6",
-              icon: "🏆",
-              title: "Holistic Development",
-              description: "Focus on academics, sports, arts, and character building",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Strong Fundamentals",
-              description:
-                "Building solid foundations in reading, writing, mathematics, and core subjects",
-              icon: "📝",
-            },
-            {
-              id: "u2",
-              title: "Life Skills",
-              description:
-                "Developing communication, teamwork, time management, and problem-solving abilities",
-              icon: "🎓",
-            },
-            {
-              id: "u3",
-              title: "Creative Expression",
-              description:
-                "Art, music, drama, and craft activities to nurture creativity and self-expression",
-              icon: "🎨",
-            },
-            {
-              id: "u4",
-              title: "Values & Ethics",
-              description:
-                "Instilling moral values, discipline, respect, and responsible citizenship",
-              icon: "⭐",
-            },
-          ],
-          specifications: [
-            { label: "Grade Levels", value: "I to V" },
-            { label: "Age Group", value: "6-10 Yrs" },
-            { label: "Class Strength", value: "30-35" },
-            { label: "Subjects", value: "8+ Core" },
-          ],
-        };
-
-        setData(mockData);
-        setLoading(false);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/primary`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch primary data');
+        }
+        const result = await response.json();
+        setData(result.docs && result.docs.length ? result.docs[0] : null);
       } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -308,11 +189,11 @@ const PrimaryPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.mainImage && (
+                  (data?.mainImage || data?.image) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img
-                        src={data.mainImage.url}
-                        alt={data.mainImage.alt}
+                        src={data?.mainImage?.url || data?.image?.url}
+                        alt={data?.mainImage?.alt || data?.image?.alt}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
@@ -382,15 +263,20 @@ const PrimaryPage = () => {
                 ) : (
                   <div className="space-y-6">
                     {data?.content?.map((item, index) => (
-                      <Reveal
-                        key={item.id}
-                        delay={500 + index * 100}
-                        from="right"
-                      >
-                        <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
-                        </p>
-                      </Reveal>
+                        <Reveal
+                          key={item.id}
+                          delay={500 + index * 100}
+                          from="right"
+                        >
+                          <p className="text-lg text-gray-700 leading-relaxed">
+                            {item.paragraph?.split('\n').map((line, i, arr) => (
+                              <React.Fragment key={i}>
+                                {line}
+                                {i < arr.length - 1 && <br />}
+                              </React.Fragment>
+                            ))}
+                          </p>
+                        </Reveal>
                     ))}
                   </div>
                 )}

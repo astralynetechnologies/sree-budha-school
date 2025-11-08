@@ -66,138 +66,30 @@ const ConferenceHallPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulating API call with timeout
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/conferencehall`);
+        if (!res.ok) throw new Error('Failed to fetch conference hall content');
+        const result = await res.json();
 
-        // Mock data - replace with actual API call
-        const mockData = {
-          title: "Conference Hall",
-          subtitle:
-            "A Professional Space for Meetings, Seminars, and Collaborative Learning",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=80",
-            alt: "Modern conference hall setup",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80",
-              alt: "Conference room seating",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=400&q=80",
-              alt: "Presentation setup",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&q=80",
-              alt: "Meeting in progress",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Conference Hall at Sree Buddha Central School is a sophisticated venue designed to facilitate productive meetings, engaging seminars, and collaborative learning sessions. This multipurpose space reflects our commitment to providing world-class infrastructure that supports both academic and professional development.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Equipped with modern amenities and flexible seating arrangements, our conference hall accommodates various event formats—from intimate board meetings and parent-teacher conferences to large-scale educational workshops and guest lectures. The space is designed to foster meaningful dialogue and knowledge exchange.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "The hall features advanced presentation technology including high-definition projectors, smart boards, wireless connectivity, and professional audio systems. Climate-controlled interiors ensure comfort throughout extended sessions, while elegant furnishings create an atmosphere conducive to focused discussion and learning.",
-            },
-            {
-              id: "4",
-              paragraph:
-                "Our facility serves as a hub for academic discourse, hosting faculty development programs, student symposiums, educational conferences, and community outreach initiatives. It embodies our vision of creating spaces that bridge traditional education with contemporary professional standards.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "👥",
-              title: "Flexible Seating",
-              description:
-                "Modular furniture for theater, classroom, or boardroom style setups",
-            },
-            {
-              id: "f2",
-              icon: "📊",
-              title: "Smart Technology",
-              description:
-                "HD projectors, smart boards, and wireless presentation systems",
-            },
-            {
-              id: "f3",
-              icon: "🎤",
-              title: "Audio System",
-              description:
-                "Professional sound system with microphones and speakers",
-            },
-            {
-              id: "f4",
-              icon: "💻",
-              title: "Connectivity",
-              description:
-                "High-speed WiFi and multiple power outlets throughout",
-            },
-            {
-              id: "f5",
-              icon: "☕",
-              title: "Refreshment Area",
-              description: "Dedicated space for coffee breaks and networking",
-            },
-            {
-              id: "f6",
-              icon: "🌡️",
-              title: "Climate Control",
-              description: "Central AC with adjustable temperature settings",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Academic Seminars",
-              description:
-                "Educational workshops, guest lectures, and faculty training sessions",
-              icon: "📚",
-            },
-            {
-              id: "u2",
-              title: "Parent Meetings",
-              description:
-                "PTM sessions, orientation programs, and parent workshops",
-              icon: "👨‍👩‍👧",
-            },
-            {
-              id: "u3",
-              title: "Student Events",
-              description:
-                "Debates, symposiums, model UN, and academic competitions",
-              icon: "🎓",
-            },
-            {
-              id: "u4",
-              title: "Professional Training",
-              description:
-                "Staff development, skill enhancement, and certification programs",
-              icon: "💼",
-            },
-          ],
-          specifications: [
-            { label: "Capacity", value: "100-150 people" },
-            { label: "Area", value: "2,500 sq. ft." },
-            { label: "Setup Time", value: "30 minutes" },
-            { label: "Booking", value: "Available on request" },
-          ],
-        };
+        let doc = result?.docs && result.docs.length ? result.docs[0] : null;
 
-        setData(mockData);
+        // Normalize content: if API returns a single string, split into paragraphs
+        if (doc) {
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/) // split on double newlines into paragraph blocks
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          // galleryImages fallback normalization
+          if (!doc.galleryImages && doc.images && Array.isArray(doc.images)) {
+            doc.galleryImages = doc.images;
+          }
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -315,11 +207,11 @@ const ConferenceHallPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.mainImage && (
+                  (data?.mainImage?.url || data?.image?.url) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img
-                        src={data.mainImage.url}
-                        alt={data.mainImage.alt}
+                        src={data?.mainImage?.url || data?.image?.url}
+                        alt={data?.mainImage?.alt || data?.image?.alt || 'Conference Hall'}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
@@ -329,7 +221,7 @@ const ConferenceHallPage = () => {
                         <div className="grid grid-cols-2 gap-4 text-center">
                           <div>
                             <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                              150
+                              {data?.specifications?.find(s => s.label === 'Capacity')?.value || '150'}
                             </p>
                             <p className="text-xs text-gray-600 font-semibold">
                               Capacity
@@ -337,7 +229,7 @@ const ConferenceHallPage = () => {
                           </div>
                           <div>
                             <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                              2.5K
+                              {data?.specifications?.find(s => s.label === 'Area')?.value || '2.5K'}
                             </p>
                             <p className="text-xs text-gray-600 font-semibold">
                               Sq. Ft.
@@ -395,7 +287,12 @@ const ConferenceHallPage = () => {
                         from="right"
                       >
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
+                          {item.paragraph?.split('\n').map((line, i, arr) => (
+                            <React.Fragment key={i}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </Reveal>
                     ))}

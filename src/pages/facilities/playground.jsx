@@ -66,147 +66,29 @@ const PlaygroundPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulating API call with timeout
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Mock data - replace with actual API call
-        const mockData = {
-          title: "Sports Playground",
-          subtitle:
-            "Where Champions Are Made Through Play, Sports, and Physical Excellence",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=400&q=80",
-            alt: "School sports playground and field",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=400&q=80",
-              alt: "Basketball court",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80",
-              alt: "Running track",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&q=80",
-              alt: "Students playing sports",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Sports Playground at Sree Buddha Central School is a sprawling arena of energy, enthusiasm, and athletic excellence. Designed to nurture physical fitness, teamwork, and competitive spirit, our expansive outdoor facility provides students with the perfect environment to engage in various sports, develop motor skills, and embrace an active lifestyle that complements their academic pursuits.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Our multi-sport facility features professionally maintained grounds including a full-sized football field, cricket pitch, basketball courts, volleyball courts, and a dedicated athletics track. With quality sporting equipment, proper markings, and safety measures in place, students have access to infrastructure that meets competitive standards while ensuring their wellbeing during practice and play.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "Beyond structured sports, the playground serves as a vital space for physical education classes, inter-house competitions, annual sports day celebrations, and recreational activities. Children learn valuable life lessons through play—discipline, perseverance, leadership, and sportsmanship—while building physical strength, stamina, and coordination that contribute to overall development.",
-            },
-            {
-              id: "4",
-              paragraph:
-                "Under the guidance of qualified physical education instructors and sports coaches, students receive professional training in their chosen sports. Whether preparing for district-level competitions or simply enjoying a game with friends during break time, our playground embodies our belief that a healthy body nurtures a healthy mind, and that sports are integral to creating well-rounded, confident individuals.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "⚽",
-              title: "Multi-Sport Fields",
-              description:
-                "Football, cricket, and athletics grounds with professional markings",
-            },
-            {
-              id: "f2",
-              icon: "🏀",
-              title: "Court Facilities",
-              description:
-                "Basketball, volleyball, and badminton courts with proper equipment",
-            },
-            {
-              id: "f3",
-              icon: "🏃",
-              title: "Athletic Track",
-              description:
-                "Standard running track for sprints, relays, and endurance training",
-            },
-            {
-              id: "f4",
-              icon: "🥇",
-              title: "Sports Equipment",
-              description:
-                "Quality gear for all major sports and regular maintenance",
-            },
-            {
-              id: "f5",
-              icon: "👨‍🏫",
-              title: "Professional Coaching",
-              description: "Trained PE teachers and sports coaches for skill development",
-            },
-            {
-              id: "f6",
-              icon: "🛡️",
-              title: "Safety Measures",
-              description: "First aid facilities, supervision, and safety protocols in place",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Physical Education",
-              description:
-                "Regular PE classes focusing on fitness, games, and sports fundamentals",
-              icon: "💪",
-            },
-            {
-              id: "u2",
-              title: "Competitive Sports",
-              description:
-                "Training and practice for inter-school tournaments and championships",
-              icon: "🏆",
-            },
-            {
-              id: "u3",
-              title: "Annual Sports Day",
-              description:
-                "Grand celebrations featuring track events, team games, and cultural activities",
-              icon: "🎉",
-            },
-            {
-              id: "u4",
-              title: "Recreational Play",
-              description:
-                "Free play time for stress relief, social bonding, and pure enjoyment",
-              icon: "😊",
-            },
-          ],
-          specifications: [
-            { label: "Total Area", value: "3 Acres" },
-            { label: "Sports", value: "10+ Games" },
-            { label: "Courts", value: "6 Courts" },
-            { label: "Track Length", value: "200M" },
-          ],
-        };
-
-        setData(mockData);
-        setLoading(false);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/playground`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch playground data');
+        }
+        const result = await response.json();
+        setData(result.docs && result.docs.length ? result.docs[0] : null);
       } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
+  // Normalize content: support either array of {id, paragraph} or single string with \n separators
+  const contentItems = React.useMemo(() => {
+    if (!data?.content) return [];
+    if (Array.isArray(data.content)) return data.content;
+    // data.content is a single string: split into paragraphs on double newline or single newline
+    return data.content.split(/\n\n+/).map((p, i) => ({ id: i, paragraph: p }));
+  }, [data]);
 
   return (
     <div className="relative bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-16 lg:py-24 overflow-hidden">
@@ -315,11 +197,11 @@ const PlaygroundPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.mainImage && (
+                  (data?.mainImage || data?.image) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img
-                        src={data.mainImage.url}
-                        alt={data.mainImage.alt}
+                        src={data?.mainImage?.url || data?.image?.url}
+                        alt={data?.mainImage?.alt || data?.image?.alt}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
@@ -388,14 +270,19 @@ const PlaygroundPage = () => {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {data?.content?.map((item, index) => (
+                    {contentItems.map((item, index) => (
                       <Reveal
                         key={item.id}
                         delay={500 + index * 100}
                         from="right"
                       >
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
+                          {item.paragraph?.split('\n').map((line, i, arr) => (
+                            <React.Fragment key={i}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </Reveal>
                     ))}

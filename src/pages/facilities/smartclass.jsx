@@ -66,133 +66,34 @@ const SmartClassPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulating API call with timeout
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/smartclass`);
+        if (!res.ok) throw new Error('Failed to fetch smartclass content');
+        const result = await res.json();
 
-        // Mock data - replace with actual API call
-        const mockData = {
-          title: "Smart Classrooms",
-          subtitle:
-            "Interactive Digital Learning Spaces for the 21st Century Student",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
-            alt: "Modern smart classroom with digital board",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&q=80",
-              alt: "Interactive whiteboard session",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400&q=80",
-              alt: "Students using digital devices",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&q=80",
-              alt: "Technology-enabled learning",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Smart Classrooms at Sree Buddha Central School represent a paradigm shift in educational delivery, seamlessly blending traditional teaching methods with cutting-edge technology. These state-of-the-art learning environments transform abstract concepts into vivid visual experiences, making education more engaging, interactive, and effective for students across all grade levels.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Each smart classroom is equipped with high-definition interactive displays, digital projectors, audio-visual systems, and multimedia content that brings textbook concepts to life. Teachers can integrate videos, animations, 3D models, simulations, and virtual labs into their lessons, catering to diverse learning styles and ensuring that every student grasps complex topics with clarity and confidence.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "Our digital learning platform provides access to an extensive library of curriculum-aligned content created by subject matter experts. From animated science experiments and historical documentaries to mathematical visualizations and language learning modules, these resources enhance comprehension while making learning enjoyable and memorable.",
-            }
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🖥️",
-              title: "Interactive Displays",
-              description:
-                "HD touchscreen panels and smart boards for engaging visual learning",
-            },
-            {
-              id: "f2",
-              icon: "📱",
-              title: "Digital Content",
-              description:
-                "Curriculum-aligned multimedia resources including videos and animations",
-            },
-            {
-              id: "f3",
-              icon: "🎯",
-              title: "Real-time Assessment",
-              description:
-                "Instant quizzes and feedback to monitor student understanding",
-            },
-            {
-              id: "f4",
-              icon: "🌐",
-              title: "Internet Connectivity",
-              description:
-                "High-speed WiFi for accessing online educational resources",
-            },
-            {
-              id: "f5",
-              icon: "🎬",
-              title: "Multimedia Integration",
-              description: "Audio-visual systems for immersive learning experiences",
-            },
-            {
-              id: "f6",
-              icon: "👨‍🏫",
-              title: "Teacher Tools",
-              description: "Digital lesson planning, tracking, and management systems",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Visual Learning",
-              description:
-                "3D models, animations, and simulations make complex concepts easy to understand",
-              icon: "🔬",
-            },
-            {
-              id: "u2",
-              title: "Interactive Sessions",
-              description:
-                "Gamified learning activities and collaborative projects engage students actively",
-              icon: "🎮",
-            },
-            {
-              id: "u3",
-              title: "Virtual Field Trips",
-              description:
-                "Explore historical sites, museums, and geographical locations virtually",
-              icon: "🌍",
-            },
-            {
-              id: "u4",
-              title: "Personalized Learning",
-              description:
-                "Adaptive content and pace adjustment based on individual student needs",
-              icon: "⚡",
-            },
-          ],
-          specifications: [
-            { label: "Classrooms", value: "25+" },
-            { label: "Screen Size", value: "75-86 inch" },
-            { label: "Content Library", value: "5000+ Hrs" },
-            { label: "Subjects", value: "All Grades" },
-          ],
-        };
+        // Support both paginated docs shape and direct object
+        let doc = result?.docs && result.docs.length ? result.docs[0] : result;
 
-        setData(mockData);
+        if (doc) {
+          // Normalize content: if API returns a single string, split into paragraph blocks
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/) // split on double newlines
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          // galleryImages fallback normalization
+          if (!doc.galleryImages && doc.images && Array.isArray(doc.images)) {
+            doc.galleryImages = doc.images;
+          }
+
+          // image field normalization
+          if (!doc.mainImage && doc.image) doc.mainImage = doc.image;
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -310,11 +211,11 @@ const SmartClassPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.mainImage && (
+                  (data?.mainImage?.url || data?.image?.url) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img
-                        src={data.mainImage.url}
-                        alt={data.mainImage.alt}
+                        src={data?.mainImage?.url || data?.image?.url}
+                        alt={data?.mainImage?.alt || data?.image?.alt || 'Smart Classrooms'}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
@@ -324,19 +225,15 @@ const SmartClassPage = () => {
                         <div className="grid grid-cols-2 gap-4 text-center">
                           <div>
                             <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                              25+
+                              {data?.specifications?.find(s => s.label === 'Classrooms')?.value || '25+'}
                             </p>
-                            <p className="text-xs text-gray-600 font-semibold">
-                              Smart Rooms
-                            </p>
+                            <p className="text-xs text-gray-600 font-semibold">Smart Rooms</p>
                           </div>
                           <div>
                             <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                              5K+
+                              {data?.specifications?.find(s => s.label === 'Content Library')?.value || '5K+'}
                             </p>
-                            <p className="text-xs text-gray-600 font-semibold">
-                              Hours Content
-                            </p>
+                            <p className="text-xs text-gray-600 font-semibold">Hours Content</p>
                           </div>
                         </div>
                       </div>
@@ -390,7 +287,12 @@ const SmartClassPage = () => {
                         from="right"
                       >
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
+                          {item.paragraph?.split('\n').map((line, i, arr) => (
+                            <React.Fragment key={i}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </Reveal>
                     ))}

@@ -58,115 +58,31 @@ const AuditoriumPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulating API call with timeout
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock data - replace with actual API call
-        const mockData = {
-          title: "School Auditorium",
-          subtitle: "A Premier Venue for Cultural Excellence, Performances, and Community Gatherings",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80",
-            alt: "Modern school auditorium interior"
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80",
-              alt: "Auditorium stage view"
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?w=400&q=80",
-              alt: "Seating arrangement"
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=400&q=80",
-              alt: "Audio visual setup"
-            }
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph: "The Sree Buddha Central School Auditorium stands as a testament to our commitment to holistic education. This state-of-the-art facility serves as the cultural heart of our institution, hosting a diverse array of events from academic seminars and cultural performances to inter-school competitions and community gatherings."
-            },
-            {
-              id: "2",
-              paragraph: "With a seating capacity of over 500 people, our auditorium is equipped with modern acoustic engineering, ensuring crystal-clear sound quality for every performance. The spacious stage, complete with professional lighting systems and audio-visual equipment, provides an ideal platform for students to showcase their talents and build confidence."
-            },
-            {
-              id: "3",
-              paragraph: "Our facility features comfortable seating with excellent sightlines from every angle, advanced climate control for year-round comfort, and full accessibility provisions. The auditorium includes dedicated green rooms, storage facilities for props and equipment, and a professional-grade sound mixing console."
-            },
-            {
-              id: "4",
-              paragraph: "From annual day celebrations and graduation ceremonies to music concerts, drama productions, and motivational talks by distinguished guests, our auditorium has witnessed countless memorable moments. It serves as a bridge between education and expression, where academic learning meets artistic exploration."
-            }
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🎭",
-              title: "Professional Stage",
-              description: "Spacious stage with theatrical lighting and backdrop systems"
-            },
-            {
-              id: "f2",
-              icon: "🔊",
-              title: "Premium Audio",
-              description: "State-of-the-art sound system with acoustic optimization"
-            },
-            {
-              id: "f3",
-              icon: "💺",
-              title: "Comfortable Seating",
-              description: "500+ ergonomic seats with excellent viewing angles"
-            },
-            {
-              id: "f4",
-              icon: "🎬",
-              title: "AV Equipment",
-              description: "HD projectors, screens, and multimedia capabilities"
-            },
-            {
-              id: "f5",
-              icon: "❄️",
-              title: "Climate Control",
-              description: "Central air conditioning for optimal comfort"
-            },
-            {
-              id: "f6",
-              icon: "♿",
-              title: "Accessibility",
-              description: "Wheelchair accessible with dedicated seating areas"
-            }
-          ],
-          events: [
-            {
-              id: "e1",
-              title: "Annual Day Celebrations",
-              description: "Showcase of student talents and achievements"
-            },
-            {
-              id: "e2",
-              title: "Cultural Programs",
-              description: "Dance, music, and drama performances"
-            },
-            {
-              id: "e3",
-              title: "Academic Seminars",
-              description: "Guest lectures and educational workshops"
-            },
-            {
-              id: "e4",
-              title: "Inter-School Events",
-              description: "Competitions and collaborative programs"
-            }
-          ]
-        };
-        
-        setData(mockData);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/auditorium`);
+        if (!res.ok) throw new Error('Failed to fetch auditorium content');
+        const result = await res.json();
+
+        // Support both paginated docs shape and direct object
+        let doc = result?.docs && result.docs.length ? result.docs[0] : result;
+
+        if (doc) {
+          // Normalize content: if API returns a single string, split into paragraph blocks
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/) // split on double newlines
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          // Normalize gallery images if API uses 'images' or similar
+          if (!doc.galleryImages && doc.images && Array.isArray(doc.images)) {
+            doc.galleryImages = doc.images;
+          }
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -277,18 +193,18 @@ const AuditoriumPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.mainImage && (
+                  (data?.mainImage?.url || data?.image?.url) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img 
-                        src={data.mainImage.url}
-                        alt={data.mainImage.alt}
+                        src={data?.mainImage?.url || data?.image?.url}
+                        alt={data?.mainImage?.alt || data?.image?.alt || 'Auditorium'}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
-                      
+
                       {/* Floating Badge */}
                       <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg">
-                        <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">500+</p>
+                        <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{data?.['seating capacity'] || data?.seatingCapacity || '500+'}</p>
                         <p className="text-xs text-gray-600 font-semibold">Seating Capacity</p>
                       </div>
                     </div>
@@ -337,7 +253,12 @@ const AuditoriumPage = () => {
                     {data?.content?.map((item, index) => (
                       <Reveal key={item.id} delay={500 + index * 100} from="right">
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
+                          {item.paragraph?.split('\n').map((line, i, arr) => (
+                            <React.Fragment key={i}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </Reveal>
                     ))}

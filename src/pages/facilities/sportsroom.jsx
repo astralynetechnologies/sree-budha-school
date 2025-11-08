@@ -66,141 +66,15 @@ const SportsRoomPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulating API call with timeout
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Mock data - replace with actual API call
-        const mockData = {
-          title: "Sports Room",
-          subtitle:
-            "Indoor Training Hub for Fitness, Games, and Athletic Development",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
-            alt: "Indoor sports training facility",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400&q=80",
-              alt: "Fitness equipment area",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=400&q=80",
-              alt: "Indoor games setup",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80",
-              alt: "Training session",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Sports Room at Sree Buddha Central School is a dedicated indoor facility designed to support year-round athletic training, physical fitness, and indoor sports activities. This climate-controlled space ensures that students can pursue their passion for sports regardless of weather conditions, providing a safe and structured environment for skill development, strength training, and competitive preparation.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Equipped with modern fitness apparatus, training equipment, and space for indoor games like table tennis, chess, carrom, and yoga, our sports room serves as a versatile hub for both physical conditioning and strategic sports. Students have access to dumbbells, resistance bands, yoga mats, and other fitness tools that help build strength, flexibility, and endurance under proper supervision.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "The facility includes dedicated zones for different activities—a fitness corner for strength and cardio workouts, a games area for table tennis and board games, a meditation and yoga space for mental wellness, and storage for sports equipment and gear. Professional mirrors, proper flooring, and adequate ventilation create an optimal training environment that prioritizes both performance and safety.",
-            },
-            {
-              id: "4",
-              paragraph:
-                "Our qualified physical education instructors and sports coaches utilize this space for specialized training sessions, warm-up exercises before outdoor practice, injury rehabilitation programs, and sports theory classes. The sports room represents our holistic approach to athletics—recognizing that champions are built through a combination of physical training, mental preparation, strategic thinking, and consistent practice in all conditions.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🏋️",
-              title: "Fitness Equipment",
-              description:
-                "Weights, resistance bands, and cardio equipment for strength training",
-            },
-            {
-              id: "f2",
-              icon: "🏓",
-              title: "Indoor Games",
-              description:
-                "Table tennis, carrom, chess, and other strategic board games",
-            },
-            {
-              id: "f3",
-              icon: "🧘",
-              title: "Yoga & Meditation",
-              description:
-                "Dedicated space for flexibility training and mindfulness practice",
-            },
-            {
-              id: "f4",
-              icon: "📦",
-              title: "Equipment Storage",
-              description:
-                "Organized storage for sports gear, uniforms, and training accessories",
-            },
-            {
-              id: "f5",
-              icon: "🌡️",
-              title: "Climate Control",
-              description: "Air-conditioned facility for comfortable year-round training",
-            },
-            {
-              id: "f6",
-              icon: "🎯",
-              title: "Training Programs",
-              description: "Structured fitness routines and sports-specific skill development",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Strength Training",
-              description:
-                "Muscle building, conditioning exercises, and athletic performance enhancement",
-              icon: "💪",
-            },
-            {
-              id: "u2",
-              title: "Indoor Sports",
-              description:
-                "Table tennis tournaments, chess competitions, and strategic games",
-              icon: "🎲",
-            },
-            {
-              id: "u3",
-              title: "Fitness Classes",
-              description:
-                "Aerobics, yoga sessions, meditation, and flexibility training programs",
-              icon: "🤸",
-            },
-            {
-              id: "u4",
-              title: "Recovery & Rehab",
-              description:
-                "Injury prevention exercises and rehabilitation under expert guidance",
-              icon: "🩹",
-            },
-          ],
-          specifications: [
-            { label: "Area", value: "1,200 Sq Ft" },
-            { label: "Capacity", value: "30 Students" },
-            { label: "Games", value: "8+ Indoor" },
-            { label: "Equipment", value: "Premium" },
-          ],
-        };
-
-        setData(mockData);
-        setLoading(false);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/sports`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch sports data');
+        }
+        const result = await response.json();
+        setData(result.docs && result.docs.length ? result.docs[0] : null);
       } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -315,11 +189,11 @@ const SportsRoomPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.mainImage && (
+                  (data?.mainImage || data?.image) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img
-                        src={data.mainImage.url}
-                        alt={data.mainImage.alt}
+                        src={data?.mainImage?.url || data?.image?.url}
+                        alt={data?.mainImage?.alt || data?.image?.alt}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
@@ -389,15 +263,20 @@ const SportsRoomPage = () => {
                 ) : (
                   <div className="space-y-6">
                     {data?.content?.map((item, index) => (
-                      <Reveal
-                        key={item.id}
-                        delay={500 + index * 100}
-                        from="right"
-                      >
-                        <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
-                        </p>
-                      </Reveal>
+                        <Reveal
+                          key={item.id}
+                          delay={500 + index * 100}
+                          from="right"
+                        >
+                          <p className="text-lg text-gray-700 leading-relaxed">
+                            {item.paragraph?.split('\n').map((line, i, arr) => (
+                              <React.Fragment key={i}>
+                                {line}
+                                {i < arr.length - 1 && <br />}
+                              </React.Fragment>
+                            ))}
+                          </p>
+                        </Reveal>
                     ))}
                   </div>
                 )}

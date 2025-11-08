@@ -415,7 +415,7 @@ const Navbar = () => {
         <div className="lg:hidden fixed inset-0 z-50">
           {/* Background overlay */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-20 transition-opacity duration-300"
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
             onClick={closeMobileMenu}
           ></div>
           

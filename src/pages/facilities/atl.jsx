@@ -58,64 +58,29 @@ const ATLPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulating API call with timeout
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock data - replace with actual API call
-        const mockData = {
-          title: "Atal Tinkering Lab",
-          subtitle: "Fostering Innovation and Creativity Through Hands-On Learning and Design Thinking",
-          image: {
-            url: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80",
-            alt: "Students working in Atal Tinkering Lab"
-          },
-          content: [
-            {
-              id: "1",
-              paragraph: "The Atal Tinkering Lab at Sree Buddha Central School is a dedicated space where young minds explore, experiment, and innovate. Established under the Atal Innovation Mission by NITI Aayog, our lab provides state-of-the-art equipment and resources to nurture creativity and problem-solving skills among students."
-            },
-            {
-              id: "2",
-              paragraph: "Our ATL is equipped with modern tools including 3D printers, robotics kits, electronics equipment, IoT devices, and various other educational technologies. Students engage in hands-on activities that bridge the gap between theoretical knowledge and practical application, preparing them for the challenges of tomorrow."
-            },
-            {
-              id: "3",
-              paragraph: "Through design thinking methodology and project-based learning, students develop critical thinking abilities and learn to approach problems systematically. The lab serves as an incubator for young innovators, encouraging them to transform their ideas into tangible prototypes and solutions."
-            },
-            {
-              id: "4",
-              paragraph: "Regular workshops, competitions, and mentorship programs are conducted to keep students engaged with emerging technologies and innovation trends. Our ATL is not just a laboratory—it's a launchpad for future scientists, engineers, and entrepreneurs who will shape tomorrow's world."
-            }
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🤖",
-              title: "Robotics & Automation",
-              description: "Advanced robotics kits and programming platforms for hands-on learning"
-            },
-            {
-              id: "f2",
-              icon: "🖨️",
-              title: "3D Printing",
-              description: "State-of-the-art 3D printers to transform digital designs into physical models"
-            },
-            {
-              id: "f3",
-              icon: "💡",
-              title: "Electronics Lab",
-              description: "Complete electronics workstations with sensors, circuits, and components"
-            },
-            {
-              id: "f4",
-              icon: "🌐",
-              title: "IoT & AI",
-              description: "Internet of Things devices and artificial intelligence learning modules"
-            }
-          ]
-        };
-        
-        setData(mockData);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/atl`);
+        if (!res.ok) throw new Error('Failed to fetch ATL content');
+        const result = await res.json();
+
+        // Support both paginated docs shape and direct object
+        let doc = result?.docs && result.docs.length ? result.docs[0] : result;
+
+        if (doc) {
+          // Normalize content: if API returns a single string, split into paragraph blocks
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/) // split on double newlines
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          // Normalize image field name variations
+          if (!doc.image && doc.mainImage) doc.image = doc.mainImage;
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -226,15 +191,15 @@ const ATLPage = () => {
                     />
                   </div>
                 ) : (
-                  data?.image && (
+                  (data?.image?.url || data?.mainImage?.url) && (
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                       <img 
-                        src={data.image.url}
-                        alt={data.image.alt}
+                        src={data?.image?.url || data?.mainImage?.url}
+                        alt={data?.image?.alt || data?.mainImage?.alt || 'Atal Tinkering Lab'}
                         className="w-full h-auto object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent"></div>
-                      
+
                       {/* Floating Badge */}
                       <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg">
                         <p className="text-sm font-semibold text-gray-900">Powered by NITI Aayog</p>
@@ -269,7 +234,12 @@ const ATLPage = () => {
                     {data?.content?.map((item, index) => (
                       <Reveal key={item.id} delay={500 + index * 100} from="right">
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {item.paragraph}
+                          {item.paragraph?.split('\n').map((line, i, arr) => (
+                            <React.Fragment key={i}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                         </p>
                       </Reveal>
                     ))}
