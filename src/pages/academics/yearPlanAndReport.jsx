@@ -59,80 +59,71 @@ function Reveal({
 }
 
 const AcademicCalendarPage = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // keep header and static sections immediate
+  const staticData = {
+    title: "Academic Calendar",
+    subtitle: "Stay Informed with Our Comprehensive Academic Year Plan and Schedule",
+    currentYear: "2024-25",
+    mainImage: {
+      url: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&q=80",
+      alt: "Academic calendar and planning",
+    },
+    documents: [],
+  };
+
+  const [data, setData] = useState(staticData);
+  const [loading, setLoading] = useState(false); // header is static
+  const [docsLoading, setDocsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDocs = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setDocsLoading(true);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/year-plan-and-calender`);
+        if (!res.ok) throw new Error('Failed to fetch documents');
+        const result = await res.json();
 
-        const mockData = {
-          title: "Academic Calendar",
-          subtitle:
-            "Stay Informed with Our Comprehensive Academic Year Plan and Schedule",
-          currentYear: "2024-25",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&q=80",
-            alt: "Academic calendar and planning",
-          },
-          documents: [
-            {
-              id: "year-plan",
-              title: "Annual Year Plan",
-              description: "Comprehensive academic year plan covering all subjects, chapters, and monthly breakdowns for the entire session",
-              icon: "📅",
-              fileSize: "2.4 MB",
-              pages: "45 Pages",
-              pdfUrl: "#", // Replace with actual PDF URL
-            },
-            {
-              id: "academic-calendar",
-              title: "Academic Calendar 2024-25",
-              description: "Complete calendar with term dates, holidays, examinations, parent-teacher meetings, and important events",
-              icon: "📆",
-              fileSize: "1.8 MB",
-              pages: "12 Pages",
-              pdfUrl: "#", // Replace with actual PDF URL
-            },
-            // {
-            //   id: "exam-schedule",
-            //   title: "Examination Schedule",
-            //   description: "Detailed schedule for all unit tests, term examinations, and assessment dates for all classes",
-            //   icon: "📝",
-            //   fileSize: "980 KB",
-            //   pages: "8 Pages",
-            //   pdfUrl: "#", // Replace with actual PDF URL
-            // },
-            // {
-            //   id: "holiday-list",
-            //   title: "Holiday List",
-            //   description: "Complete list of holidays, vacation periods, and non-working days for the academic session",
-            //   icon: "🎉",
-            //   fileSize: "540 KB",
-            //   pages: "4 Pages",
-            //   pdfUrl: "#", // Replace with actual PDF URL
-            // },
-          ],
+        const docs = Array.isArray(result.docs) ? result.docs : result.data || [];
+
+        const formatBytes = (bytes) => {
+          if (!bytes && bytes !== 0) return null;
+          const thresh = 1024;
+          if (Math.abs(bytes) < thresh) return bytes + ' B';
+          const units = ['KB','MB','GB','TB'];
+          let u = -1;
+          do { bytes /= thresh; ++u; } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+          return bytes.toFixed(u<1?0:1) + ' ' + units[u];
         };
 
-        setData(mockData);
-        setLoading(false);
+        const mapped = docs.map(d => ({
+          id: d.id ?? d._id,
+          title: d.title,
+          description: d.description,
+          icon: '📄',
+          fileSize: d.document?.filesize ? formatBytes(d.document.filesize) : null,
+          pages: d.pages || null,
+          year: d.createdAt ? new Date(d.createdAt).getFullYear().toString() : null,
+          pdfUrl: d.document?.url || null,
+        }));
+
+        setData(prev => ({ ...prev, documents: mapped }));
+        setDocsLoading(false);
       } catch (err) {
         setError(err.message);
-        setLoading(false);
+        setDocsLoading(false);
       }
     };
 
-    fetchData();
+    fetchDocs();
   }, []);
 
   const handleDownload = (pdfUrl, fileName) => {
-    // In production, this would trigger actual PDF download
-    console.log(`Downloading: ${fileName} from ${pdfUrl}`);
-    // window.open(pdfUrl, '_blank');
-    alert(`Download initiated for: ${fileName}\n\nNote: Replace '#' with actual PDF URL in production.`);
+    if (pdfUrl) {
+      window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      alert(`Download not available for: ${fileName}`);
+    }
   };
 
   return (
@@ -215,12 +206,11 @@ const AcademicCalendarPage = () => {
         </div>
 
         {/* Hero Image */}
-        {!loading && !error && data?.mainImage && (
           <Reveal delay={300}>
             <div className="relative overflow-hidden rounded-2xl shadow-2xl mb-20">
               <img
-                src={data.mainImage.url}
-                alt={data.mainImage.alt}
+                src= "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&q=80"
+                alt="Academic calendar and planning"
                 className="w-full h-80 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-900/30 to-transparent"></div>
@@ -234,7 +224,7 @@ const AcademicCalendarPage = () => {
               </div>
             </div>
           </Reveal>
-        )}
+       
 
         {/* Download Documents Section */}
         {!loading && !error && data?.documents && (

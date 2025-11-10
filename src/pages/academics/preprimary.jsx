@@ -66,131 +66,30 @@ const PrePrimaryPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/preprimary`);
+        if (!res.ok) throw new Error('Failed to fetch preprimary data');
+        const result = await res.json();
 
-        const mockData = {
-          title: "Pre-Primary Section",
-          subtitle:
-            "Nurturing Young Minds Through Play, Discovery, and Joy",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&q=80",
-            alt: "Happy children in colorful classroom",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&q=80",
-              alt: "Children engaged in creative activities",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=400&q=80",
-              alt: "Colorful learning materials",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400&q=80",
-              alt: "Interactive play-based learning",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Pre-Primary Section at Sree Buddha Central School is a magical world of wonder where every day is an adventure in learning. Designed specifically for children aged 2.5 to 5 years, our program creates a warm, nurturing environment that feels like a home away from home. Through carefully crafted activities that blend play with education, we help little learners discover their potential while building essential social, emotional, and cognitive skills.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Our specially trained educators understand that early childhood is a critical period for brain development. Using the internationally recognized play-way method, we engage children through hands-on activities, storytelling, music, art, and movement. Each day is filled with joyful experiences that spark curiosity, encourage exploration, and develop a lifelong love for learning. Our child-centric approach ensures that every student progresses at their own pace in a stress-free atmosphere.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "The vibrant, colorful classrooms are thoughtfully designed with age-appropriate furniture, sensory play areas, reading corners, and interactive learning zones. We maintain small class sizes to ensure individual attention, and our comprehensive curriculum covers language development, numeracy skills, motor skills, creative expression, and social-emotional learning, preparing children seamlessly for formal schooling while keeping the joy of childhood intact.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🎨",
-              title: "Play-Way Method",
-              description:
-                "Learning through fun activities, games, and creative play",
-            },
-            {
-              id: "f2",
-              icon: "👶",
-              title: "Age-Appropriate Curriculum",
-              description:
-                "Specially designed programs for each developmental stage",
-            },
-            {
-              id: "f3",
-              icon: "🏫",
-              title: "Safe Environment",
-              description:
-                "Child-proofed classrooms with CCTV monitoring and trained staff",
-            },
-            {
-              id: "f4",
-              icon: "🎭",
-              title: "Creative Expression",
-              description:
-                "Art, music, drama, and dance to develop imagination",
-            },
-            {
-              id: "f5",
-              icon: "📚",
-              title: "Storytelling Sessions",
-              description: "Building language skills and imagination through stories",
-            },
-            {
-              id: "f6",
-              icon: "🤸",
-              title: "Motor Skills Development",
-              description: "Physical activities for gross and fine motor development",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Social Skills",
-              description:
-                "Group activities and collaborative play help children learn sharing, cooperation, and friendship",
-              icon: "👫",
-            },
-            {
-              id: "u2",
-              title: "Cognitive Development",
-              description:
-                "Puzzles, building blocks, and problem-solving games enhance thinking skills",
-              icon: "🧩",
-            },
-            {
-              id: "u3",
-              title: "Language & Communication",
-              description:
-                "Rhymes, conversations, and storytelling build vocabulary and expression",
-              icon: "🗣️",
-            },
-            {
-              id: "u4",
-              title: "Emotional Growth",
-              description:
-                "Nurturing environment helps children develop confidence and emotional intelligence",
-              icon: "❤️",
-            },
-          ],
-          specifications: [
-            { label: "Age Group", value: "2.5-5 Yrs" },
-            { label: "Class Size", value: "20-25" },
-            { label: "Teacher Ratio", value: "1:10" },
-            { label: "Timings", value: "9AM-12PM" },
-          ],
-        };
+        // CMS may return paginated shape { docs: [...] }
+        const doc = result?.docs && result.docs.length ? result.docs[0] : result;
 
-        setData(mockData);
+        if (doc) {
+          // Normalize content: split on double newlines into paragraph blocks
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/)
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          // Normalize image fields to match component usage
+          if (!doc.mainImage && doc.image) doc.mainImage = doc.image;
+          if (!doc.galleryImages && doc.images && Array.isArray(doc.images)) doc.galleryImages = doc.images;
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);

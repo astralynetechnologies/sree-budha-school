@@ -66,131 +66,30 @@ const SeniorSecondaryPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/senior-secondary`);
+        if (!res.ok) throw new Error('Failed to fetch senior secondary data');
+        const result = await res.json();
 
-        const mockData = {
-          title: "Senior Secondary Section",
-          subtitle:
-            "Shaping Future Leaders with Specialized Education and Career Pathways",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80",
-            alt: "Senior secondary students in advanced learning environment",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&q=80",
-              alt: "Students preparing for competitive exams",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=400&q=80",
-              alt: "Advanced laboratory work",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&q=80",
-              alt: "Career counseling and guidance",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Senior Secondary Section at Sree Buddha Central School represents the pinnacle of our academic journey, catering to Classes XI and XII (ages 16-18 years). This crucial phase determines students' future trajectories, offering specialized streams in Science, Commerce, and Humanities. With college admissions and competitive entrance examinations on the horizon, our program combines intensive academic preparation with comprehensive career guidance, personality development, and life skills training. Students receive focused mentorship to excel in board examinations while preparing for JEE, NEET, CLAT, and other professional entrance tests.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Our senior secondary curriculum offers diverse subject combinations within each stream, allowing students to align their education with career aspirations. The Science stream includes Physics, Chemistry, Biology/Mathematics, and Computer Science options for aspiring engineers, doctors, and scientists. Commerce stream offers Accountancy, Business Studies, Economics, and Mathematics for future business leaders and chartered accountants. Humanities stream encompasses History, Political Science, Economics, Psychology, and Sociology for those interested in law, social sciences, and liberal arts. Our expert faculty members bring deep subject knowledge, industry experience, and proven track records in board examination results.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "Beyond classroom teaching, we provide extensive support through test series, doubt-clearing sessions, revision programs, and mock examinations that simulate actual board and entrance test conditions. Our career counseling cell offers aptitude assessments, college admission guidance, scholarship information, and interview preparation. State-of-the-art facilities including advanced laboratories, well-stocked library, computer center, and dedicated study spaces create an environment conducive to focused learning. With emphasis on time management, stress handling, and goal-oriented preparation, we equip students with both knowledge and confidence to achieve their dreams and secure admission to premier institutions.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🎯",
-              title: "Stream Selection",
-              description:
-                "Science, Commerce, and Humanities with multiple subject combinations",
-            },
-            {
-              id: "f2",
-              icon: "👨‍🎓",
-              title: "Expert Faculty",
-              description:
-                "Subject specialists with proven track records in board results",
-            },
-            {
-              id: "f3",
-              icon: "📈",
-              title: "Entrance Exam Prep",
-              description:
-                "Coaching for JEE, NEET, CLAT, and other competitive examinations",
-            },
-            {
-              id: "f4",
-              icon: "🔬",
-              title: "Advanced Labs",
-              description:
-                "Cutting-edge facilities for Physics, Chemistry, Biology, and Computer Science",
-            },
-            {
-              id: "f5",
-              icon: "🎓",
-              title: "Career Counseling",
-              description: "Professional guidance for college admissions and career planning",
-            },
-            {
-              id: "f6",
-              icon: "📊",
-              title: "Mock Exams",
-              description: "Regular test series and assessments for board exam readiness",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Board Excellence",
-              description:
-                "Comprehensive preparation for CBSE Class XII board examinations with proven strategies",
-              icon: "🏆",
-            },
-            {
-              id: "u2",
-              title: "Competitive Success",
-              description:
-                "Targeted coaching for engineering, medical, law, and management entrance tests",
-              icon: "🎖️",
-            },
-            {
-              id: "u3",
-              title: "College Readiness",
-              description:
-                "Admission guidance, essay writing, interviews, and scholarship applications",
-              icon: "🎓",
-            },
-            {
-              id: "u4",
-              title: "Future Skills",
-              description:
-                "Critical thinking, research methodology, presentation skills, and professional development",
-              icon: "💡",
-            },
-          ],
-          specifications: [
-            { label: "Grade Levels", value: "XI-XII" },
-            { label: "Streams", value: "3 Major" },
-            { label: "Subject Options", value: "15+" },
-            { label: "Career Paths", value: "100+" },
-          ],
-        };
+        // support paginated shape or direct object
+        const doc = result?.docs && result.docs.length ? result.docs[0] : result;
 
-        setData(mockData);
+        if (doc) {
+          // normalize content: if string -> paragraphs array
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/) // split on double newlines
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          // image normalization
+          if (!doc.mainImage && doc.image) doc.mainImage = doc.image;
+          if (!doc.galleryImages && doc.images && Array.isArray(doc.images)) doc.galleryImages = doc.images;
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -266,16 +165,16 @@ const SeniorSecondaryPage = () => {
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                   {data?.title ? (
                     <>
-                      Senior Secondary{" "}
+                      {data.title.split(" ").slice(0, -1).join(" ")}{" "}
                       <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-sky-600 bg-clip-text text-transparent">
-                        Section
+                        {data.title.split(" ").slice(-1)[0]}
                       </span>
                     </>
                   ) : (
                     <>
-                      Senior Secondary{" "}
+                      Senior{" "}
                       <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                        Section
+                        Secondary
                       </span>
                     </>
                   )}

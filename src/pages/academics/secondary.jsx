@@ -66,131 +66,27 @@ const SecondaryPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/secondary`);
+        if (!res.ok) throw new Error('Failed to fetch secondary data');
+        const result = await res.json();
 
-        const mockData = {
-          title: "Secondary Section",
-          subtitle:
-            "Empowering Adolescents with Knowledge, Skills, and Values for Future Success",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80",
-            alt: "Secondary school students in modern classroom",
-          },
-          galleryImages: [
-            {
-              id: "g1",
-              url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80",
-              alt: "Students collaborating on projects",
-            },
-            {
-              id: "g2",
-              url: "https://images.unsplash.com/photo-1581726690015-c9861fa5057f?w=400&q=80",
-              alt: "Science laboratory activities",
-            },
-            {
-              id: "g3",
-              url: "https://images.unsplash.com/photo-1491841573634-28140fc7ced7?w=400&q=80",
-              alt: "Digital learning and research",
-            },
-          ],
-          content: [
-            {
-              id: "1",
-              paragraph:
-                "The Secondary Section at Sree Buddha Central School encompasses the critical middle and high school years (Classes VI to X, ages 11-15 years), a transformative period where students evolve from children into young adults. This phase marks the transition from foundational learning to specialized subject knowledge, where academic rigor intensifies and students begin to discover their individual strengths, interests, and career aspirations. Our comprehensive program is designed to challenge students intellectually while supporting their emotional and social development during these formative adolescent years.",
-            },
-            {
-              id: "2",
-              paragraph:
-                "Following the CBSE curriculum with enhanced depth and breadth, our secondary education program offers a balanced mix of core subjects including languages, mathematics, sciences, social sciences, and optional electives. Our qualified subject specialists employ advanced pedagogical methods, incorporating conceptual understanding, analytical thinking, practical applications, and technology integration. Well-equipped laboratories for Physics, Chemistry, Biology, and Computer Science enable hands-on experimentation, while our extensive library resources, digital learning platforms, and collaborative projects foster independent research and critical inquiry.",
-            },
-            {
-              id: "3",
-              paragraph:
-                "Beyond academics, we prepare students for the competitive world ahead through personality development programs, leadership opportunities, career guidance, and board examination preparation. Our mentorship system ensures that each student receives individual attention for academic concerns and personal challenges. Regular assessments, parent engagement, remedial classes for struggling learners, and enrichment programs for advanced students create a supportive ecosystem. With a focus on building confidence, resilience, time management, and study skills, we prepare students not just for board examinations but for lifelong learning and success in higher education and beyond.",
-            },
-          ],
-          features: [
-            {
-              id: "f1",
-              icon: "🎓",
-              title: "Specialized Faculty",
-              description:
-                "Subject matter experts with advanced degrees and teaching experience",
-            },
-            {
-              id: "f2",
-              icon: "🔬",
-              title: "Advanced Laboratories",
-              description:
-                "Fully equipped science and computer labs for practical learning",
-            },
-            {
-              id: "f3",
-              icon: "📊",
-              title: "Board Exam Preparation",
-              description:
-                "Comprehensive coaching and practice for CBSE Class X examinations",
-            },
-            {
-              id: "f4",
-              icon: "💻",
-              title: "Digital Learning",
-              description:
-                "Smart classrooms, e-learning resources, and online assessment tools",
-            },
-            {
-              id: "f5",
-              icon: "🎯",
-              title: "Career Guidance",
-              description: "Counseling and mentorship for stream selection and career planning",
-            },
-            {
-              id: "f6",
-              icon: "🏅",
-              title: "Competitive Edge",
-              description: "Preparation for olympiads, competitions, and scholarship exams",
-            },
-          ],
-          useCases: [
-            {
-              id: "u1",
-              title: "Academic Excellence",
-              description:
-                "Deep conceptual understanding, analytical skills, and subject mastery for board success",
-              icon: "📚",
-            },
-            {
-              id: "u2",
-              title: "Research & Innovation",
-              description:
-                "Project-based learning, scientific investigations, and creative problem-solving",
-              icon: "🔍",
-            },
-            {
-              id: "u3",
-              title: "Leadership Development",
-              description:
-                "Student council, clubs, events management, and public speaking opportunities",
-              icon: "👥",
-            },
-            {
-              id: "u4",
-              title: "Life Readiness",
-              description:
-                "Critical thinking, decision-making, emotional intelligence, and career awareness",
-              icon: "🌟",
-            },
-          ],
-          specifications: [
-            { label: "Grade Levels", value: "VI to X" },
-            { label: "Age Group", value: "11-15 Yrs" },
-            { label: "Subjects", value: "10+ Core" },
-            { label: "Lab Facilities", value: "4 Major" },
-          ],
-        };
+        const doc = result?.docs && result.docs.length ? result.docs[0] : result;
 
-        setData(mockData);
+        if (doc) {
+          if (typeof doc.content === 'string') {
+            const paragraphs = doc.content
+              .split(/\n\s*\n/) // split on double newlines into paragraph blocks
+              .map((p, i) => ({ id: `p-${i}`, paragraph: p }));
+            doc.content = paragraphs;
+          } else if (!Array.isArray(doc.content)) {
+            doc.content = [];
+          }
+
+          if (!doc.mainImage && doc.image) doc.mainImage = doc.image;
+          if (!doc.galleryImages && doc.images && Array.isArray(doc.images)) doc.galleryImages = doc.images;
+        }
+
+        setData(doc);
         setLoading(false);
       } catch (err) {
         setError(err.message);

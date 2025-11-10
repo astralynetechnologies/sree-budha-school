@@ -63,142 +63,56 @@ const EventsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedYear, setSelectedYear] = useState("2024");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/events`);
+        if (!res.ok) throw new Error('Failed to fetch events');
+        const result = await res.json();
 
-        const mockData = {
-          title: "School Events",
-          subtitle:
-            "Celebrating Learning, Culture, Sports, and Community Spirit",
-          mainImage: {
-            url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80",
-            alt: "School events and celebrations",
-          },
-          categories: [
-            { id: "all", name: "All Events", icon: "🎯" },
-            { id: "cultural", name: "Cultural", icon: "🎭" },
-            { id: "sports", name: "Sports", icon: "⚽" },
-            { id: "celebration", name: "Celebrations", icon: "🎉" },
-            { id: "competition", name: "Competitions", icon: "🏆" },
-          ],
-          upcomingEvents: [
-            {
-              id: "e1",
-              title: "Annual Sports Day",
-              category: "sports",
-              date: "December 15, 2024",
-              time: "9:00 AM - 4:00 PM",
-              venue: "School Sports Ground",
-              description: "Inter-house athletics competition featuring track and field events, relay races, and team sports. Students compete for house championships with medals and trophies for winners.",
-              image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&q=80",
-              highlights: [
-                "100m, 200m, 400m races",
-                "Long jump & High jump",
-                "Team relay competitions",
-                "Prize distribution ceremony"
-              ],
-            },
-            {
-              id: "e2",
-              title: "Science Exhibition",
-              category: "competition",
-              date: "December 20, 2024",
-              time: "10:00 AM - 2:00 PM",
-              venue: "Main Auditorium",
-              description: "Students showcase innovative science projects, working models, and experiments. Expert judges evaluate creativity, scientific approach, and presentation skills.",
-              image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&q=80",
-              highlights: [
-                "Working models display",
-                "Live demonstrations",
-                "Judging by experts",
-                "Awards for best projects"
-              ],
-            },
-            {
-              id: "e3",
-              title: "Winter Carnival",
-              category: "celebration",
-              date: "December 28, 2024",
-              time: "11:00 AM - 5:00 PM",
-              venue: "School Campus",
-              description: "End-of-year celebration with games, food stalls, cultural performances, talent shows, and fun activities for students and families.",
-              image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80",
-              highlights: [
-                "Game stalls & competitions",
-                "Food court",
-                "Cultural performances",
-                "Family fun activities"
-              ],
-            },
-          ],
-          recentEvents: [
-            {
-              id: "r1",
-              title: "Independence Day Celebration",
-              category: "celebration",
-              date: "August 15, 2024",
-              description: "Flag hoisting ceremony followed by cultural programs, patriotic songs, and speeches celebrating India's independence.",
-              image: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=400&q=80",
-              gallery: 45,
-            },
-            {
-              id: "r2",
-              title: "Inter-School Debate Competition",
-              category: "competition",
-              date: "October 5, 2024",
-              description: "Students from 15 schools participated in intense debates on current affairs. Our team secured second position overall.",
-              image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&q=80",
-              gallery: 28,
-            },
-            {
-              id: "r3",
-              title: "Diwali Celebration",
-              category: "cultural",
-              date: "November 1, 2024",
-              description: "Vibrant celebration featuring traditional performances, rangoli competition, diya decoration, and cultural programs.",
-              image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=400&q=80",
-              gallery: 62,
-            },
-            {
-              id: "r4",
-              title: "Annual Day 2024",
-              category: "cultural",
-              date: "November 20, 2024",
-              description: "Grand annual function showcasing student talents through dance, drama, music, and cultural performances. Chief Guest delivered inspiring address.",
-              image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&q=80",
-              gallery: 120,
-            },
-            {
-              id: "r5",
-              title: "Football Tournament Finals",
-              category: "sports",
-              date: "November 28, 2024",
-              description: "Thrilling inter-house football tournament concluded with Red House emerging as champions. Excellent sportsmanship displayed by all.",
-              image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80",
-              gallery: 38,
-            },
-            {
-              id: "r6",
-              title: "Children's Day Celebration",
-              category: "celebration",
-              date: "November 14, 2024",
-              description: "Special day dedicated to students with fun games, teacher performances, puppet shows, and treats for all children.",
-              image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80",
-              gallery: 52,
-            },
-          ],
-          eventStats: [
-            { label: "Annual Events", value: "50+", icon: "📅" },
-            { label: "Cultural Programs", value: "20+", icon: "🎭" },
-            { label: "Sports Competitions", value: "15+", icon: "🏅" },
-            { label: "Student Participation", value: "100%", icon: "👥" },
-          ],
+        const docs = result?.docs || [];
+
+        // Map docs to the UI-friendly shape used by this page
+        const events = docs.map((ev) => ({
+          id: ev.id ?? ev._id ?? String(Math.random()).slice(2),
+          title: ev.title,
+          category: (ev.category || '').toLowerCase(),
+          publishDate: ev.publishDate || ev.updatedAt || ev.createdAt,
+          date: ev.publishDate ? new Date(ev.publishDate).toLocaleDateString() : (ev.date || ''),
+          year: ev.publishDate ? String(new Date(ev.publishDate).getFullYear()) : (ev.year || ''),
+          description: ev.content || ev.description || '',
+          coverImage: ev.images?.url || ev.coverImage || (ev.images && typeof ev.images === 'string' ? ev.images : null),
+          photoCount: ev.photoCount || 0,
+          videoCount: ev.videoCount || 0,
+        }));
+
+        // compute years and categories from events
+        const yearsSet = new Set(events.map((e) => e.year).filter(Boolean));
+        const years = Array.from(yearsSet).sort((a, b) => Number(b) - Number(a));
+
+        const categoryIcons = { cultural: '🎭', sports: '⚽', celebration: '🎉', academic: '📚' };
+        const categoriesSet = new Map();
+        events.forEach((e) => {
+          const id = e.category || 'other';
+          if (!categoriesSet.has(id)) {
+            categoriesSet.set(id, { id, name: id === 'other' ? 'Other' : id.charAt(0).toUpperCase() + id.slice(1), icon: categoryIcons[id] || '🎯' });
+          }
+        });
+        const categories = [{ id: 'all', name: 'All Events', icon: '🎯' }, ...Array.from(categoriesSet.values())];
+
+        const dataObj = {
+          title: 'School Events',
+          subtitle: 'A Visual Journey Through Our Memorable Celebrations and Activities',
+          years: years.length ? years : ['2024'],
+          categories,
+          events,
         };
 
-        setData(mockData);
+        setData(dataObj);
+        // set default selected year to the most recent if available
+        if (years.length) setSelectedYear(years[0]);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -209,16 +123,14 @@ const EventsPage = () => {
     fetchData();
   }, []);
 
-  const filteredUpcomingEvents = data?.upcomingEvents?.filter(
-    event => selectedCategory === "all" || event.category === selectedCategory
-  );
-
-  const filteredRecentEvents = data?.recentEvents?.filter(
-    event => selectedCategory === "all" || event.category === selectedCategory
+  const filteredEvents = data?.events?.filter(
+    event => 
+      (selectedCategory === "all" || event.category === selectedCategory) &&
+      event.year === selectedYear
   );
 
   return (
-    <div className="relative bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-16 lg:py-24 overflow-hidden">
+  <div className="relative bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-16 lg:py-24 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600 rounded-full translate-x-1/3 -translate-y-1/3"></div>
@@ -250,7 +162,7 @@ const EventsPage = () => {
                 <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full border border-blue-300 mb-6">
                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
                   <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent font-semibold text-sm tracking-wide">
-                    SCHOOL ACTIVITIES
+                    EVENT GALLERY
                   </span>
                 </div>
               </Reveal>
@@ -273,185 +185,153 @@ const EventsPage = () => {
           )}
         </div>
 
-        {/* Event Statistics */}
-        {!loading && !error && data?.eventStats && (
-          <div className="mb-16">
+        {/* Year and Category Filters */}
+        {!loading && !error && (
+          <div className="mb-12">
+            {/* Year Selector */}
             <Reveal delay={300}>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {data.eventStats.map((stat, index) => (
-                  <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-center">
-                    <div className="text-4xl mb-3">{stat.icon}</div>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
-                      {stat.value}
-                    </div>
-                    <div className="text-gray-600 font-semibold text-sm">{stat.label}</div>
-                  </div>
+              <div className="flex justify-center gap-3 mb-6">
+                {data?.years?.map((year) => (
+                  <button
+                    key={year}
+                    onClick={() => setSelectedYear(year)}
+                    className={`px-6 py-2 rounded-full font-bold transition-all duration-300 ${
+                      selectedYear === year
+                        ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg scale-105"
+                        : "bg-white text-gray-700 hover:bg-blue-50 shadow-md hover:shadow-lg"
+                    }`}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Category Filter */}
+            <Reveal delay={400}>
+              <div className="flex flex-wrap justify-center gap-3">
+                {data?.categories?.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${
+                      selectedCategory === category.id
+                        ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg scale-105"
+                        : "bg-white text-gray-700 hover:bg-blue-50 shadow-md hover:shadow-lg"
+                    }`}
+                  >
+                    <span className="mr-2">{category.icon}</span>
+                    {category.name}
+                  </button>
                 ))}
               </div>
             </Reveal>
           </div>
         )}
 
-        {/* Category Filter */}
-        {!loading && !error && data?.categories && (
-          <Reveal delay={400}>
-            <div className="flex flex-wrap justify-center gap-3 mb-16">
-              {data.categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                    selectedCategory === category.id
-                      ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg scale-105"
-                      : "bg-white text-gray-700 hover:bg-blue-50 shadow-md hover:shadow-lg"
-                  }`}
-                >
-                  <span className="mr-2">{category.icon}</span>
-                  {category.name}
-                </button>
-              ))}
-            </div>
-          </Reveal>
-        )}
-
-        {/* Upcoming Events Section */}
-        {!loading && !error && filteredUpcomingEvents && filteredUpcomingEvents.length > 0 && (
+        {/* Events Grid */}
+        {!loading && !error && filteredEvents && (
           <div className="mb-20">
-            <Reveal delay={500}>
-                <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
-                Upcoming{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                  Events
-                </span>
-              </h3>
-              <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-                Mark your calendars for these exciting upcoming activities
-              </p>
-            </Reveal>
+            {filteredEvents.length === 0 ? (
+              <Reveal delay={500}>
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">📅</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">No Events Found</h3>
+                  <p className="text-gray-600">Try selecting a different category or year</p>
+                </div>
+              </Reveal>
+            ) : (
+              <>
+                <Reveal delay={500}>
+                  <div className="text-center mb-8">
+                    <p className="text-lg text-gray-600">
+                      Showing <span className="font-bold text-blue-600">{filteredEvents.length}</span> events
+                    </p>
+                  </div>
+                </Reveal>
 
-            <div className="space-y-8">
-              {filteredUpcomingEvents.map((event, index) => (
-                <Reveal key={event.id} delay={600 + index * 100}>
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
-                    <div className="grid lg:grid-cols-2 gap-6">
-                      <div className="relative h-64 lg:h-auto">
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute top-4 right-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                          {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filteredEvents.map((event, index) => (
+                    <Reveal key={event.id} delay={600 + index * 50}>
+                      <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group cursor-pointer">
+                        <div className="relative h-56 overflow-hidden">
+                          <img
+                            src={event.coverImage}
+                            alt={event.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                          
+                          {/* Category Badge */}
+                          <div className="absolute top-4 right-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                            {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
+                          </div>
+
+                          {/* Media Count */}
+                          {/* <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-900 flex items-center gap-1">
+                                📸 {event.photoCount}
+                              </span>
+                              {event.videoCount > 0 && (
+                                <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-900 flex items-center gap-1">
+                                  🎥 {event.videoCount}
+                                </span>
+                              )}
+                            </div>
+                          </div> */}
                         </div>
-                      </div>
-                      <div className="p-6 lg:p-8">
-                        <h4 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                          {event.title}
-                        </h4>
-                        <div className="space-y-2 mb-4">
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <span className="text-xl">📅</span>
+
+                        <div className="p-6">
+                          <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <span className="text-purple-600">📅</span>
                             <span className="font-semibold">{event.date}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <span className="text-xl">⏰</span>
-                            <span>{event.time}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <span className="text-xl">📍</span>
-                            <span>{event.venue}</span>
-                          </div>
-                        </div>
-                        <p className="text-gray-700 mb-4 leading-relaxed">
-                          {event.description}
-                        </p>
-                        <div className="space-y-2">
-                          <h5 className="font-bold text-gray-900">Highlights:</h5>
-                          <ul className="space-y-1">
-                            {event.highlights.map((highlight, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-gray-600">
-                                <span className="text-blue-600 mt-1">▪</span>
-                                <span>{highlight}</span>
-                              </li>
+                          
+                          <h4 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                            {event.title}
+                          </h4>
+                          
+                          <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                            {event.description?.split('\n').map((line, i, arr) => (
+                              <React.Fragment key={i}>
+                                {line}
+                                {i < arr.length - 1 && <br />}
+                              </React.Fragment>
                             ))}
-                          </ul>
+                          </p>
+
+                          {/* <button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                            <span>View Gallery</span>
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button> */}
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Recent Events Gallery */}
-        {!loading && !error && filteredRecentEvents && filteredRecentEvents.length > 0 && (
-          <div className="mb-20">
-            <Reveal delay={800}>
-                <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
-                Recent{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                  Events
-                </span>
-              </h3>
-              <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-                Highlights from our recent celebrations and activities
-              </p>
-            </Reveal>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredRecentEvents.map((event, index) => (
-                <Reveal key={event.id} delay={900 + index * 100}>
-                  <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <div className="flex items-center justify-between">
-                          <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-900">
-                            {event.date}
-                          </span>
-                          <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                            📸 {event.gallery} photos
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
-                        {event.title}
-                      </h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {event.description}
-                      </p>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         )}
 
         {/* Call to Action */}
-        <Reveal delay={1100}>
-          <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 rounded-2xl p-8 lg:p-12 shadow-2xl text-center">
+        <Reveal delay={1000}>
+          <div className="bg-gradient-to-r from-blue-600 via-cyan-600 to-sky-600 rounded-2xl p-8 lg:p-12 shadow-2xl text-center">
             <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-              Stay Connected
+              Stay Updated with Our Events
             </h3>
-            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              Follow our social media channels to stay updated on all upcoming events, celebrations, and student achievements
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Follow us on social media and subscribe to our newsletter for the latest updates on school events and activities
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-purple-600 font-bold px-8 py-4 rounded-xl hover:bg-purple-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300">
-                View Event Calendar
+              <button className="bg-white text-blue-600 font-bold px-8 py-4 rounded-xl hover:bg-blue-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300">
+                Subscribe to Newsletter
               </button>
-              <button className="bg-purple-700 text-white font-bold px-8 py-4 rounded-xl hover:bg-purple-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300">
-                Subscribe to Updates
+              <button className="bg-blue-700 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300">
+                Follow on Social Media
               </button>
             </div>
           </div>
@@ -459,11 +339,11 @@ const EventsPage = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-3 h-3 bg-purple-600 rounded-full animate-pulse"></div>
-      <div className="absolute top-32 right-20 w-2 h-2 bg-pink-500 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
-      <div className="absolute bottom-20 left-20 w-4 h-4 bg-orange-400 rounded-full animate-pulse" style={{ animationDelay: "2s" }}></div>
-      <div className="absolute bottom-40 right-32 w-3 h-3 bg-purple-600 rounded-full animate-pulse" style={{ animationDelay: "1.5s" }}></div>
-      <div className="absolute top-1/2 left-32 w-2 h-2 bg-pink-500 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+  <div className="absolute top-20 left-10 w-3 h-3 bg-blue-600 rounded-full animate-pulse"></div>
+  <div className="absolute top-32 right-20 w-2 h-2 bg-cyan-500 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
+  <div className="absolute bottom-20 left-20 w-4 h-4 bg-sky-400 rounded-full animate-pulse" style={{ animationDelay: "2s" }}></div>
+  <div className="absolute bottom-40 right-32 w-3 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: "1.5s" }}></div>
+  <div className="absolute top-1/2 left-32 w-2 h-2 bg-cyan-500 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Link from 'next/link';
 
 const SchoolEvents = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -167,30 +168,40 @@ const SchoolEvents = () => {
           )}
         </div>
 
-        {/* View More/Less Section */}
+        {/* View More / Redirect to Events Page */}
         {!loading && showButton && (
           <div className="text-center">
-            <p className="mb-6 text-lg" style={{ color: '#6E6E6E' }}>
-              {loadingMore 
-                ? "Loading..." 
-                : displayedEvents === 3 
-                  ? "View more upcoming events and activities" 
-                  : `Showing all ${announcements.length} events`
-              }
+            <p className="mb-6 text-lg text-gray-600">
+              {loadingMore
+                ? "Loading..."
+                : displayedEvents === 3
+                ? "View more upcoming events and activities"
+                : `Showing all ${announcements.length} events`}
             </p>
-            <button
-              onClick={handleViewMoreLess}
-              className="px-8 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-300 shadow-md"
-              style={{ backgroundColor: '#0D47A1' }}
-              disabled={loadingMore}
-            >
-              {loadingMore 
-                ? "Loading..." 
-                : displayedEvents === 3 
-                  ? "View More" 
-                  : "View Less"
-              }
-            </button>
+
+            {loadingMore ? (
+              <button
+                className="px-8 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-300 shadow-md bg-blue-700"
+                disabled
+              >
+                Loading...
+              </button>
+            ) : displayedEvents === 3 ? (
+              <Link href="/non-academics/events" legacyBehavior>
+                <a
+                  className="px-8 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-300 shadow-md inline-block bg-blue-700"
+                >
+                  View More
+                </a>
+              </Link>
+            ) : (
+              <button
+                onClick={() => setDisplayedEvents(3)}
+                className="px-8 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-300 shadow-md bg-blue-700"
+              >
+                View Less
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -198,4 +209,4 @@ const SchoolEvents = () => {
   );
 };
 
-export default SchoolEvents;  
+export default SchoolEvents;
