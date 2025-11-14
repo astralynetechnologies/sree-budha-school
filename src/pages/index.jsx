@@ -97,6 +97,21 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, [images.length, isLoading]);
 
+  // Decide whether to show background video or fallback to image carousel
+  const [showVideo, setShowVideo] = useState(false);
+  useEffect(() => {
+    // Show video on screens >= md (768px) by default, otherwise show images
+    const mq = typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)');
+    const setFromMq = () => setShowVideo(!!(mq && mq.matches));
+    setFromMq();
+    if (mq && mq.addEventListener) mq.addEventListener('change', setFromMq);
+    else if (mq && mq.addListener) mq.addListener(setFromMq);
+    return () => {
+      if (mq && mq.removeEventListener) mq.removeEventListener('change', setFromMq);
+      else if (mq && mq.removeListener) mq.removeListener(setFromMq);
+    };
+  }, []);
+
   const previousImage = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
@@ -166,15 +181,32 @@ export default function Home() {
           <HeroSkeleton />
         ) : (
           <>
-            {/* Background image */}
+            {/* Background Video - YouTube Embed (only on larger screens) */}
+            {showVideo && (
+              <div className="absolute inset-0 overflow-hidden">
+                <iframe
+                  className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2"
+                  src="https://www.youtube.com/embed/svCHzk2kfZk?autoplay=1&mute=1&loop=1&playlist=svCHzk2kfZk&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+                  title="School Background Video"
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                />
+              </div>
+            )}
+            
+            {/* Fallback: Background image carousel (hidden when video loads) */}
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 animate-zoom-in animation-delay-100"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 animate-zoom-in animation-delay-100 -z-10"
               style={{ 
                 backgroundImage: images.length === 0
                   ? `url('/school-front.png')`
                   : `url('${images[currentIndex]}')`
               }}
             />
+            
+            {/* Overlay for contrast and readability */}
+            <div className="absolute inset-0 bg-black/40 pointer-events-none animate-fade-in animation-delay-200" />
             {/* Subtle overlay for contrast */}
             <div className="absolute inset-0 bg-black/30 pointer-events-none animate-fade-in animation-delay-200" />
 
@@ -186,8 +218,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Navigation Buttons - only show if we have multiple images */}
-            {images.length > 1 && (
+            {/* Navigation Buttons - only show if we have multiple images AND the image carousel is visible */}
+            {!showVideo && images.length > 1 && (
               <>
                 <button
                   onClick={previousImage}
@@ -211,8 +243,8 @@ export default function Home() {
               </>
             )}
 
-            {/* Image indicators */}
-            {images.length > 1 && (
+            {/* Image indicators - only show when images are visible */}
+            {!showVideo && images.length > 1 && (
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2 animate-fade-in-up animation-delay-700">
                 {images.map((_, index) => (
                   <button
