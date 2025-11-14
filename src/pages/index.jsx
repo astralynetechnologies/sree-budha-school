@@ -123,22 +123,7 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, [images.length, isLoading]);
 
-  // Decide whether to show background video or fallback to image carousel
-  const [showVideo, setShowVideo] = useState(false);
-  useEffect(() => {
-    // Show video on screens >= md (768px) by default, otherwise show images
-    const mq =
-      typeof window !== "undefined" && window.matchMedia("(min-width: 768px)");
-    const setFromMq = () => setShowVideo(!!(mq && mq.matches));
-    setFromMq();
-    if (mq && mq.addEventListener) mq.addEventListener("change", setFromMq);
-    else if (mq && mq.addListener) mq.addListener(setFromMq);
-    return () => {
-      if (mq && mq.removeEventListener)
-        mq.removeEventListener("change", setFromMq);
-      else if (mq && mq.removeListener) mq.removeListener(setFromMq);
-    };
-  }, []);
+  // (Images are fetched for other sections; hero now uses local video only)
 
   const previousImage = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
@@ -211,22 +196,17 @@ export default function Home() {
         ) : (
           <>
             {/* Background Video - YouTube Embed (only on larger screens) */}
-            {
-              <div className="absolute inset-0 overflow-hidden">
-                <video src="/assets/herovideo.mp4" autoPlay loop></video>
-              </div>
-            }
-
-            {/* Fallback: Background image carousel (hidden when video loads) */}
-            <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-[background-image] duration-700 animate-zoom-in animation-delay-100 -z-10"
-              style={{
-                backgroundImage:
-                  images.length === 0
-                    ? `url('/school-front.png')`
-                    : `url('${images[currentIndex]}')`,
-              }}
-            />
+            <div className="absolute inset-0 overflow-hidden -z-20">
+              <video
+                src="/assets/herovideo.mp4"
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+              />
+            </div>
 
             {/* Overlay for contrast and readability */}
             <div className="absolute inset-0 bg-black/40 pointer-events-none animate-fade-in animation-delay-200" />
@@ -250,75 +230,12 @@ export default function Home() {
               </div>
 
               {/* Dropdown Button */}
-              <div className="animate-bounce-in animation-delay-400">
+              <div className="z-50 animate-bounce-in animation-delay-400">
                 <AnnouncementBoard />
               </div>
             </div>
 
-            {/* Navigation Buttons - only show if we have multiple images AND the image carousel is visible */}
-            {!showVideo && images.length > 1 && (
-              <>
-                <button
-                  onClick={previousImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40 animate-slide-right animation-delay-500"
-                  aria-label="Previous image"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-
-                <button
-                  onClick={nextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#0D47A1] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 opacity-40 animate-slide-left animation-delay-600"
-                  aria-label="Next image"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </>
-            )}
-
-            {/* Image indicators - only show when images are visible */}
-            {!showVideo && images.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2 animate-fade-in-up animation-delay-700">
-                {images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 animate-pop-in animation-delay-${
-                      700 + index * 100
-                    } ${
-                      index === currentIndex
-                        ? "bg-white"
-                        : "bg-white/50 hover:bg-white/75"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            )}
+            {/* Removed image navigation and indicators — hero now exclusively uses the video */}
           </>
         )}
       </div>
