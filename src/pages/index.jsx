@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import Head from "next/head";
 import QuickInformation from "@/components/QuickInformation";
 import SchoolEvents from "@/components/SchoolEvents";
 import LeadersMessages from "@/components/LeadersMessages";
@@ -64,6 +65,9 @@ function Reveal({
 }
 
 export default function Home() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://www.sbcs.edu.in";
+  const seoDescription =
+    "Sree Buddha Central School in Karunagappally — nurturing minds since 1993. Admissions, academics, facilities and community-focused education.";
   // State for CMS images
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -189,6 +193,55 @@ export default function Home() {
 
   return (
     <div className="animate-fade-in">
+      <Head>
+        <title>Sree Buddha Central School (SBSC) — Karunagappally</title>
+        <meta name="description" content={seoDescription} />
+        <meta name="keywords" content="Sree Buddha Central School, Sree Buddha School, SBSC, SBCS, Sree Budha, sbcs school, Karunagappally" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href={siteUrl} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Sree Buddha Central School" />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:url" content={siteUrl} />
+        <meta property="og:image" content={`${siteUrl}/school-front.png`} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Sree Buddha Central School" />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content={`${siteUrl}/school-front.png`} />
+
+        {/* Link to sitemap (ensure NEXT_PUBLIC_SITE_URL is set in production) */}
+        <link rel="sitemap" type="application/xml" href={`${siteUrl}/sitemap.xml`} />
+
+        {/* JSON-LD Organization with alternate names and keywords */}
+        <script
+          key="ldjson"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "EducationalOrganization",
+              name: "Sree Buddha Central School",
+              alternateName: ["Sree Buddha School", "SBSC", "SBCS", "Sree Budha", "SBSC School", "SBCS School"],
+              url: siteUrl,
+              logo: `${siteUrl}/favicon.png`,
+              sameAs: [],
+              keywords: ["Sree Buddha Central School","Sree Buddha School","SBSC","SBCS","Sree Budha","sbcs"],
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "",
+                addressLocality: "Karunagappally",
+                addressRegion: "",
+                postalCode: "",
+                addressCountry: "IN",
+              },
+            }),
+          }}
+        />
+      </Head>
       {/* Hero Section with Background Carousel */}
       <div className="relative animate-slide-up">
         {isLoading ? (
@@ -217,16 +270,21 @@ export default function Home() {
             <div className="relative z-10 h-[55vh] md:h-[60vh] lg:h-[70vh] flex items-end justify-start p-4 md:p-6 lg:p-8 animate-slide-up animation-delay-300">
               {/* Centered hero title (overlay on video/image) */}
               <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-                <h1 className="text-center">
-                  <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white">
+                <div className="text-center">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white">
                     <span className="inline-block bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-200 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(251,191,36,0.4)]">
                       Sree Buddha
                     </span>
-                  </div>
-                  <div className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-amber-50 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                  </h1>
+                  <h2 className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-amber-50 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
                     Central School
-                  </div>
-                </h1>
+                  </h2>
+
+                  {/* Visible subtitle containing keyword variations (keeps language natural) */}
+                  <p className="mt-3 text-sm sm:text-base text-amber-100/90 max-w-2xl mx-auto">
+                    Sree Buddha Central School (also called Sree Buddha School, SBSC or SBCS) in Karunagappally — admissions, academics, facilities and community education.
+                  </p>
+                </div>
               </div>
 
               {/* Dropdown Button */}
