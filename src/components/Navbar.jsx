@@ -48,10 +48,10 @@ const Navbar = () => {
                 className="h-16 w-auto object-contain"
               />
             </Link>
-            <img 
-              src="/excellence.png" 
-              alt="25th Anniversary" 
-              className="h-14 w-auto object-contain" 
+            <img
+              src="/excellence.png"
+              alt="Sree Buddha Central School anniversary badge"
+              className="h-14 w-auto object-contain"
             />
           </div>
         </div>
@@ -105,8 +105,8 @@ const Navbar = () => {
                 className="w-72 h-17 object-contain"
               />
             </Link>
-            {/* 25th Anniversary Badge */}
-            <img src="/excellence.png" alt="25th Anniversary" className="w-30 h-16 object-contain" />
+            {/* Anniversary Badge */}
+            <img src="/excellence.png" alt="Sree Buddha Central School" className="w-30 h-16 object-contain" />
           </div>
 
           {/* Contact Info (Icon Left, Label Above Value) */}
