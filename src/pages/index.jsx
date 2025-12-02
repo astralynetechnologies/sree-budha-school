@@ -254,6 +254,43 @@ export default function Home() {
             }),
           }}
         />
+        {/* FAQ JSON-LD for rich results */}
+        <script
+          key="faq-json"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "How do I apply for admission at Sree Buddha Central School (SBSC)?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Visit our Admissions page for the latest admission form, eligibility criteria and application deadlines. You can also contact the school office at 0479-2562489 for assistance."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "Where is Sree Buddha Central School located?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "SBSC is located in Edakkulangara, Karunagappally, Kerala (PIN 690523). For directions, see the Contact page or use the plus code 3HF4+R7R."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "What classes and curriculum does SBSC offer?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Sree Buddha Central School offers pre-primary to senior secondary education following a balanced curriculum focused on academics, co-curricular activities and character development. Check the Academics section for details."
+                  }
+                }
+              ]
+            }),
+          }}
+        />
       </Head>
       {/* Hero Section with Background Carousel */}
       <div className="relative animate-slide-up">
@@ -292,7 +329,6 @@ export default function Home() {
                   <h2 className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white tracking-wide">
                     Central School
                   </h2>
-
                   {/* Visible subtitle containing keyword variations (keeps language natural) */}
                   <p className="mt-3 text-sm sm:text-base text-white max-w-2xl mx-auto">
                     Sree Buddha Central School in Karunagappally — admissions, academics, facilities and community education.
