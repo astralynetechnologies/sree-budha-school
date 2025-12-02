@@ -65,7 +65,7 @@ function Reveal({
 }
 
 export default function Home() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://www.sbcs.edu.in";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sbcs.edu.in";
   const seoDescription =
     "Sree Buddha Central School in Karunagappally — nurturing minds since 1993. Admissions, academics, facilities and community-focused education.";
   // State for CMS images
@@ -196,7 +196,8 @@ export default function Home() {
       <Head>
         <title>Sree Buddha Central School (SBSC) — Karunagappally</title>
         <meta name="description" content={seoDescription} />
-        <meta name="keywords" content="Sree Buddha Central School, Sree Buddha School, SBSC, SBCS, Sree Budha, sbcs school, Karunagappally" />
+        <meta name="keywords" content="Sree Buddha Central School, Sree Buddha School, SBSC, SBCS, Sree Budha, sbcs, sbcs school, central school, schools in Karunagapally, Karunagappally" />
+        <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href={siteUrl} />
 
@@ -205,18 +206,18 @@ export default function Home() {
         <meta property="og:title" content="Sree Buddha Central School" />
         <meta property="og:description" content={seoDescription} />
         <meta property="og:url" content={siteUrl} />
-        <meta property="og:image" content={`${siteUrl}/school-front.png`} />
+        <meta property="og:image" content={`${siteUrl}/og-image.svg`} />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Sree Buddha Central School" />
         <meta name="twitter:description" content={seoDescription} />
-        <meta name="twitter:image" content={`${siteUrl}/school-front.png`} />
+        <meta name="twitter:image" content={`${siteUrl}/og-image.svg`} />
 
         {/* Link to sitemap (ensure NEXT_PUBLIC_SITE_URL is set in production) */}
         <link rel="sitemap" type="application/xml" href={`${siteUrl}/sitemap.xml`} />
 
-        {/* JSON-LD Organization with alternate names and keywords */}
+        {/* JSON-LD Organization with alternate names, keywords and local coverage */}
         <script
           key="ldjson"
           type="application/ld+json"
@@ -229,15 +230,27 @@ export default function Home() {
               url: siteUrl,
               logo: `${siteUrl}/favicon.png`,
               sameAs: [],
-              keywords: ["Sree Buddha Central School","Sree Buddha School","SBSC","SBCS","Sree Budha","sbcs"],
+              contactPoint: [{
+                "@type": "ContactPoint",
+                telephone: "",
+                contactType: "Admissions",
+                areaServed: "IN"
+              }],
+              keywords: ["Sree Buddha Central School","Sree Buddha School","SBSC","SBCS","Sree Budha","sbcs","schools in Karunagapally"],
+              areaServed: {
+                "@type": "Place",
+                name: "Karunagappally"
+              },
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "",
+                streetAddress: "Edakkulangara",
                 addressLocality: "Karunagappally",
-                addressRegion: "",
-                postalCode: "",
+                addressRegion: "Kerala",
+                postalCode: "690523",
                 addressCountry: "IN",
               },
+              // plusCode: 3HF4+R7R (Edakkulangara, Karunagappally)
+              // If you have coordinates, set geo: {"@type":"GeoCoordinates","latitude":"..","longitude":".."}
             }),
           }}
         />
@@ -282,7 +295,7 @@ export default function Home() {
 
                   {/* Visible subtitle containing keyword variations (keeps language natural) */}
                   <p className="mt-3 text-sm sm:text-base text-amber-100/90 max-w-2xl mx-auto">
-                    Sree Buddha Central School (also called Sree Buddha School, SBSC or SBCS) in Karunagappally — admissions, academics, facilities and community education.
+                    Sree Buddha Central School in Karunagappally — admissions, academics, facilities and community education.
                   </p>
                 </div>
               </div>
