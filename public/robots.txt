@@ -1,5 +1,5 @@
 User-agent: *
 Disallow:
 
-# Sitemap (update to full URL if you have a custom domain)
-Sitemap: /sitemap.xml
+# Sitemap
+Sitemap: https://www.sbcs.edu.in/sitemap.xml
