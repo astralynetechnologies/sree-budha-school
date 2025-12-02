@@ -1,0 +1,8 @@
+# SBSC machine-readable LLMs summary
+# Last updated: 2025-12-02
+
+SBSC-Assistant | sbsc/assistant-v1 | internal | tasks: faq,admissions,directions | endpoint: /api/ai/assistant | version: 1.0 | contact: sbcskarunagappally@gmail.com
+
+# Notes:
+# - This file is human-readable; use /.well-known/ai-models.json for structured programmatic discovery.
+# - Do NOT include credentials or private endpoints in public files.
