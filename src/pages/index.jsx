@@ -285,16 +285,16 @@ export default function Home() {
               <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
                 <div className="text-center">
                   <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white">
-                    <span className="inline-block bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-200 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(251,191,36,0.4)]">
+                    <span className="inline-block  bg-clip-text text-white ">
                       Sree Buddha
                     </span>
                   </h1>
-                  <h2 className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-amber-50 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                  <h2 className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white tracking-wide">
                     Central School
                   </h2>
 
                   {/* Visible subtitle containing keyword variations (keeps language natural) */}
-                  <p className="mt-3 text-sm sm:text-base text-amber-100/90 max-w-2xl mx-auto">
+                  <p className="mt-3 text-sm sm:text-base text-white max-w-2xl mx-auto">
                     Sree Buddha Central School in Karunagappally — admissions, academics, facilities and community education.
                   </p>
                 </div>

@@ -50,7 +50,7 @@ const Navbar = () => {
             </Link>
             <img
               src="/excellence.png"
-              alt="Sree Buddha Central School anniversary badge"
+              alt="Sree Buddha Central School"
               className="h-14 w-auto object-contain"
             />
           </div>
