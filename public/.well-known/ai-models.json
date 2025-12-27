@@ -1,0 +1,24 @@
+{
+  "lastUpdated": "2025-12-02",
+  "organization": {
+    "name": "Sree Buddha Central School",
+    "url": "https://www.sbcs.edu.in",
+    "contact": {
+      "email": "sbcskarunagappally@gmail.com",
+      "telephone": "0479-2562489"
+    }
+  },
+  "disclaimer": "Public machine-readable listing of AI models and endpoints for SBSC. No private keys or sensitive credentials are included.",
+  "models": [
+    {
+      "name": "SBSC-Assistant",
+      "id": "sbsc/assistant-v1",
+      "provider": "internal",
+      "description": "FAQ and admissions assistant providing information about SBSC (admissions, contact, directions).",
+      "tasks": ["faq", "admissions", "directions"],
+      "public": true,
+      "endpoint": "/api/ai/assistant",
+      "version": "1.0"
+    }
+  ]
+}
