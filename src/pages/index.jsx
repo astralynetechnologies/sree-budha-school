@@ -520,7 +520,7 @@ export default function Home() {
         </Reveal>
 
         {/* About Us Section - Consistent with Welcome Design */}
-        <div className="relative bg-gradient-to-br from-gray-50 via-white to-gray-50 py-20 overflow-hidden">
+        <div id="about-us" className="relative bg-gradient-to-br from-gray-50 via-white to-gray-50 py-20 overflow-hidden">
           {/* Background Pattern - Consistent with Welcome Section */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-0 right-0 w-80 h-80 bg-[#0D47A1] rounded-full translate-x-1/3 -translate-y-1/3"></div>
