@@ -43,7 +43,7 @@ const Navbar = () => {
   return (
     <div className="w-full">
       {/* Mobile Header */}
-      <div className="md:hidden">
+      <div className="2xl:hidden">
         {/* Top Layer - Logos with accent background */}
         <div className="bg-gray-100 px-4 py-3 flex items-center justify-center">
           <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Main Header */}
-      <div className="hidden md:block bg-gradient-to-r from-white to-[#0D47A1]/5 px-4 lg:px-6 shadow-lg relative overflow-hidden">
+      <div className="hidden 2xl:block bg-gradient-to-r from-white to-[#0D47A1]/5 px-4 lg:px-6 shadow-lg relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10 py-1.5">
           {/* Logo Section */}
           <div className="flex items-center md:gap-2 lg:gap-4">
@@ -163,7 +163,7 @@ const Navbar = () => {
       </div>
 
       {/* Navigation Menu - Desktop */}
-      <nav className="hidden md:block bg-[#0D47A1] shadow-lg sticky top-0 z-40">
+      <nav className="hidden 2xl:block bg-[#0D47A1] shadow-lg sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-1 md:px-2 lg:px-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-0.5 md:space-x-1 lg:space-x-2">
@@ -579,7 +579,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50">
+        <div className="xl:hidden fixed inset-0 z-50">
           {/* Background overlay */}
           <div
             className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
