@@ -176,140 +176,142 @@ const Navbar = () => {
                   The School
                   <ChevronDown className="w-3 h-3 md:w-4 md:h-4 ml-0.5 md:ml-1 transition-transform group-hover:rotate-180" />
                 </button>
-                <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-52 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                  <Link
-                    href="/#about-us"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    About Us
-                  </Link>
-                  <Link
-                    href="/achievements"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Achievements
-                  </Link>
-                  <Link
-                    href="/the-school/administration"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Administration
-                  </Link>
-                  <Link
-                    href="/the-school/management"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    SMC
-                  </Link>
-                  <Link
-                    href="/about-school/messages"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Chairman's and Principal's Messages
-                  </Link>
-                  <Link
-                    href="/documents/disclosure"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Mandatory Disclosure
-                  </Link>
-                  <Link
-                    href="/the-school/school-assembly"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    School Assembly
-                  </Link>
-                  <Link
-                    href="/admission"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Admission
-                  </Link>
-                  <Link
-                    href="/the-school/feeStructure"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Fee Structure
-                  </Link>
-                  <Link
-                    href="/documents/tc"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    TC
-                  </Link>
-                  <Link
-                    href="/the-school/newsLetter"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Annual News Letter
-                  </Link>
-                  <Link
-                    href="/about-school/associations"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    PTA
-                  </Link>
-                  <Link
-                    href="/the-school/institutions"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Sister Concerns
-                  </Link>
-                  <Link
-                    href="/the-school/textbooks-list"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    List of text books
-                  </Link>
-                  <Link
-                    href="/the-school/school-uniforms"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    School Uniforms
-                  </Link>
-                  <Link
-                    href="/bus-information"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Bus Route
-                  </Link>
-                  <Link
-                    href="/the-school/general-rules"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    General Rules
-                  </Link>
-                  <Link
-                    href="/the-school/objectives"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Objectives
-                  </Link>
-                  <Link
-                    href="/about-school/missionandvission"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
-                    onClick={closeDropdown}
-                  >
-                    Mission & Vision
-                  </Link>
+                <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-[480px] z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                  <div className="grid grid-cols-2 gap-x-4">
+                    <Link
+                      href="/#about-us"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      About Us
+                    </Link>
+                    <Link
+                      href="/achievements"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Achievements
+                    </Link>
+                    <Link
+                      href="/the-school/administration"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Administration
+                    </Link>
+                    <Link
+                      href="/the-school/management"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      SMC
+                    </Link>
+                    <Link
+                      href="/about-school/messages"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Chairman's and Principal's Messages
+                    </Link>
+                    {/* <Link
+                      href="/documents/disclosure"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Mandatory Disclosure
+                    </Link> */}
+                    <Link
+                      href="/the-school/school-assembly"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      School Assembly
+                    </Link>
+                    <Link
+                      href="/admission"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Admission
+                    </Link>
+                    <Link
+                      href="/the-school/feeStructure"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Fee Structure
+                    </Link>
+                    <Link
+                      href="/documents/tc"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      TC
+                    </Link>
+                    <Link
+                      href="/the-school/newsLetter"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Annual News Letter
+                    </Link>
+                    <Link
+                      href="/about-school/associations"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      PTA
+                    </Link>
+                    <Link
+                      href="/the-school/institutions"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Sister Concerns
+                    </Link>
+                    <Link
+                      href="/the-school/textbooks-list"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      List of text books
+                    </Link>
+                    <Link
+                      href="/the-school/school-uniforms"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      School Uniforms
+                    </Link>
+                    <Link
+                      href="/bus-information"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Bus Route
+                    </Link>
+                    <Link
+                      href="/the-school/general-rules"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      General Rules
+                    </Link>
+                    <Link
+                      href="/the-school/objectives"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Objectives
+                    </Link>
+                    <Link
+                      href="/about-school/missionandvission"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Mission & Vision
+                    </Link>
+                  </div>
                 </div>
               </div>
 
@@ -523,8 +525,14 @@ const Navbar = () => {
                       </Link>                  
                 </div>
               </div>
+               <Link
+                href="/documents/disclosure"
+                className="px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
+              >
+              Mandatory Disclosure
+              </Link>
               {/* Documents Dropdown */}
-              <div className="relative group">
+              {/* <div className="relative group">
                 <button
                   className="flex items-center px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
                   onClick={() => handleDropdown("documents")}
@@ -548,7 +556,7 @@ const Navbar = () => {
                     Mandatory Disclosure
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               <Link
                 href="/gallery"
@@ -556,12 +564,12 @@ const Navbar = () => {
               >
                 Gallery
               </Link>
-              <Link
+              {/* <Link
                 href="/contact-us"
                 className="px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
               >
                 Contact Us
-              </Link>
+              </Link> */}
             </div>
 
             {/* Admission Form Button */}
@@ -983,6 +991,14 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
+
+                <Link
+                  href="/documents/disclosure"
+                  className="block w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
+                  onClick={closeMobileMenu}
+                >
+                  Mandatory Disclosure
+                </Link>
 
                 {/* Gallery - Simple Link */}
                 <Link

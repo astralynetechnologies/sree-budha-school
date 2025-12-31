@@ -37,6 +37,11 @@ const Footer = () => {
                   Our Gallery
                 </a>
               </li>
+              <li>
+                <a href="/contact-us" className="text-white/90 hover:text-[#FBC02D] transition-colors">
+                  Contact Us
+                </a>
+              </li>
             </ul>
           </div>
 
