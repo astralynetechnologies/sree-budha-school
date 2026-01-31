@@ -147,13 +147,13 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center">
             <div className="flex space-x-2">
-              {/* About Foundation Dropdown */}
+              {/* The Foundation Dropdown */}
               <div className="relative group">
                 <button
                   className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
                   onClick={() => handleDropdown("foundation")}
                 >
-                  About Foundation
+                  The Foundation
                   <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-52 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
@@ -181,13 +181,13 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* About School Dropdown */}
+              {/* The School Dropdown */}
               <div className="relative group">
                 <button
                   className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
                   onClick={() => handleDropdown("school")}
                 >
-                  About School
+                  The School
                   <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-64 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
@@ -198,6 +198,13 @@ const Navbar = () => {
                   >
                     Chairman's and Principal's Messages
                   </Link>
+                   <Link
+                href="/about-school/achievements"
+                className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                onClick={closeDropdown}
+              >
+                Achievements
+              </Link>
                   <Link
                     href="/about-school/missionandvission"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
@@ -422,12 +429,7 @@ const Navbar = () => {
               >
                 Gallery
               </Link>
-              <Link
-                href="/achievements"
-                className="px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
-              >
-                Achievements
-              </Link>
+              
             </div>
 
             {/* Admission Form Button */}
@@ -465,13 +467,13 @@ const Navbar = () => {
             {/* Menu content */}
             <div className="py-4">
               <div className="space-y-1 flex flex-col">
-                {/* About Foundation Mobile Dropdown */}
+                {/* The Foundation Mobile Dropdown */}
                 <div className="w-full">
                   <button
                     className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
                     onClick={() => handleMobileDropdown("foundation")}
                   >
-                    About Foundation
+                    The Foundation
                     <ChevronDown 
                       className={`w-4 h-4 transition-transform duration-200 ${
                         activeMobileDropdown === "foundation" ? "rotate-180" : ""
@@ -505,13 +507,13 @@ const Navbar = () => {
                   </div>
                 </div>
 
-                {/* About School Mobile Dropdown */}
+                {/* The School Mobile Dropdown */}
                 <div className="w-full">
                   <button
                     className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
                     onClick={() => handleMobileDropdown("school")}
                   >
-                    About School
+                    About 
                     <ChevronDown 
                       className={`w-4 h-4 transition-transform duration-200 ${
                         activeMobileDropdown === "school" ? "rotate-180" : ""
