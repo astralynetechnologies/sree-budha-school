@@ -53,7 +53,7 @@ export default function BusTablesPage({ data, error }) {
       <div className="bg-neutral min-h-screen p-8 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-primary mb-4">
-            College Bus Timetables {currentYear}
+            School Bus Timetables {currentYear}
           </h1>
           <p className="text-dark text-lg">
             {error ? `Error: ${error}` : "Bus schedules are currently unavailable. Please try again later."}
