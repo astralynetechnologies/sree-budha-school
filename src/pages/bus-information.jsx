@@ -86,7 +86,7 @@ export default function BusTablesPage({ data, error }) {
   return (
     <div className="bg-neutral min-h-screen p-8">
       <h1 className="text-4xl font-bold text-primary mb-10 text-center">
-        College Bus Timetables {currentYear}
+        School Bus Timetables {currentYear}
       </h1>
 
       <div className="space-y-16">
