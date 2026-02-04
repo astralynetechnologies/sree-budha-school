@@ -37,6 +37,11 @@ const Footer = () => {
                   Our Gallery
                 </a>
               </li>
+              <li>
+                <a href="/contact-us" className="text-white/90 hover:text-[#FBC02D] transition-colors">
+                  Contact Us
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -99,13 +104,13 @@ const Footer = () => {
                 <p className="text-white/90">0476 2662489, 2664999</p>
               </div>
               
-              <div className="flex items-center">
-                <div className="w-5 h-5 mr-3 flex-shrink-0">
+              <div className="flex items-start">
+                <div className="w-5 h-5 mt-1 mr-3 flex-shrink-0">
                   <svg className="w-full h-full fill-current" viewBox="0 0 24 24">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                   </svg>
                 </div>
-                <p className="text-white/90">sbcskarunagappally@gmail.com</p>
+                <p className="text-white/90 break-all leading-relaxed">sbcskarunagappally@gmail.com</p>
               </div>
             </div>
           </div>
