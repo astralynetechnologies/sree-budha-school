@@ -11,7 +11,6 @@ const Achievements = () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'}/api/achievements`);
         
-        
         if (!response.ok) {
           throw new Error('Failed to fetch achievements');
         }
