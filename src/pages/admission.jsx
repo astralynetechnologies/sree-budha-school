@@ -24,13 +24,15 @@ const ButtonSkeleton = () => (
 );
 
 export default function AdmissionForm() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     studentName: '',
     classAdmission: '',
     gender: '',
     dateOfBirth: '',
-    ageOn31stMay: '',
+    ageOn31stMarch: '',
     email: '',
     presentAddress: '',
     permanentAddress: '',
@@ -155,7 +157,7 @@ export default function AdmissionForm() {
         }
         break;
 
-      case 'ageOn31stMay':
+      case 'ageOn31stMarch':
         if (value && !validateAge(value)) {
           error = 'Age must be between 1 and 25';
         }
@@ -222,7 +224,7 @@ export default function AdmissionForm() {
       case 'contactNo':
         sanitizedValue = sanitizePhone(value);
         break;
-      case 'ageOn31stMay':
+      case 'ageOn31stMarch':
         sanitizedValue = sanitizeNumber(value);
         break;
       case 'presentAddress':
@@ -290,7 +292,7 @@ export default function AdmissionForm() {
       classAdmission: '',
       gender: '',
       dateOfBirth: '',
-      ageOn31stMay: '',
+      ageOn31stMarch: '',
       email: '',
       presentAddress: '',
       permanentAddress: '',
@@ -325,7 +327,7 @@ export default function AdmissionForm() {
         ...formData,
         dateOfBirth: formatDateForPayload(formData.dateOfBirth),
         // Convert age to number if it exists
-        ageOn31stMay: formData.ageOn31stMay ? parseInt(formData.ageOn31stMay) : undefined,
+        ageOn31stMarch: formData.ageOn31stMarch ? parseInt(formData.ageOn31stMarch) : undefined,
       };
 
       // Remove empty fields to avoid validation issues
@@ -519,17 +521,17 @@ export default function AdmissionForm() {
             <div>
               <input
                 type="number"
-                name="ageOn31stMay"
-                placeholder="Age on 31st May 2025"
+                name="ageOn31stMarch"
+                placeholder={`Age on 31st March ${currentYear}`}
                 min="1"
                 max="25"
-                value={formData.ageOn31stMay}
+                value={formData.ageOn31stMarch}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={getInputClasses('ageOn31stMay')}
-                style={{ '--tw-ring-color': errors.ageOn31stMay ? '#ef4444' : '#1e40af' }}
+                className={getInputClasses('ageOn31stMarch')}
+                style={{ '--tw-ring-color': errors.ageOn31stMarch ? '#ef4444' : '#1e40af' }}
               />
-              {errors.ageOn31stMay && <p className="mt-1 text-sm text-red-600">{errors.ageOn31stMay}</p>}
+              {errors.ageOn31stMarch && <p className="mt-1 text-sm text-red-600">{errors.ageOn31stMarch}</p>}
             </div>
             <div>
               <input
