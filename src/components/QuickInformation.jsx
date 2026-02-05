@@ -2,11 +2,13 @@ import React from 'react';
 import { GraduationCap, Bus, Calendar, FileText, Phone, Download, Clock, User } from 'lucide-react';
 
 export default function QuickInformation() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const infoCards = [
     {
       icon: <GraduationCap className="w-8 h-8 text-primary" />,
       title: "Admissions Open",
-      description: "Apply for Academic Year 2024-25. Limited seats available.",
+      description: `Apply for Academic Year ${currentYear}-${currentYear + 1}. Limited seats available.`,
       buttonText: "Apply Now",
       buttonStyle: "bg-primary text-white hover:bg-blue-700",
       linkTo: "/admission"
