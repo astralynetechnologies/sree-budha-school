@@ -37,7 +37,9 @@ export default function AdmissionForm() {
     presentAddress: '',
     permanentAddress: '',
     fatherName: '',
+    fatherOccupation: '',
     motherName: '',
+    motherOccupation: '',
     contactNo: '',
     schoolPreviouslyAttended: '',
     specialRequests: ''
@@ -193,9 +195,21 @@ export default function AdmissionForm() {
         }
         break;
 
+      case 'fatherOccupation':
+        if (value.trim() && !/^[a-zA-Z\s.]+$/.test(value.trim())) {
+          error = 'Occupation can only contain letters, spaces, and periods';
+        }
+        break;
+
       case 'motherName':
         if (value.trim() && !/^[a-zA-Z\s.]+$/.test(value.trim())) {
           error = 'Name can only contain letters, spaces, and periods';
+        }
+        break;
+
+      case 'motherOccupation':
+        if (value.trim() && !/^[a-zA-Z\s.]+$/.test(value.trim())) {
+          error = 'Occupation can only contain letters, spaces, and periods';
         }
         break;
 
@@ -297,7 +311,9 @@ export default function AdmissionForm() {
       presentAddress: '',
       permanentAddress: '',
       fatherName: '',
+      fatherOccupation: '',
       motherName: '',
+      motherOccupation: '',
       contactNo: '',
       schoolPreviouslyAttended: '',
       specialRequests: ''
@@ -371,9 +387,9 @@ export default function AdmissionForm() {
     }
   };
 
-  // Common input classes
-  const inputClasses = "w-full h-16 sm:h-20 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-500 text-gray-700 text-sm sm:text-base";
-  const errorInputClasses = "w-full h-16 sm:h-20 px-4 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-500 text-gray-700 text-sm sm:text-base";
+  // Updated input classes with theme colors
+  const inputClasses = "w-full h-16 sm:h-20 px-4 border border-neutral rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-light-dark text-dark text-sm sm:text-base";
+  const errorInputClasses = "w-full h-16 sm:h-20 px-4 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-light-dark text-dark text-sm sm:text-base";
 
   const getInputClasses = (fieldName) => {
     return errors[fieldName] ? errorInputClasses : inputClasses;
@@ -381,8 +397,8 @@ export default function AdmissionForm() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-4 sm:py-8 px-4">
-        <div className="max-w-7xl mx-auto bg-white rounded-lg p-4 sm:p-8 shadow-sm">
+      <div className="min-h-screen bg-neutral py-4 sm:py-8 px-4">
+        <div className="max-w-7xl mx-auto bg-accent rounded-lg p-4 sm:p-8 shadow-sm">
           {/* Header Skeleton */}
           <div className="text-center mb-6 sm:mb-8">
             <Skeleton height="h-8" width="w-80" className="mx-auto mb-2" />
@@ -390,36 +406,54 @@ export default function AdmissionForm() {
           </div>
 
           <div className="space-y-4 sm:space-y-6">
-            {/* First Row Skeleton */}
+            {/* Student Information Row Skeleton */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <InputSkeleton />
               <InputSkeleton />
               <InputSkeleton />
             </div>
 
-            {/* Second Row Skeleton */}
+            {/* Personal Details Row Skeleton */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <InputSkeleton />
               <InputSkeleton />
               <InputSkeleton />
             </div>
 
-            {/* Third Row Skeleton */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* Address Row Skeleton */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <TextareaSkeleton />
               <TextareaSkeleton />
-              <InputSkeleton />
             </div>
 
-            {/* Fourth Row Skeleton */}
+            {/* Contact Information Row Skeleton */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <InputSkeleton />
               <InputSkeleton />
               <InputSkeleton />
             </div>
 
-            {/* Special Requests Skeleton */}
-            <div className="w-full">
+            {/* Parent Information Skeleton - Balanced Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="space-y-4">
+                <Skeleton height="h-8" width="w-40" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <InputSkeleton />
+                  <InputSkeleton />
+                </div>
+              </div>
+              <div className="space-y-4">
+                <Skeleton height="h-8" width="w-40" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <InputSkeleton />
+                  <InputSkeleton />
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Information Skeleton */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <InputSkeleton />
               <TextareaSkeleton rows={4} />
             </div>
 
@@ -435,232 +469,301 @@ export default function AdmissionForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-8 px-4">
+    <div className="min-h-screen bg-neutral py-4 sm:py-8 px-4">
       <Toaster position="top-right" />
 
-      <div className="max-w-7xl mx-auto bg-white rounded-lg p-4 sm:p-8 shadow-sm">
+      <div className="max-w-7xl mx-auto bg-accent rounded-lg p-4 sm:p-8 shadow-sm">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold text-blue-900">
+          <h1 className="text-xl sm:text-2xl font-bold text-primary">
             ADMISSION REGISTRATION FORM
           </h1>
-          <p className="text-gray-600 text-xs sm:text-sm mt-2">We make your child happy day after day</p>
+          <p className="text-light-dark text-xs sm:text-sm mt-2">We make your child happy day after day</p>
         </div>
 
-        <div className="space-y-4 sm:space-y-6">
-          {/* First Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div>
-              <input
-                type="text"
-                name="studentName"
-                placeholder="Name of the Student"
-                value={formData.studentName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('studentName')}
-                style={{ '--tw-ring-color': errors.studentName ? '#ef4444' : '#1e40af' }}
-                required
-              />
-              {errors.studentName && <p className="mt-1 text-sm text-red-600">{errors.studentName}</p>}
+        <div className="space-y-6 sm:space-y-8">
+          {/* Student Information */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-primary border-b pb-2">Student Information</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div>
+                <input
+                  type="text"
+                  name="studentName"
+                  placeholder="Name of the Student *"
+                  value={formData.studentName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('studentName')}
+                  style={{ '--tw-ring-color': errors.studentName ? '#ef4444' : '#0D47A1' }}
+                  required
+                />
+                {errors.studentName && <p className="mt-1 text-sm text-red-600">{errors.studentName}</p>}
+              </div>
+              <div>
+                <select
+                  name="classAdmission"
+                  value={formData.classAdmission}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('classAdmission')}
+                  style={{ '--tw-ring-color': errors.classAdmission ? '#ef4444' : '#0D47A1' }}
+                  required
+                >
+                  <option value="">Class to which admission is sought ({getCurrentAcademicYear()}) *</option>
+                  {classOptions.map((classOption, index) => (
+                    <option key={index} value={classOption}>
+                      {classOption}
+                    </option>
+                  ))}
+                </select>
+                {errors.classAdmission && <p className="mt-1 text-sm text-red-600">{errors.classAdmission}</p>}
+              </div>
+              <div>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('gender')}
+                  style={{ '--tw-ring-color': errors.gender ? '#ef4444' : '#0D47A1' }}
+                  required
+                >
+                  <option value="">Select Gender *</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                {errors.gender && <p className="mt-1 text-sm text-red-600">{errors.gender}</p>}
+              </div>
             </div>
-            <div>
-              <select
-                name="classAdmission"
-                value={formData.classAdmission}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('classAdmission')}
-                style={{ '--tw-ring-color': errors.classAdmission ? '#ef4444' : '#1e40af' }}
-                required
+          </div>
+
+          {/* Personal Details */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-primary border-b pb-2">Personal Details</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div>
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  placeholder="Date of Birth *"
+                  value={formData.dateOfBirth}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('dateOfBirth')}
+                  style={{ '--tw-ring-color': errors.dateOfBirth ? '#ef4444' : '#0D47A1' }}
+                  required
+                />
+                {errors.dateOfBirth && <p className="mt-1 text-sm text-red-600">{errors.dateOfBirth}</p>}
+              </div>
+              <div>
+                <input
+                  type="number"
+                  name="ageOn31stMarch"
+                  placeholder={`Age on 31st March ${currentYear}`}
+                  min="1"
+                  max="25"
+                  value={formData.ageOn31stMarch}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('ageOn31stMarch')}
+                  style={{ '--tw-ring-color': errors.ageOn31stMarch ? '#ef4444' : '#0D47A1' }}
+                />
+                {errors.ageOn31stMarch && <p className="mt-1 text-sm text-red-600">{errors.ageOn31stMarch}</p>}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="E-mail ID *"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('email')}
+                  style={{ '--tw-ring-color': errors.email ? '#ef4444' : '#0D47A1' }}
+                  required
+                />
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Address Information */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-primary border-b pb-2">Address Information</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div>
+                <textarea
+                  name="presentAddress"
+                  placeholder="Present Address *"
+                  value={formData.presentAddress}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  rows={3}
+                  className={`w-full px-4 py-3 border ${errors.presentAddress ? 'border-red-300' : 'border-neutral'} rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-light-dark text-dark resize-none text-sm sm:text-base`}
+                  style={{ '--tw-ring-color': errors.presentAddress ? '#ef4444' : '#0D47A1' }}
+                />
+                {errors.presentAddress && <p className="mt-1 text-sm text-red-600">{errors.presentAddress}</p>}
+              </div>
+              <div>
+                <textarea
+                  name="permanentAddress"
+                  placeholder="Permanent Address (if different from present address)"
+                  value={formData.permanentAddress}
+                  onChange={handleChange}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-neutral rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-light-dark text-dark resize-none text-sm sm:text-base"
+                  style={{ '--tw-ring-color': '#0D47A1' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-primary border-b pb-2">Contact Information</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-2">
+                <input
+                  type="text"
+                  name="contactNo"
+                  placeholder="Contact Number *"
+                  value={formData.contactNo}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={getInputClasses('contactNo')}
+                  style={{ '--tw-ring-color': errors.contactNo ? '#ef4444' : '#0D47A1' }}
+                  required
+                />
+                {errors.contactNo && <p className="mt-1 text-sm text-red-600">{errors.contactNo}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Parent Information - Balanced Layout */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-primary border-b pb-2">Parent Information</h2>
+            
+            {/* Father's Information */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-4">
+                <h3 className="text-md font-medium text-dark">Father's Details</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      name="fatherName"
+                      placeholder="Father's Name"
+                      value={formData.fatherName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={getInputClasses('fatherName')}
+                      style={{ '--tw-ring-color': errors.fatherName ? '#ef4444' : '#0D47A1' }}
+                    />
+                    {errors.fatherName && <p className="mt-1 text-sm text-red-600">{errors.fatherName}</p>}
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="fatherOccupation"
+                      placeholder="Father's Occupation"
+                      value={formData.fatherOccupation}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={getInputClasses('fatherOccupation')}
+                      style={{ '--tw-ring-color': errors.fatherOccupation ? '#ef4444' : '#0D47A1' }}
+                    />
+                    {errors.fatherOccupation && <p className="mt-1 text-sm text-red-600">{errors.fatherOccupation}</p>}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mother's Information */}
+              <div className="space-y-4">
+                <h3 className="text-md font-medium text-dark">Mother's Details</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      name="motherName"
+                      placeholder="Mother's Name"
+                      value={formData.motherName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={getInputClasses('motherName')}
+                      style={{ '--tw-ring-color': errors.motherName ? '#ef4444' : '#0D47A1' }}
+                    />
+                    {errors.motherName && <p className="mt-1 text-sm text-red-600">{errors.motherName}</p>}
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="motherOccupation"
+                      placeholder="Mother's Occupation"
+                      value={formData.motherOccupation}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={getInputClasses('motherOccupation')}
+                      style={{ '--tw-ring-color': errors.motherOccupation ? '#ef4444' : '#0D47A1' }}
+                    />
+                    {errors.motherOccupation && <p className="mt-1 text-sm text-red-600">{errors.motherOccupation}</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Information */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-primary border-b pb-2">Additional Information</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div>
+                <input
+                  type="text"
+                  name="schoolPreviouslyAttended"
+                  placeholder="School previously attended"
+                  value={formData.schoolPreviouslyAttended}
+                  onChange={handleChange}
+                  className={inputClasses}
+                  style={{ '--tw-ring-color': '#0D47A1' }}
+                />
+              </div>
+              <div>
+                <textarea
+                  name="specialRequests"
+                  placeholder="Special requests if any"
+                  value={formData.specialRequests}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-neutral rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-light-dark text-dark resize-none text-sm sm:text-base"
+                  style={{ '--tw-ring-color': '#0D47A1' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Form Actions */}
+          <div className="pt-6 sm:pt-8 border-t border-neutral">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+              <button
+                onClick={handleClearForm}
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 border-2 border-primary text-primary font-medium rounded-md transition duration-200 hover:bg-primary hover:text-accent text-sm sm:text-base"
+                disabled={isSubmitting}
               >
-                <option value="">Class to which admission is sought ({getCurrentAcademicYear()})</option>
-                {classOptions.map((classOption, index) => (
-                  <option key={index} value={classOption}>
-                    {classOption}
-                  </option>
-                ))}
-              </select>
-              {errors.classAdmission && <p className="mt-1 text-sm text-red-600">{errors.classAdmission}</p>}
-            </div>
-            <div>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('gender')}
-                style={{ '--tw-ring-color': errors.gender ? '#ef4444' : '#1e40af' }}
-                required
+                Clear form
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-secondary hover:bg-yellow-600 text-dark font-medium rounded-md transition duration-200 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-              {errors.gender && <p className="mt-1 text-sm text-red-600">{errors.gender}</p>}
+                {isSubmitting ? 'Submitting...' : 'Submit Application'}
+              </button>
             </div>
-          </div>
-
-          {/* Second Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div>
-              <input
-                type="date"
-                name="dateOfBirth"
-                placeholder="Date of Birth"
-                value={formData.dateOfBirth}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('dateOfBirth')}
-                style={{ '--tw-ring-color': errors.dateOfBirth ? '#ef4444' : '#1e40af' }}
-                required
-              />
-              {errors.dateOfBirth && <p className="mt-1 text-sm text-red-600">{errors.dateOfBirth}</p>}
-            </div>
-            <div>
-              <input
-                type="number"
-                name="ageOn31stMarch"
-                placeholder={`Age on 31st March ${currentYear}`}
-                min="1"
-                max="25"
-                value={formData.ageOn31stMarch}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('ageOn31stMarch')}
-                style={{ '--tw-ring-color': errors.ageOn31stMarch ? '#ef4444' : '#1e40af' }}
-              />
-              {errors.ageOn31stMarch && <p className="mt-1 text-sm text-red-600">{errors.ageOn31stMarch}</p>}
-            </div>
-            <div>
-              <input
-                type="email"
-                name="email"
-                placeholder="E-mail ID"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('email')}
-                style={{ '--tw-ring-color': errors.email ? '#ef4444' : '#1e40af' }}
-                required
-              />
-              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-            </div>
-          </div>
-
-          {/* Third Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div>
-              <textarea
-                name="presentAddress"
-                placeholder="Present Address"
-                value={formData.presentAddress}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                rows={3}
-                className={`w-full px-4 py-3 border ${errors.presentAddress ? 'border-red-300' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-500 text-gray-700 resize-none text-sm sm:text-base`}
-                style={{ '--tw-ring-color': errors.presentAddress ? '#ef4444' : '#1e40af' }}
-              />
-              {errors.presentAddress && <p className="mt-1 text-sm text-red-600">{errors.presentAddress}</p>}
-            </div>
-            <div>
-              <textarea
-                name="permanentAddress"
-                placeholder="Permanent Address"
-                value={formData.permanentAddress}
-                onChange={handleChange}
-                rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-500 text-gray-700 resize-none text-sm sm:text-base"
-                style={{ '--tw-ring-color': '#1e40af' }}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                name="fatherName"
-                placeholder="Father's Name"
-                value={formData.fatherName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('fatherName')}
-                style={{ '--tw-ring-color': errors.fatherName ? '#ef4444' : '#1e40af' }}
-              />
-              {errors.fatherName && <p className="mt-1 text-sm text-red-600">{errors.fatherName}</p>}
-            </div>
-          </div>
-
-          {/* Fourth Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div>
-              <input
-                type="text"
-                name="motherName"
-                placeholder="Mother's Name"
-                value={formData.motherName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('motherName')}
-                style={{ '--tw-ring-color': errors.motherName ? '#ef4444' : '#1e40af' }}
-              />
-              {errors.motherName && <p className="mt-1 text-sm text-red-600">{errors.motherName}</p>}
-            </div>
-            <div>
-              <input
-                type="tel"
-                name="contactNo"
-                placeholder="Contact No."
-                pattern="[0-9]{10}"
-                value={formData.contactNo}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={getInputClasses('contactNo')}
-                style={{ '--tw-ring-color': errors.contactNo ? '#ef4444' : '#1e40af' }}
-              />
-              {errors.contactNo && <p className="mt-1 text-sm text-red-600">{errors.contactNo}</p>}
-            </div>
-            <div>
-              <input
-                type="text"
-                name="schoolPreviouslyAttended"
-                placeholder="School previously attended"
-                value={formData.schoolPreviouslyAttended}
-                onChange={handleChange}
-                className={inputClasses}
-                style={{ '--tw-ring-color': '#1e40af' }}
-              />
-            </div>
-          </div>
-
-          {/* Special Requests */}
-          <div className="w-full">
-            <textarea
-              name="specialRequests"
-              placeholder="Special requests if any"
-              value={formData.specialRequests}
-              onChange={handleChange}
-              rows={4}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-500 text-gray-700 resize-none text-sm sm:text-base"
-              style={{ '--tw-ring-color': '#1e40af' }}
-            />
-          </div>
-
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-4 sm:pt-6">
-            <button
-              onClick={handleClearForm}
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 border-2 border-blue-900 text-blue-900 font-medium rounded-md transition duration-200 hover:bg-blue-50 text-sm sm:text-base"
-              disabled={isSubmitting}
-            >
-              Clear form
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-md transition duration-200 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit Application'}
-            </button>
+            <p className="text-center text-light-dark text-xs mt-4">
+              Fields marked with * are required
+            </p>
           </div>
         </div>
       </div>
