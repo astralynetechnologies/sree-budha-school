@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 
+
 // Scroll-reveal component
 function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = "up" }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
+
 
   useEffect(() => {
     if (!ref.current) return;
@@ -49,6 +51,8 @@ function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = 
 }
 
 const FeeStructure = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const infoCards = [
     {
       icon: "📅",
@@ -87,7 +91,7 @@ const FeeStructure = () => {
           
           <Reveal delay={100}>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Fee <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Structure</span> 2024-25
+              Fee <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Structure</span> {currentYear}-{currentYear + 1}
             </h1>
           </Reveal>
           
@@ -179,7 +183,7 @@ const FeeStructure = () => {
                 </a>
                 
                 <p className="text-gray-500 text-sm mt-4">
-                  PDF Document • Updated for Academic Year 2024-25
+                  PDF Document • Updated for Academic Year {currentYear}-{currentYear + 1}
                 </p>
               </div>
             </div>
