@@ -4,15 +4,22 @@ const Disclosure = () => {
   const [disclosureItems, setDisclosureItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({
+    hasNextPage: false,
+    hasPrevPage: false,
+    totalPages: 1,
+    totalDocs: 0
+  });
 
   useEffect(() => {
     fetchDisclosureItems();
-  }, []);
+  }, [page]);
 
   const fetchDisclosureItems = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/disclosure`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/disclosure?page=${page}&limit=10`);
       if (!response.ok) {
         throw new Error('Failed to fetch disclosure documents');
       }
@@ -26,6 +33,12 @@ const Disclosure = () => {
           .sort((a, b) => a.order - b.order);
         
         setDisclosureItems(activeItems);
+        setPagination({
+          hasNextPage: data.hasNextPage || false,
+          hasPrevPage: data.hasPrevPage || false,
+          totalPages: data.totalPages || 1,
+          totalDocs: data.totalDocs || 0
+        });
       }
     } catch (err) {
       setError(err.message);
@@ -44,6 +57,17 @@ const Disclosure = () => {
     }
   };
 
+  const handlePrevPage = () => {
+    if (pagination.hasPrevPage && page > 1) {
+      setPage(prev => prev - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.hasNextPage) {
+      setPage(prev => prev + 1);
+    }
+  };
 
   if (loading) {
     return (
@@ -135,6 +159,39 @@ const Disclosure = () => {
           )}
         </div>
       </div>
+
+      {/* Pagination Controls */}
+      {disclosureItems.length > 0 && (
+        <div className="mt-6 flex items-center justify-between">
+          <div className="text-sm text-gray-600">
+            Page {page} of {pagination.totalPages}
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handlePrevPage}
+              disabled={!pagination.hasPrevPage}
+              className={`px-4 py-2 text-sm font-medium rounded-md ${
+                pagination.hasPrevPage
+                  ? 'bg-blue-900 text-white hover:bg-blue-800'
+                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              } transition-colors duration-200`}
+            >
+              Prev
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={!pagination.hasNextPage}
+              className={`px-4 py-2 text-sm font-medium rounded-md ${
+                pagination.hasNextPage
+                  ? 'bg-blue-900 text-white hover:bg-blue-800'
+                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              } transition-colors duration-200`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Footer Note */}
       <div className="mt-6 text-center">
