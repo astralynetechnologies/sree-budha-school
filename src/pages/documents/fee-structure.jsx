@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-
 // Scroll-reveal component
 function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = "up" }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
-
 
   useEffect(() => {
     if (!ref.current) return;
@@ -51,8 +49,13 @@ function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = 
 }
 
 const FeeStructure = () => {
+  const [feeData, setFeeData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
+  
   const infoCards = [
     {
       icon: "📅",
@@ -70,6 +73,33 @@ const FeeStructure = () => {
       description: "For fee-related queries, contact the accounts department during office hours: 9 AM - 4 PM"
     }
   ];
+
+  useEffect(() => {
+    const fetchFeeData = async () => {
+      try {
+        setLoading(true);
+        const apiUrl = process.env.NEXT_PUBLIC_CMS_URL || process.env.REACT_APP_API_URL || '';
+        const response = await fetch(`${apiUrl}/api/fees`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch fee data');
+        }
+        
+        const data = await response.json();
+        
+        // Get the active fee document
+        const activeFee = data.docs?.find(doc => doc.isActive) || data.docs?.[0];
+        setFeeData(activeFee);
+      } catch (err) {
+        console.error('Error fetching fee data:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeeData();
+  }, []);
 
   return (
     <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 lg:py-24 overflow-hidden">
@@ -91,13 +121,13 @@ const FeeStructure = () => {
           
           <Reveal delay={100}>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Fee <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Structure</span> {currentYear}-{currentYear + 1}
+              Fee <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Structure</span> {currentYear}
             </h1>
           </Reveal>
           
           <Reveal delay={200}>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Transparent and affordable education for all students
+              {feeData?.description || "Transparent and affordable education for all students"}
             </p>
           </Reveal>
         </div>
@@ -121,7 +151,7 @@ const FeeStructure = () => {
             <div className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] p-12 text-center">
               <div className="text-6xl mb-4">📄</div>
               <h2 className="text-3xl font-bold text-white mb-3">
-                Fee Structure Details
+                {feeData?.title || "Fee Structure Details"}
               </h2>
               <p className="text-blue-100 text-lg">
                 Download our comprehensive fee structure document
@@ -129,63 +159,86 @@ const FeeStructure = () => {
             </div>
             
             <div className="p-12">
-              <div className="space-y-6 mb-10">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Complete Fee Breakdown</h3>
-                    <p className="text-gray-600">Detailed fee structure for all classes from Pre-Primary to Senior Secondary</p>
-                  </div>
+              {loading ? (
+                <div className="text-center py-12">
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#0D47A1]"></div>
+                  <p className="text-gray-600 mt-4">Loading fee structure...</p>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Payment Information</h3>
-                    <p className="text-gray-600">Installment options, payment methods, and discount details</p>
-                  </div>
+              ) : error ? (
+                <div className="text-center py-12">
+                  <div className="text-red-500 text-lg mb-4">⚠️ Unable to load fee structure</div>
+                  <p className="text-gray-600">{error}</p>
                 </div>
+              ) : (
+                <>
+                  <div className="space-y-6 mb-10">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-lg mb-1">Complete Fee Breakdown</h3>
+                        <p className="text-gray-600">Detailed fee structure for all classes from Pre-Primary to Senior Secondary</p>
+                      </div>
+                    </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Terms & Conditions</h3>
-                    <p className="text-gray-600">Refund policy, concessions, and important notes</p>
-                  </div>
-                </div>
-              </div>
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-lg mb-1">Payment Information</h3>
+                        <p className="text-gray-600">Installment options, payment methods, and discount details</p>
+                      </div>
+                    </div>
 
-              <div className="text-center">
-                <a 
-                  href="/path-to-your-fee-structure.pdf" 
-                  download
-                  className="group inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 text-lg"
-                >
-                  <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Download Fee Structure PDF
-                  <svg className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <p className="text-gray-500 text-sm mt-4">
-                  PDF Document • Updated for Academic Year {currentYear}-{currentYear + 1}
-                </p>
-              </div>
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-lg mb-1">Terms & Conditions</h3>
+                        <p className="text-gray-600">Refund policy, concessions, and important notes</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-center">
+                    {feeData?.file?.url ? (
+                      <a 
+                        href={feeData.file.url} 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 text-lg"
+                      >
+                        <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Download Fee Structure PDF
+                        <svg className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <div className="text-gray-500 py-8">
+                        Fee structure document will be available soon
+                      </div>
+                    )}
+                    
+                    {feeData?.file?.url && (
+                      <p className="text-gray-500 text-sm mt-4">
+                        PDF Document • Updated for Academic Year {currentYear}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </Reveal>
