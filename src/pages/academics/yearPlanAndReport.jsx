@@ -75,6 +75,8 @@ const AcademicCalendarPage = () => {
   const [loading, setLoading] = useState(false); // header is static
   const [docsLoading, setDocsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
 
   useEffect(() => {
     const fetchDocs = async () => {
@@ -182,7 +184,7 @@ const AcademicCalendarPage = () => {
                 <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full border border-blue-300 mb-6">
                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
                   <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent font-semibold text-sm tracking-wide">
-                    ACADEMIC YEAR {data?.currentYear}
+                    ACADEMIC YEAR {currentYear}
                   </span>
                 </div>
               </Reveal>

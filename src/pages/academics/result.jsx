@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-// Scroll-reveal component
+// Scroll-reveal component for animations
 function Reveal({
   children,
   className = "",
@@ -59,123 +59,27 @@ function Reveal({
 }
 
 const ResultsPage = () => {
-  // Static page/header content (kept intentionally static)
-  const staticData = {
-    title: "Academic Results",
-    subtitle: "Celebrating Excellence and Achievement in Education",
-    currentYear: "2024-25",
-    mainImage: {
-      url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80",
-      alt: "Students celebrating academic success",
-    },
-    overallStats: [
-      { label: "Pass Percentage", value: "98.5%", icon: "📊" },
-      { label: "Distinction Rate", value: "45%", icon: "🌟" },
-      { label: "100% Scores", value: "28", icon: "💯" },
-      { label: "Above 90%", value: "156", icon: "🏆" },
-    ],
-    classResults: [
-      {
-        id: "class10",
-        class: "Class X",
-        year: "2024",
-        passPercentage: "100%",
-        distinction: "52%",
-        averagePercentage: "87.4%",
-        highlights: [
-          "12 students scored above 95%",
-          "48 students scored above 90%",
-          "100% pass rate for 5th consecutive year",
-        ],
-        toppers: [
-          {
-            name: "Aditi Sharma",
-            percentage: "98.2%",
-            subjects: "All Subjects",
-          },
-          {
-            name: "Rohan Verma",
-            percentage: "97.8%",
-            subjects: "Science Stream",
-          },
-          { name: "Priya Menon", percentage: "97.4%", subjects: "Mathematics" },
-        ],
-      },
-      {
-        id: "class12",
-        class: "Class XII",
-        year: "2024",
-        passPercentage: "99.2%",
-        distinction: "48%",
-        averagePercentage: "85.6%",
-        highlights: [
-          "16 students scored above 95%",
-          "62 students scored above 90%",
-          "Outstanding performance in Science stream",
-        ],
-        toppers: [
-          { name: "Arjun Kumar", percentage: "99.4%", subjects: "PCM Stream" },
-          { name: "Sneha Reddy", percentage: "98.6%", subjects: "PCB Stream" },
-          { name: "Vikram Singh", percentage: "98.2%", subjects: "Commerce" },
-        ],
-      },
-    ],
-    streamWiseResults: [
-      {
-        stream: "Science",
-        passRate: "100%",
-        avgPercentage: "86.8%",
-        icon: "🔬",
-      },
-      {
-        stream: "Commerce",
-        passRate: "98.5%",
-        avgPercentage: "84.2%",
-        icon: "💼",
-      },
-      {
-        stream: "Humanities",
-        passRate: "99.1%",
-        avgPercentage: "83.6%",
-        icon: "📚",
-      },
-    ],
-    achievements: [
-      {
-        id: "a1",
-        title: "CBSE Merit List",
-        description: "8 students featured in CBSE National Merit List",
-        icon: "🎖️",
-      },
-      {
-        id: "a2",
-        title: "Subject Toppers",
-        description: "State rank holders in Mathematics and Science",
-        icon: "🥇",
-      },
-      {
-        id: "a3",
-        title: "Perfect Scores",
-        description: "28 students achieved 100/100 in individual subjects",
-        icon: "💯",
-      },
-      {
-        id: "a4",
-        title: "Improvement Rate",
-        description: "15% increase in distinction rate from previous year",
-        icon: "📈",
-      },
-    ],
-    // will be populated from CMS
-    resultDocuments: [],
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  // Helper function to format file size
+  const formatBytes = (bytes) => {
+    if (!bytes && bytes !== 0) return "N/A";
+    const thresh = 1024;
+    if (Math.abs(bytes) < thresh) return bytes + " B";
+    const units = ["KB", "MB", "GB", "TB"];
+    let u = -1;
+    do {
+      bytes /= thresh;
+      ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(u < 1 ? 0 : 1) + " " + units[u];
   };
 
-  const [data, setData] = useState(staticData);
-  const [loading, setLoading] = useState(false); // static content ready immediately
-  const [docsLoading, setDocsLoading] = useState(true); // only documents load dynamically
-  const [error, setError] = useState(null);
-
-  // helper: open document in new tab
+  // Helper function to open PDF in new tab
   const handleDownload = (pdfUrl, fileName) => {
     if (pdfUrl) {
       window.open(pdfUrl, "_blank", "noopener,noreferrer");
@@ -184,62 +88,45 @@ const ResultsPage = () => {
     }
   };
 
+  // Fetch results from API
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchResults = async () => {
       try {
-        setDocsLoading(true);
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_CMS_URL}/api/result`
-        );
-        if (!res.ok) throw new Error("Failed to fetch results data");
-        const result = await res.json();
+        setLoading(true);
+        setError(null);
 
-        const docs = Array.isArray(result.docs)
-          ? result.docs
-          : result.data || [];
+        // Get API URL from environment variable
+        const apiUrl = process.env.NEXT_PUBLIC_CMS_URL || process.env.REACT_APP_CMS_URL;
+        
+        if (!apiUrl) {
+          throw new Error("API URL not configured. Please set NEXT_PUBLIC_CMS_URL or REACT_APP_CMS_URL in your environment variables.");
+        }
 
-        // helper to format bytes -> human friendly
-        const formatBytes = (bytes) => {
-          if (!bytes && bytes !== 0) return null;
-          const thresh = 1024;
-          if (Math.abs(bytes) < thresh) return bytes + " B";
-          const units = ["KB", "MB", "GB", "TB"];
-          let u = -1;
-          do {
-            bytes /= thresh;
-            ++u;
-          } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-          return bytes.toFixed(u < 1 ? 0 : 1) + " " + units[u];
-        };
+        const response = await fetch(`${apiUrl}/api/result`);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch results: ${response.status} ${response.statusText}`);
+        }
 
-        const mappedDocs = docs.map((d) => ({
-          id: d.id ?? d._id,
-          title: d.title,
-          description: d.description,
-          icon: "📄",
-          fileSize: d.document?.filesize
-            ? formatBytes(d.document.filesize)
-            : null,
-          pages: d.pages || null,
-          year: d.createdAt
-            ? new Date(d.createdAt).getFullYear().toString()
-            : null,
-          pdfUrl:
-            d.document?.url ||
-            d.document?.url_full ||
-            d.document?.thumbnailURL ||
-            null,
-        }));
+        const data = await response.json();
+        
+        // Extract docs array from response
+        const docs = Array.isArray(data.docs) ? data.docs : [];
+        
+        if (docs.length === 0) {
+          console.warn("No results found in API response");
+        }
 
-        setData((prev) => ({ ...prev, resultDocuments: mappedDocs }));
-        setDocsLoading(false);
+        setResults(docs);
       } catch (err) {
+        console.error("Error fetching results:", err);
         setError(err.message);
-        setDocsLoading(false);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
+    fetchResults();
   }, []);
 
   return (
@@ -254,71 +141,29 @@ const ResultsPage = () => {
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Header Section */}
         <div className="text-center mb-16">
-          {loading ? (
-            <>
-              <Skeleton
-                height={8}
-                width={120}
-                className="mx-auto mb-6 rounded-full"
-                baseColor="#f3f4f6"
-                highlightColor="#e5e7eb"
-              />
-              <Skeleton
-                height={48}
-                width={400}
-                className="mx-auto mb-6"
-                baseColor="#f3f4f6"
-                highlightColor="#e5e7eb"
-              />
-              <Skeleton
-                height={24}
-                width={600}
-                className="mx-auto"
-                baseColor="#f3f4f6"
-                highlightColor="#e5e7eb"
-                count={2}
-              />
-            </>
-          ) : error ? (
-            <div className="text-center">
-              <div className="inline-flex items-center px-4 py-2 bg-red-100 rounded-full border border-red-200 mb-6">
-                <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                <span className="text-red-600 font-semibold text-sm tracking-wide">
-                  ERROR
-                </span>
-              </div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                Unable to Load Content
-              </h2>
-              <p className="text-lg text-red-600">{error}</p>
+          <Reveal>
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full border border-blue-300 mb-6">
+              <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
+              <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent font-semibold text-sm tracking-wide">
+                ACADEMIC RESULTS {currentYear}
+              </span>
             </div>
-          ) : (
-            <>
-              <Reveal>
-                <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full border border-blue-300 mb-6">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
-                  <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent font-semibold text-sm tracking-wide">
-                    ACADEMIC YEAR {data?.currentYear}
-                  </span>
-                </div>
-              </Reveal>
+          </Reveal>
 
-              <Reveal delay={100}>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                  Academic{" "}
-                  <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-sky-600 bg-clip-text text-transparent">
-                    Results
-                  </span>
-                </h1>
-              </Reveal>
+          <Reveal delay={100}>
+            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              Academic{" "}
+              <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-sky-600 bg-clip-text text-transparent">
+                Results
+              </span>
+            </h1>
+          </Reveal>
 
-              <Reveal delay={200}>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                  {data?.subtitle}
-                </p>
-              </Reveal>
-            </>
-          )}
+          <Reveal delay={200}>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Celebrating Excellence and Achievement in Education
+            </p>
+          </Reveal>
         </div>
 
         {/* Hero Image */}
@@ -341,11 +186,34 @@ const ResultsPage = () => {
           </div>
         </Reveal>
 
-        {/* Download Documents Section */}
-        {!docsLoading &&
-        !error &&
-        data?.resultDocuments &&
-        data.resultDocuments.length > 0 ? (
+        {/* Error State */}
+        {error && (
+          <div className="mb-20">
+            <Reveal>
+              <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+                <div className="inline-flex items-center px-4 py-2 bg-red-100 rounded-full border border-red-200 mb-4">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                  <span className="text-red-600 font-semibold text-sm tracking-wide">
+                    ERROR
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Unable to Load Results
+                </h3>
+                <p className="text-red-600 mb-6">{error}</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            </Reveal>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && !error && (
           <div className="mb-20">
             <Reveal delay={400}>
               <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
@@ -360,29 +228,90 @@ const ResultsPage = () => {
             </Reveal>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {data.resultDocuments.map((doc, index) => (
-                <Reveal key={doc.id || index} delay={500 + index * 100}>
+              {[...Array(2)].map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
+                >
+                  <div className="flex items-start gap-4 mb-4">
+                    <Skeleton circle width={64} height={64} />
+                    <div className="flex-1">
+                      <Skeleton height={24} width="80%" className="mb-2" />
+                      <Skeleton height={16} width="60%" />
+                    </div>
+                  </div>
+                  <Skeleton height={16} count={2} className="mb-6" />
+                  <Skeleton height={48} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Results Grid */}
+        {!loading && !error && results.length > 0 && (
+          <div className="mb-20">
+            <Reveal delay={400}>
+              <h3 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-4">
+                Download{" "}
+                <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  Results
+                </span>
+              </h3>
+              <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                Access detailed board examination results in PDF format
+              </p>
+            </Reveal>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {results.map((result, index) => (
+                <Reveal key={result.id} delay={500 + index * 100}>
                   <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group">
                     <div className="flex items-start gap-4 mb-4">
                       <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center text-4xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        {doc.icon}
+                        📄
                       </div>
                       <div className="flex-1">
                         <h4 className="text-xl font-bold text-gray-900 mb-2">
-                          {doc.title}
+                          {result.title}
                         </h4>
-                        <div className="flex gap-4 text-sm text-gray-500">
-                          {doc.pages && <span>📄 {doc.pages}</span>}
-                          {doc.fileSize && <span>💾 {doc.fileSize}</span>}
+                        <div className="flex flex-wrap gap-3 text-sm text-gray-500">
+                          {result.document?.filename && (
+                            <span className="flex items-center gap-1">
+                              📎 {result.document.filename}
+                            </span>
+                          )}
+                          {result.document?.filesize && (
+                            <span className="flex items-center gap-1">
+                              💾 {formatBytes(result.document.filesize)}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
+                    
                     <p className="text-gray-600 mb-6 leading-relaxed">
-                      {doc.description}
+                      {result.description}
                     </p>
+
+                    {result.document?.createdAt && (
+                      <p className="text-sm text-gray-500 mb-4">
+                        📅 Uploaded: {new Date(result.document.createdAt).toLocaleDateString('en-IN', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </p>
+                    )}
+                    
                     <button
-                      onClick={() => handleDownload(doc.pdfUrl, doc.title)}
-                      className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                      onClick={() => handleDownload(result.document?.url, result.title)}
+                      disabled={!result.document?.url}
+                      className={`w-full font-bold py-3 px-6 rounded-lg transition-all duration-300 shadow-md flex items-center justify-center gap-2 ${
+                        result.document?.url
+                          ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:from-blue-700 hover:to-cyan-700 hover:shadow-lg transform hover:-translate-y-1'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
                     >
                       <svg
                         className="w-5 h-5"
@@ -397,39 +326,35 @@ const ResultsPage = () => {
                           d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                         />
                       </svg>
-                      Download PDF
+                      {result.document?.url ? 'Download PDF' : 'Not Available'}
                     </button>
                   </div>
                 </Reveal>
               ))}
             </div>
           </div>
-        ) : docsLoading ? (
+        )}
+
+        {/* Empty State */}
+        {!loading && !error && results.length === 0 && (
           <div className="mb-20">
-            <div className="grid md:grid-cols-2 gap-6">
-              {[...Array(2)].map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
+            <Reveal delay={400}>
+              <div className="bg-white rounded-xl p-12 shadow-lg border border-gray-100 text-center">
+                <div className="text-6xl mb-4">📋</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  No Results Available
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Results will be published here once they are available.
+                </p>
+                <a
+                  href="/contact-us"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
-                  <Skeleton height={20} width={`60%`} className="mb-4" />
-                  <Skeleton height={12} count={3} className="mb-4" />
-                  <Skeleton height={44} width={`100%`} />
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="mb-20 text-center">
-            <p className="text-lg text-gray-600 mb-6">
-              No results available at the moment.
-            </p>
-            <a
-              href="/contact-us"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg"
-            >
-              Contact Us
-            </a>
+                  Contact Us for More Information
+                </a>
+              </div>
+            </Reveal>
           </div>
         )}
       </div>
