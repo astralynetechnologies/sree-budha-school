@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Phone, Mail, Menu, X, ChevronDown, Facebook, Youtube } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  Menu,
+  X,
+  ChevronDown,
+  Facebook,
+  Youtube,
+} from "lucide-react";
 import Link from "next/link";
 
 const Navbar = () => {
@@ -34,10 +42,8 @@ const Navbar = () => {
 
   return (
     <div className="w-full">
-      
-
       {/* Mobile Header */}
-      <div className="lg:hidden">
+      <div className="xl:hidden">
         {/* Top Layer - Logos with accent background */}
         <div className="bg-gray-100 px-4 py-3 flex items-center justify-center">
           <div className="flex items-center gap-3">
@@ -62,13 +68,13 @@ const Navbar = () => {
             {/* Contact Info - Icons with text */}
             <div className="flex items-center gap-4 text-white text-sm">
               <Link
-                href="tel:04792562489"
+                href="tel:04762662489"
                 className="flex items-center gap-1 hover:underline hover:text-secondary transition-colors"
-                aria-label="Call us at 0479-2562489"
-                title="Call: 0479-2562489"
+                aria-label="Call us at 0476-2662489"
+                title="Call: 0476-2662489"
               >
                 <Phone className="w-4 h-4" />
-                <span>0479-2562489</span>
+                <span>0476-2662489</span>
               </Link>
               <Link
                 href="mailto:sbcskarunagappally@gmail.com"
@@ -82,46 +88,58 @@ const Navbar = () => {
             </div>
 
             {/* Hamburger Menu */}
-            <button 
-              className="text-white p-2" 
+            <button
+              className="text-white p-2"
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
       </div>
 
       {/* Desktop Main Header */}
-      <div className="hidden lg:block bg-gradient-to-r from-white to-[#0D47A1]/5 px-6 shadow-lg relative overflow-hidden">
+      <div className="hidden xl:block bg-gradient-to-r from-white to-[#0D47A1]/5 px-4 lg:px-6 shadow-lg relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10 py-1.5">
           {/* Logo Section */}
-          <div className="flex items-center relative right-8">
+          <div className="flex items-center md:gap-2 lg:gap-4">
             <Link href="/">
               <img
                 src="/logo.png"
                 alt="School Logo"
-                className="w-72 h-17 object-contain"
+                className="h-12 md:h-14 lg:h-16 xl:h-17 w-auto object-contain"
               />
             </Link>
             {/* Anniversary Badge */}
-            <img src="/excellence.png" alt="Sree Buddha Central School" className="w-30 h-16 object-contain" />
+            <img
+              src="/excellence.png"
+              alt="Sree Buddha Central School"
+              className="h-11 md:h-13 lg:h-15 xl:h-16 w-auto object-contain"
+            />
           </div>
 
           {/* Contact Info (Icon Left, Label Above Value) */}
-          <div className="flex items-center gap-10 text-[#0D47A1]">
+          <div className="flex items-center gap-4 md:gap-6 lg:gap-10 text-[#0D47A1]">
             {/* Phone */}
             <Link
-              href="tel:04792562489"
+              href="tel:04762662489"
               aria-label="Call us"
-              className="flex items-start gap-3 hover:text-blue-800 transition-colors"
-              title="Call: 0479-2562489, 2664989"
+              className="flex items-start gap-2 md:gap-3 hover:text-blue-800 transition-colors"
+              title="Call: 0476-2662489, 2664989"
             >
-              <Phone className="w-8 h-8 my-auto" />
+              <Phone className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 my-auto" />
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-dark mb-1">Phone</span>
-                <span className="text-sm mt-1">0479-2562489, 2664989</span>
+                <span className="text-xs md:text-sm font-medium text-dark mb-1">
+                  Phone
+                </span>
+                <span className="text-xs md:text-sm mt-1">
+                  0476-2662489, 2664989
+                </span>
               </div>
             </Link>
 
@@ -129,13 +147,17 @@ const Navbar = () => {
             <Link
               href="mailto:sbcskarunagappally@gmail.com"
               aria-label="Email us"
-              className="flex items-start gap-3 hover:text-blue-800 transition-colors"
+              className="flex items-start gap-2 md:gap-3 hover:text-blue-800 transition-colors"
               title="Email: sbcskarunagappally@gmail.com"
             >
-              <Mail className="w-8 h-8 my-auto" />
+              <Mail className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 my-auto" />
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-dark mb-1">Email</span>
-                <span className="text-sm mt-1">sbcskarunagappally@gmail.com</span>
+                <span className="text-xs md:text-sm font-medium text-dark mb-1">
+                  Email
+                </span>
+                <span className="text-xs md:text-sm mt-1 break-all">
+                  sbcskarunagappally@gmail.com
+                </span>
               </div>
             </Link>
           </div>
@@ -143,51 +165,102 @@ const Navbar = () => {
       </div>
 
       {/* Navigation Menu - Desktop */}
-      <nav className="hidden lg:block bg-[#0D47A1] shadow-lg">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center">
-            <div className="flex space-x-2">
-              {/* The Foundation Dropdown */}
+      <nav className="hidden xl:block bg-[#0D47A1] shadow-lg sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-1 md:px-2 lg:px-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-0.5 md:space-x-1 lg:space-x-2">
+              {/* About Foundation Dropdown */}
               <div className="relative group">
                 <button
-                  className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
+                  className="flex items-center px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
                   onClick={() => handleDropdown("foundation")}
                 >
-                  The Foundation
-                  <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
+                  The School
+                  <ChevronDown className="w-3 h-3 md:w-4 md:h-4 ml-0.5 md:ml-1 transition-transform group-hover:rotate-180" />
                 </button>
-                <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-52 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                  <Link
-                    href="/about-foundation/objectives"
-                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
-                    onClick={closeDropdown}
-                  >
-                    Objectives
-                  </Link>
-                  <Link
-                    href="/about-foundation/management"
-                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
-                    onClick={closeDropdown}
-                  >
-                    Management
-                  </Link>
-                  <Link
-                    href="/about-foundation/institutions"
-                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
-                    onClick={closeDropdown}
-                  >
-                    Institutions
-                  </Link>
-                </div>
+                <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-64 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                  {/* <div className="grid grid-cols-2 gap-x-4"> */}
+                    <Link
+                      href="/#about-us"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      About Us
+                    </Link>
+                    <Link
+                      href="/the-school/achievements"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Achievements
+                    </Link>
+                    <Link
+                      href="/the-school/administration"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Administration
+                    </Link>
+                    <Link
+                      href="/the-school/management"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      SMC
+                    </Link>
+                    <Link
+                      href="/the-school/messages"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Chairman's and Principal's Messages
+                    </Link>
+                    {/* <Link
+                      href="/documents/disclosure"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-[#0D47A1] hover:bg-blue-50 transition-all duration-200 text-sm"
+                      onClick={closeDropdown}
+                    >
+                      Mandatory Disclosure
+                    </Link> */}
+                    <Link
+                      href="/the-school/school-assembly"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      School Assembly
+                    </Link>
+                    <Link
+                      href="/admission"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Admission
+                    </Link>
+                    
+                    <Link
+                      href="/the-school/objectives"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Objectives
+                    </Link>
+                    <Link
+                      href="/the-school/missionandvission"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Mission & Vision
+                    </Link>
+                  </div>
               </div>
 
-              {/* The School Dropdown */}
-              <div className="relative group">
+              {/* About School Dropdown */}
+              {/* <div className="relative group">
                 <button
                   className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
                   onClick={() => handleDropdown("school")}
                 >
-                  The School
+                  About School
                   <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-64 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
@@ -198,26 +271,12 @@ const Navbar = () => {
                   >
                     Chairman's and Principal's Messages
                   </Link>
-                   <Link
-                href="/about-school/achievements"
-                className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
-                onClick={closeDropdown}
-              >
-                Achievements
-              </Link>
                   <Link
                     href="/about-school/missionandvission"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
                     Mission & Vision
-                  </Link>
-                  <Link
-                    href="/about-school/associations"
-                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
-                    onClick={closeDropdown}
-                  >
-                    Associations
                   </Link>
                   <Link
                     href="/about-school/departments"
@@ -227,16 +286,16 @@ const Navbar = () => {
                     Departments
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               {/* Facilities Dropdown */}
               <div className="relative group">
                 <button
-                  className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
+                  className="flex items-center px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
                   onClick={() => handleDropdown("Facilities")}
                 >
                   Facilities
-                  <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3 h-3 md:w-4 md:h-4 ml-0.5 md:ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-48 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
                   {/* <Link
@@ -313,13 +372,13 @@ const Navbar = () => {
               </div>
 
               {/* academic Dropdown */}
-              {/* <div className="relative group">
+              <div className="relative group">
                 <button
-                  className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
+                  className="flex items-center px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
                   onClick={() => handleDropdown("documents")}
                 >
                   Academic
-                  <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3 h-3 md:w-4 md:h-4 ml-0.5 md:ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-56 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
                   <Link
@@ -341,7 +400,7 @@ const Navbar = () => {
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
-                    secondary
+                    Secondary
                   </Link>
                   <Link
                     href="/academics/seniorSecondary"
@@ -355,7 +414,7 @@ const Navbar = () => {
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
-                    Year Plan & Annual Report
+                    Academic Calendar & Year Plan
                   </Link>
                   <Link
                     href="/academics/result"
@@ -365,54 +424,69 @@ const Navbar = () => {
                     Result
                   </Link>
                 </div>
-              </div> */}
-                {/* Learning Pathways Dropdown (Academic + Non-Academic) */}
-                <div className="relative group">
-                  <button
-                    className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
-                    onClick={() => handleDropdown("learning")}
-                  >
-                     Pathways
-                    <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
-                  </button>
-                  <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-4 w-96 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                    <div className="grid grid-cols-2 gap-4 px-4">
-                      <div>
-                        <h4 className="text-sm font-semibold text-gray-600 mb-2">Academic</h4>
-                        <Link href="/academics/preprimary" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Pre-Primary</Link>
-                        <Link href="/academics/primary" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Primary</Link>
-                        <Link href="/academics/secondary" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Secondary</Link>
-                        <Link href="/academics/seniorSecondary" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Senior Secondary</Link>
-                        <Link href="/academics/yearPlanAndReport" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Year Plan & Annual Report</Link>
-                        <Link href="/academics/result" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Result</Link>
-                      </div>
-
-                      <div>
-                        <h4 className="text-sm font-semibold text-gray-600 mb-2">Non-Academic</h4>
-                        <Link href="/non-academics/events" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Events</Link>
-                        <Link href="/non-academics/clubs" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Clubs</Link>
-                        <Link href="/non-academics/houses" className="block px-3 py-1 text-gray-800 hover:text-secondary hover:bg-gray-50 rounded" onClick={closeDropdown}>Houses</Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              {/* Documents Dropdown */}
+              </div>
+              <Link
+                href="/departments"
+                className="px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
+              >
+                Departments
+              </Link>
+              {/* Learning Pathways Dropdown (Academic + Non-Academic) */}
               <div className="relative group">
                 <button
-                  className="flex items-center px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
-                  onClick={() => handleDropdown("documents")}
+                  className="flex items-center px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
+                  onClick={() => handleDropdown("learning")}
                 >
-                  Documents
-                  <ChevronDown className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" />
+                  Non-Academic
+                  <ChevronDown className="w-3 h-3 md:w-4 md:h-4 ml-0.5 md:ml-1 transition-transform group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-56 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
                   <Link
+                    href="/non-academics/events"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Events
+                  </Link>
+                  <Link
+                    href="/non-academics/clubs"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Clubs
+                  </Link>
+                  <Link
+                    href="/non-academics/houses"
+                    className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
+                    onClick={closeDropdown}
+                  >
+                    Houses
+                  </Link>
+                </div>
+              </div>
+              {/* <Link
+                href="/documents/disclosure"
+                className="px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
+              >
+              Mandatory Disclosure
+              </Link> */}
+              {/* Documents Dropdown */}
+              <div className="relative group">
+                <button
+                  className="flex items-center px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
+                  onClick={() => handleDropdown("documents")}
+                >
+                  Mandatory Disclosure
+                  <ChevronDown className="w-3 h-3 md:w-4 md:h-4 ml-0.5 md:ml-1 transition-transform group-hover:rotate-180" />
+                </button>
+                <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg py-3 w-56 z-50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                  {/* <Link
                     href="/documents/tc"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
                     onClick={closeDropdown}
                   >
                     TC Certificate
-                  </Link>
+                  </Link> */}
                   <Link
                     href="/documents/disclosure"
                     className="block px-4 py-2 text-gray-800 hover:text-secondary hover:bg-gray-50 transition-all duration-200"
@@ -420,21 +494,99 @@ const Navbar = () => {
                   >
                     Mandatory Disclosure
                   </Link>
+                  <Link
+                    href="/documents/school-assembly"
+                    className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                    onClick={closeDropdown}
+                  >
+                    School Assembly
+                  </Link>
+                  <Link
+                      href="/documents/fee-structure"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200"
+                      onClick={closeDropdown}
+                    >
+                      Fee Structure
+                    </Link>
+                    <Link
+                      href="/documents/tc"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      TC
+                    </Link>
+                    <Link
+                      href="/documents/newsLetter"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Annual News Letter
+                    </Link>
+                    <Link
+                      href="/documents/associations"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      PTA
+                    </Link>
+                    <Link
+                      href="/documents/sister-concerns"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Sister Concerns
+                    </Link>
+                    <Link
+                      href="/documents/textbooks-list"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      List of text books
+                    </Link>
+                    <Link
+                      href="/documents/school-uniforms"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      School Uniforms
+                    </Link>
+                    <Link
+                      href="/documents/bus-information"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Bus Route
+                    </Link>
+                    <Link
+                      href="/documents/general-rules"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      General Rules
+                    </Link>
                 </div>
               </div>
 
               <Link
                 href="/gallery"
-                className="px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors"
+                className="px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
               >
                 Gallery
               </Link>
-              
+              {/* <Link
+                href="/contact-us"
+                className="px-2 md:px-3 lg:px-4 py-3 text-white hover:bg-[#0D47A1]/80 transition-colors text-xs md:text-sm lg:text-base font-medium whitespace-nowrap"
+              >
+                Contact Us
+              </Link> */}
             </div>
 
             {/* Admission Form Button */}
-            <div className="ml-auto">
-              <Link href="/admission" className="bg-gradient-to-r from-white to-white text-[#0D47A1] px-6 py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105">
+            <div className="ml-auto pl-1 md:pl-2">
+              <Link
+                href="/admission"
+                className="bg-gradient-to-r from-white to-white text-[#0D47A1] px-3 md:px-4 lg:px-6 py-1.5 md:py-2 font-bold hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 rounded-md lg:rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 text-xs md:text-sm lg:text-base whitespace-nowrap"
+              >
                 Admission Form
               </Link>
             </div>
@@ -444,111 +596,117 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50">
+        <div className="xl:hidden fixed inset-0 z-50">
           {/* Background overlay */}
-          <div 
+          <div
             className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
             onClick={closeMobileMenu}
           ></div>
-          
+
           {/* Side drawer */}
-          <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl overflow-y-auto" style={{animation: 'slideInRight 0.3s ease-in-out'}}>
-          {/* Header with close button */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <h2 className="text-[#0D47A1] text-lg font-semibold">Menu</h2>
-            <button 
-              onClick={closeMobileMenu}
-              className="text-[#0D47A1] p-2 hover:bg-gray-100 rounded transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-            
+          <div
+            className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl overflow-y-auto"
+            style={{ animation: "slideInRight 0.3s ease-in-out" }}
+          >
+            {/* Header with close button */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h2 className="text-[#0D47A1] text-lg font-semibold">Menu</h2>
+              <button
+                onClick={closeMobileMenu}
+                className="text-[#0D47A1] p-2 hover:bg-gray-100 rounded transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
             {/* Menu content */}
             <div className="py-4">
               <div className="space-y-1 flex flex-col">
-                {/* The Foundation Mobile Dropdown */}
+                {/* The School Mobile Dropdown */}
                 <div className="w-full">
                   <button
                     className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
                     onClick={() => handleMobileDropdown("foundation")}
                   >
-                    The Foundation
-                    <ChevronDown 
+                    The School
+                    <ChevronDown
                       className={`w-4 h-4 transition-transform duration-200 ${
-                        activeMobileDropdown === "foundation" ? "rotate-180" : ""
-                      }`} 
+                        activeMobileDropdown === "foundation"
+                          ? "rotate-180"
+                          : ""
+                      }`}
                     />
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "foundation" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
-                      <Link
-                        href="/about-foundation/objectives"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        Objectives
-                      </Link>
-                      <Link
-                        href="/about-foundation/management"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        Management
-                      </Link>
-                      <Link
-                        href="/about-foundation/institutions"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        Institutions
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                {/* The School Mobile Dropdown */}
-                <div className="w-full">
-                  <button
-                    className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                    onClick={() => handleMobileDropdown("school")}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      activeMobileDropdown === "foundation"
+                        ? "max-h-[1000px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
                   >
-                    About 
-                    <ChevronDown 
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        activeMobileDropdown === "school" ? "rotate-180" : ""
-                      }`} 
-                    />
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "school" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
                       <Link
-                        href="/about-school/messages"
+                        href="/#about-us"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        About Us
+                      </Link>
+                      <Link
+                        href="/achievements"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Achievements
+                      </Link>
+                      <Link
+                        href="/the-school/administration"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Administration
+                      </Link>
+                      <Link
+                        href="/the-school/management"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        SMC
+                      </Link>
+                      <Link
+                        href="/the-school/messages"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
                         Chairman's and Principal's Messages
                       </Link>
                       <Link
-                        href="/about-school/missionandvission"
+                        href="/the-school/school-assembly"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        School Assembly
+                      </Link>
+                      <Link
+                        href="/admission"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Admission
+                      </Link>
+                      <Link
+                        href="/the-school/objectives"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Objectives
+                      </Link>
+                      <Link
+                        href="/the-school/missionandvission"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
                         Mission & Vision
-                      </Link>
-                      <Link
-                        href="/about-school/associations"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        Associations
-                      </Link>
-                      <Link
-                        href="/about-school/departments"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        Departments
                       </Link>
                     </div>
                   </div>
@@ -561,13 +719,21 @@ const Navbar = () => {
                     onClick={() => handleMobileDropdown("Facilities")}
                   >
                     Facilities
-                    <ChevronDown 
+                    <ChevronDown
                       className={`w-4 h-4 transition-transform duration-200 ${
-                        activeMobileDropdown === "Facilities" ? "rotate-180" : ""
-                      }`} 
+                        activeMobileDropdown === "Facilities"
+                          ? "rotate-180"
+                          : ""
+                      }`}
                     />
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "Facilities" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      activeMobileDropdown === "Facilities"
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
                     <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
                       {/* <Link
                         href="/facilities/academics"
@@ -623,73 +789,172 @@ const Navbar = () => {
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
-                        conference Hall
-                      </Link>      
+                        Conference Hall
+                      </Link>
                       <Link
                         href="/facilities/playground"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
-                        Play ground
-                      </Link>      
+                        Playground
+                      </Link>
                       <Link
                         href="/facilities/sportsroom"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
                         Sports Room
-                      </Link>      
+                      </Link>
                     </div>
                   </div>
                 </div>
 
-                {/* Learning Pathways Mobile Dropdown */}
+                {/* Academic Mobile Dropdown */}
                 <div className="w-full">
                   <button
                     className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                    onClick={() => handleMobileDropdown("learning")}
+                    onClick={() => handleMobileDropdown("academic")}
                   >
-                    Pathways
-                    <ChevronDown 
+                    Academic
+                    <ChevronDown
                       className={`w-4 h-4 transition-transform duration-200 ${
-                        activeMobileDropdown === "learning" ? "rotate-180" : ""
-                      }`} 
+                        activeMobileDropdown === "academic" ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "learning" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      activeMobileDropdown === "academic"
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
                     <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
-                      <div className="px-4 py-2">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Academic</h4>
-                        <Link href="/academics/preprimary" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Pre-Primary</Link>
-                        <Link href="/academics/primary" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Primary</Link>
-                        <Link href="/academics/secondary" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Secondary</Link>
-                        <Link href="/academics/seniorSecondary" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Senior Secondary</Link>
-                        <Link href="/academics/yearPlanAndReport" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Year Plan & Annual Report</Link>
-                        <Link href="/academics/result" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Result</Link>
-                      </div>
-                      <div className="px-4 py-2 border-t border-gray-100">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Non-Academic</h4>
-                        <Link href="/non-academics/events" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Events</Link>
-                        <Link href="/non-academics/clubs" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Clubs</Link>
-                        <Link href="/non-academics/houses" className="block px-4 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMobileMenu}>Houses</Link>
-                      </div>
+                      <Link
+                        href="/academics/preprimary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Pre-Primary
+                      </Link>
+                      <Link
+                        href="/academics/primary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Primary
+                      </Link>
+                      <Link
+                        href="/academics/secondary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Secondary
+                      </Link>
+                      <Link
+                        href="/academics/seniorSecondary"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Senior Secondary
+                      </Link>
+                      <Link
+                        href="/academics/yearPlanAndReport"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Academic Calendar & Year Plan
+                      </Link>
+                      <Link
+                        href="/academics/result"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Result
+                      </Link>
                     </div>
                   </div>
                 </div>
-                {/* Documents Mobile Dropdown */}
+
+                {/* Departments - Simple Link */}
+                <Link
+                  href="/departments"
+                  className="block w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
+                  onClick={closeMobileMenu}
+                >
+                  Departments
+                </Link>
+
+                {/* Non-Academic Mobile Dropdown */}
                 <div className="w-full">
                   <button
                     className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                    onClick={() => handleMobileDropdown("documents")}
+                    onClick={() => handleMobileDropdown("nonacademic")}
                   >
-                    Documents
-                    <ChevronDown 
+                    Non-Academic
+                    <ChevronDown
                       className={`w-4 h-4 transition-transform duration-200 ${
-                        activeMobileDropdown === "documents" ? "rotate-180" : ""
-                      }`} 
+                        activeMobileDropdown === "nonacademic"
+                          ? "rotate-180"
+                          : ""
+                      }`}
                     />
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeMobileDropdown === "documents" ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      activeMobileDropdown === "nonacademic"
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
+                      <Link
+                        href="/non-academics/events"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Events
+                      </Link>
+                      <Link
+                        href="/non-academics/clubs"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Clubs
+                      </Link>
+                      <Link
+                        href="/non-academics/houses"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Houses
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mandatory Disclosure Mobile Dropdown */}
+                <div className="w-full">
+                  <button
+                    className="flex items-center justify-between w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
+                    onClick={() => handleMobileDropdown("disclosure")}
+                  >
+                    Mandatory Disclosure
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        activeMobileDropdown === "disclosure"
+                          ? "rotate-180"
+                          : ""
+                      }`}
+                    />
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      activeMobileDropdown === "disclosure"
+                        ? "max-h-[1000px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
                     <div className="bg-gray-50 border-l-2 border-[#0D47A1] ml-4">
                       <Link
                         href="/documents/disclosure"
@@ -699,37 +964,101 @@ const Navbar = () => {
                         Mandatory Disclosure
                       </Link>
                       <Link
+                        href="/the-school/school-assembly"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        School Assembly
+                      </Link>
+                      <Link
+                        href="/documents/fee-structure"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Fee Structure
+                      </Link>
+                      <Link
                         href="/documents/tc"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
-                        TC Certificate
+                        TC
+                      </Link>
+                      <Link
+                        href="/documents/newsLetter"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Annual News Letter
+                      </Link>
+                      <Link
+                        href="/documents/associations"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        PTA
+                      </Link>
+                      <Link
+                        href="/documents/sister-concerns"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Sister Concerns
+                      </Link>
+                      <Link
+                        href="/documents/textbooks-list"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        List of text books
+                      </Link>
+                      <Link
+                        href="/documents/school-uniforms"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        School Uniforms
+                      </Link>
+                      <Link
+                        href="/documents/bus-information"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Bus Route
+                      </Link>
+                      <Link
+                        href="/documents/general-rules"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        General Rules
                       </Link>
                     </div>
                   </div>
                 </div>
 
                 {/* Gallery - Simple Link */}
-                <Link 
-                  href="/gallery" 
+                <Link
+                  href="/gallery"
                   className="block w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
                   onClick={closeMobileMenu}
                 >
                   Gallery
                 </Link>
-                
-                <Link 
-                  href="/achievements" 
+
+                {/* Contact Us - Simple Link */}
+                <Link
+                  href="/contact-us"
                   className="block w-full px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
                   onClick={closeMobileMenu}
                 >
-                  Achievements
+                  Contact Us
                 </Link>
 
                 {/* Admission Form Button */}
                 <div className="px-6 pt-4 w-full">
-                  <Link 
-                    href="/admission" 
+                  <Link
+                    href="/admission"
                     className="block w-full bg-[#0D47A1] text-white px-6 py-3 font-semibold rounded-lg hover:bg-[#0D47A1]/90 transition-all duration-200 text-center transform hover:scale-105"
                     onClick={closeMobileMenu}
                   >
