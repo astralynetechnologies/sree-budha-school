@@ -49,6 +49,10 @@ function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = 
 }
 
 const TextbooksList = () => {
+  const [textbooks, setTextbooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const infoCards = [
     {
       icon: "📚",
@@ -56,16 +60,66 @@ const TextbooksList = () => {
       description: "Complete list of prescribed textbooks for all classes following CBSE curriculum and state board guidelines."
     },
     {
-      icon: "🏪",
+      icon: "🪙",
       title: "School Bookstore",
       description: "Books available at the school bookstore with genuine editions and competitive pricing."
     },
     {
-      icon: "📝",
+      icon: "📑",
       title: "Reference Materials",
       description: "Recommended reference books and supplementary materials for enhanced learning."
     }
   ];
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  useEffect(() => {
+    const fetchTextbooks = async () => {
+      try {
+        setLoading(true);
+        const apiUrl = process.env.NEXT_PUBLIC_CMS_URL || '';
+        const response = await fetch(`${apiUrl}/api/textbooks`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch textbooks');
+        }
+        
+        const data = await response.json();
+        
+        // Filter only active textbooks
+        const activeTextbooks = data.docs?.filter(book => book.isActive) || [];
+        setTextbooks(activeTextbooks);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching textbooks:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTextbooks();
+  }, []);
+
+  // Helper function to get file URL
+  const getFileUrl = (file) => {
+    if (!file) return null;
+    
+    // If file is a string (ID), construct the URL
+    if (typeof file === 'string') {
+      const apiUrl = process.env.NEXT_PUBLIC_CMS_URL || '';
+      return `${apiUrl}/api/media/file/${file}`;
+    }
+    
+    // If file is an object with url property
+    if (file.url) {
+      const apiUrl = process.env.NEXT_PUBLIC_CMS_URL || '';
+      return file.url.startsWith('http') ? file.url : `${apiUrl}${file.url}`;
+    }
+    
+    return null;
+  };
 
   return (
     <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 lg:py-24 overflow-hidden">
@@ -87,7 +141,7 @@ const TextbooksList = () => {
           
           <Reveal delay={100}>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              List of <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Textbooks</span> 2024-25
+              List of <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Textbooks</span> for Academic Year {currentYear}-{currentYear + 1}
             </h1>
           </Reveal>
           
@@ -111,80 +165,95 @@ const TextbooksList = () => {
           ))}
         </div>
 
-        {/* Main Content Card */}
-        <Reveal delay={500}>
-          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] p-12 text-center">
-              <div className="text-6xl mb-4">📖</div>
-              <h2 className="text-3xl font-bold text-white mb-3">
-                Complete Textbook List
-              </h2>
-              <p className="text-blue-100 text-lg">
-                Download the comprehensive list of prescribed textbooks
-              </p>
-            </div>
-            
-            <div className="p-12">
-              <div className="space-y-6 mb-10">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Class-wise Book List</h3>
-                    <p className="text-gray-600">Detailed textbook list for all classes from Pre-Primary to Class XII</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Subject-wise Details</h3>
-                    <p className="text-gray-600">Book names, publishers, editions, and ISBN numbers for easy identification</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Reference Books</h3>
-                    <p className="text-gray-600">Recommended reference materials and supplementary reading resources</p>
-                  </div>
-                </div>
-              </div>
-
+        {/* Loading State */}
+        {loading && (
+          <Reveal delay={500}>
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 max-w-4xl mx-auto p-12">
               <div className="text-center">
-                <a 
-                  href="/path-to-your-textbooks-list.pdf" 
-                  download
-                  className="group inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 text-lg"
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#0D47A1] border-t-transparent mb-4"></div>
+                <p className="text-gray-600 text-lg">Loading textbooks...</p>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <Reveal delay={500}>
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-red-200 max-w-4xl mx-auto p-12">
+              <div className="text-center">
+                <div className="text-6xl mb-4">⚠️</div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">Unable to Load Textbooks</h2>
+                <p className="text-gray-600 mb-6">{error}</p>
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="px-6 py-3 bg-[#0D47A1] text-white rounded-lg hover:bg-[#1565C0] transition-colors"
                 >
-                  <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Download Textbooks List PDF
-                  <svg className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <p className="text-gray-500 text-sm mt-4">
-                  PDF Document • Updated for Academic Year 2024-25
+                  Try Again
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        {/* Textbooks List */}
+        {!loading && !error && textbooks.length > 0 && (
+          <div className="space-y-6">
+            {textbooks.map((textbook, index) => (
+              <Reveal key={textbook.id} delay={500 + index * 100}>
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 max-w-4xl mx-auto">
+                  <div className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] p-8 text-center">
+                    <div className="text-5xl mb-3">📖</div>
+                    <h2 className="text-2xl font-bold text-white mb-2">
+                      {textbook.title}
+                    </h2>
+                    {textbook.description && (
+                      <p className="text-blue-100 text-base">
+                        {textbook.description}
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="p-8 text-center">
+                    <a 
+                      href={getFileUrl(textbook.file)} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 text-base"
+                    >
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Download PDF
+                      <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                    
+                    <p className="text-gray-500 text-sm mt-3">
+                      PDF Document • Click to view or download
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        )}
+
+        {/* No Textbooks Found */}
+        {!loading && !error && textbooks.length === 0 && (
+          <Reveal delay={500}>
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 max-w-4xl mx-auto p-12">
+              <div className="text-center">
+                <div className="text-6xl mb-4">📚</div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">No Textbooks Available</h2>
+                <p className="text-gray-600">
+                  Textbook list will be updated soon. Please check back later.
                 </p>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        )}
 
         {/* Important Notes Section */}
         <Reveal delay={600}>
