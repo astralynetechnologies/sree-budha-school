@@ -495,13 +495,6 @@ const Navbar = () => {
                     Mandatory Disclosure
                   </Link>
                   <Link
-                    href="/documents/school-assembly"
-                    className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
-                    onClick={closeDropdown}
-                  >
-                    School Assembly
-                  </Link>
-                  <Link
                       href="/documents/fee-structure"
                       className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200"
                       onClick={closeDropdown}
@@ -972,13 +965,6 @@ const Navbar = () => {
                         Mandatory Disclosure
                       </Link>
                       <Link
-                        href="/the-school/school-assembly"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        School Assembly
-                      </Link>
-                      <Link
                         href="/documents/fee-structure"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
@@ -1042,11 +1028,11 @@ const Navbar = () => {
                         General Rules
                       </Link>
                       <Link
-                        href="/documents/Appendix"
+                        href="/documents/"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
-                        Appendix
+                        General Rules
                       </Link>
                     </div>
                   </div>
