@@ -19,7 +19,7 @@ export default function QuickInformation() {
       description: "Safe and reliable bus service covering major routes in the city.",
       buttonText: "View Routes",
       buttonStyle: "border border-primary text-primary hover:bg-blue-50",
-      linkTo: "/bus-information"
+      linkTo: "/documents/bus-information"
     },
     {
       icon: <Download className="w-8 h-8 text-primary" />,
