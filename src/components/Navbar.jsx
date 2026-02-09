@@ -564,6 +564,14 @@ const Navbar = () => {
                     >
                       General Rules
                     </Link>
+                    <Link
+                      href="/documents/Appendix"
+                      className="block px-4 py-2.5 text-gray-700 hover:text-secondary hover:bg-blue-50 transition-all duration-200 "
+                      onClick={closeDropdown}
+                    >
+                      Appendix
+                    </Link>
+
                 </div>
               </div>
 
@@ -1032,6 +1040,13 @@ const Navbar = () => {
                         onClick={closeMobileMenu}
                       >
                         General Rules
+                      </Link>
+                      <Link
+                        href="/documents/Appendix"
+                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Appendix
                       </Link>
                     </div>
                   </div>
