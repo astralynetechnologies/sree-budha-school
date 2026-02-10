@@ -1027,13 +1027,6 @@ const Navbar = () => {
                       >
                         General Rules
                       </Link>
-                      <Link
-                        href="/documents/"
-                        className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        General Rules
-                      </Link>
                     </div>
                   </div>
                 </div>
