@@ -654,7 +654,7 @@ const Navbar = () => {
                         About Us
                       </Link>
                       <Link
-                        href="/achievements"
+                        href="/the-school/achievements"
                         className="block px-8 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={closeMobileMenu}
                       >
