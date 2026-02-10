@@ -129,72 +129,118 @@ export default function AppendixPage() {
     return icons[type] || icons.info;
   };
 
-  const renderGeneralInfo = (items) => (
-    <div className="space-y-3">
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-        >
-          <div className="flex justify-between items-start gap-4">
-            <div className="flex-1">
-              <h4 className="text-sm font-semibold text-primary mb-1">
-                {item.serialNumber}. {item.title}
-              </h4>
-              <p className="text-base text-dark">{item.details}</p>
-            </div>
-          </div>
+  const renderTwoColumnTable = (items) => {
+    if (items.length === 0) {
+      return (
+        <div className="text-center py-8 text-light-dark">
+          <p>No data available for this section</p>
         </div>
-      ))}
-    </div>
-  );
+      );
+    }
 
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-full divide-y divide-neutral border border-neutral rounded-lg overflow-hidden">
+          <thead className="bg-primary text-accent">
+            <tr>
+              <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                Title
+              </th>
+              <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                Details
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-accent divide-y divide-neutral">
+            {items.map((item, index) => (
+              <tr 
+                key={item.id} 
+                className={index % 2 === 0 ? 'bg-white' : 'bg-accent'}
+              >
+                <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark font-medium">
+                  <div className="flex items-center">
+                    <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-semibold mr-3">
+                      {item.serialNumber}
+                    </span>
+                    {item.title}
+                  </div>
+                </td>
+                <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark">
+                  {item.details || item.resultData?.year || '-'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  const renderGeneralInfo = (items) => renderTwoColumnTable(items);
+  
   const renderDocuments = (items) => (
-    <div className="space-y-3">
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-        >
-          <div className="flex flex-col sm:flex-row justify-between items-start gap-3">
-            <div className="flex-1">
-              <h4 className="text-sm font-semibold text-primary mb-2">
-                {item.serialNumber}. {item.title}
-              </h4>
-              {(item.document || item.documentUrl) && (
-                <a
-                  href={item.document?.url || item.documentUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-accent bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors"
-                >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-full divide-y divide-neutral border border-neutral rounded-lg overflow-hidden">
+        <thead className="bg-primary text-accent">
+          <tr>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Title
+            </th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-accent divide-y divide-neutral">
+          {items.map((item, index) => (
+            <tr 
+              key={item.id} 
+              className={index % 2 === 0 ? 'bg-white' : 'bg-accent'}
+            >
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark font-medium">
+                <div className="flex items-center">
+                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-semibold mr-3">
+                    {item.serialNumber}
+                  </span>
+                  {item.title}
+                </div>
+              </td>
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                {(item.document || item.documentUrl) && (
+                  <a
+                    href={item.document?.url || item.documentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sm bg-primary hover:bg-primary/90 text-accent px-4 py-2 rounded-lg transition-colors"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                  View Document
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      ))}
+                    <svg
+                      className="w-4 h-4 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    View Document
+                  </a>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 
   const renderAcademics = (items) => {
     return (
-      <div className="space-y-4">
-        {/* Render Staff Summary once at the top if it exists */}
+      <div className="space-y-6">
+        {/* Staff Summary */}
         {staffSummary && (
           <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-lg p-5 border-2 border-primary/20">
             <h4 className="text-base font-bold text-primary mb-4">Teaching Staff Summary</h4>
@@ -227,146 +273,127 @@ export default function AppendixPage() {
           </div>
         )}
 
-        {/* Render all academic items */}
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-          >
-            <h4 className="text-sm font-semibold text-primary mb-3">
-              {item.serialNumber}. {item.title}
-            </h4>
-
-            {(item.document || item.documentUrl) && (
-              <a
-                href={item.document?.url || item.documentUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-sm text-accent bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors"
-              >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+        {/* Academic Items Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-full divide-y divide-neutral border border-neutral rounded-lg overflow-hidden">
+            <thead className="bg-primary text-accent">
+              <tr>
+                <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                  Title
+                </th>
+                <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                  Details/Action
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-accent divide-y divide-neutral">
+              {items.map((item, index) => (
+                <tr 
+                  key={item.id} 
+                  className={index % 2 === 0 ? 'bg-white' : 'bg-accent'}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-                View Document
-              </a>
-            )}
-          </div>
-        ))}
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark font-medium">
+                    <div className="flex items-center">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-semibold mr-3">
+                        {item.serialNumber}
+                      </span>
+                      {item.title}
+                    </div>
+                  </td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                    {item.details ? (
+                      <span className="text-sm sm:text-base text-dark">{item.details}</span>
+                    ) : (item.document || item.documentUrl) ? (
+                      <a
+                        href={item.document?.url || item.documentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-sm bg-primary hover:bg-primary/90 text-accent px-4 py-2 rounded-lg transition-colors"
+                      >
+                        <svg
+                          className="w-4 h-4 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
+                        </svg>
+                        View Document
+                      </a>
+                    ) : (
+                      <span className="text-sm text-light-dark">-</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   };
 
-  const renderStaff = (items) => (
-    <div className="space-y-3">
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-        >
-          <div className="flex justify-between items-start gap-4">
-            <div className="flex-1">
-              <h4 className="text-sm font-semibold text-primary mb-1">
-                {item.serialNumber}. {item.title}
-              </h4>
-              <p className="text-base text-dark">{item.details}</p>
-              {item.staffDetails?.count && (
-                <p className="text-sm text-light-dark mt-1">
-                  Count: {item.staffDetails.count}
-                </p>
-              )}
-              {item.staffDetails?.teacherStudentRatio && (
-                <p className="text-sm text-light-dark mt-1">
-                  Ratio: {item.staffDetails.teacherStudentRatio}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  const renderStaff = (items) => renderTwoColumnTable(items);
 
   const renderResults = (items) => (
-    <div className="space-y-4">
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-        >
-          <h4 className="text-sm font-semibold text-primary mb-3">
-            Year {item.resultData?.year}
-          </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-accent p-3 rounded-lg border border-primary/10">
-              <p className="text-xs text-light-dark mb-1">Registered</p>
-              <p className="text-xl font-bold text-primary">
-                {item.resultData?.registered}
-              </p>
-            </div>
-            <div className="bg-accent p-3 rounded-lg border border-primary/10">
-              <p className="text-xs text-light-dark mb-1">Passed</p>
-              <p className="text-xl font-bold text-primary">
-                {item.resultData?.passed}
-              </p>
-            </div>
-            <div className="bg-accent p-3 rounded-lg border border-primary/10">
-              <p className="text-xs text-light-dark mb-1">Pass %</p>
-              <p className="text-xl font-bold text-primary">
-                {item.resultData?.passPercentage}%
-              </p>
-            </div>
-            <div className="bg-accent p-3 rounded-lg border border-primary/10">
-              <p className="text-xs text-light-dark mb-1">Remarks</p>
-              <p className="text-sm font-semibold text-primary">
-                {item.resultData?.remarks}
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-full divide-y divide-neutral border border-neutral rounded-lg overflow-hidden">
+        <thead className="bg-primary text-accent">
+          <tr>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Year
+            </th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Registered
+            </th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Passed
+            </th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Pass %
+            </th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              Remarks
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-accent divide-y divide-neutral">
+          {items.map((item, index) => (
+            <tr 
+              key={item.id} 
+              className={index % 2 === 0 ? 'bg-white' : 'bg-accent'}
+            >
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base font-semibold text-dark">
+                {item.resultData?.year || '-'}
+              </td>
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark">
+                {item.resultData?.registered || '-'}
+              </td>
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark">
+                {item.resultData?.passed || '-'}
+              </td>
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark">
+                {item.resultData?.passPercentage ? `${item.resultData.passPercentage}%` : '-'}
+              </td>
+              <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm sm:text-base text-dark">
+                {item.resultData?.remarks || '-'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 
-  const renderInfrastructure = (items) => (
-    <div className="space-y-3">
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-        >
-          <div className="flex justify-between items-start gap-4">
-            <div className="flex-1">
-              <h4 className="text-sm font-semibold text-primary mb-1">
-                {item.serialNumber}. {item.title}
-              </h4>
-              <p className="text-base text-dark">{item.details}</p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  const renderInfrastructure = (items) => renderTwoColumnTable(items);
 
   const renderContent = () => {
     const items = appendixData[activeSection] || [];
-
-    if (items.length === 0) {
-      return (
-        <div className="text-center py-8 text-light-dark">
-          <p>No data available for this section</p>
-        </div>
-      );
-    }
 
     switch (activeSection) {
       case 'general':
@@ -383,10 +410,15 @@ export default function AppendixPage() {
       case 'infrastructure':
         return renderInfrastructure(items);
       default:
-        return <div>Section not found</div>;
+        return (
+          <div className="text-center py-8 text-light-dark">
+            <p>No data available for this section</p>
+          </div>
+        );
     }
   };
 
+  // Loading and error states remain the same...
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral to-accent py-6 sm:py-8 md:py-12 px-3 sm:px-4 md:px-6 lg:px-8">
@@ -587,7 +619,7 @@ export default function AppendixPage() {
 
         {/* Content */}
         <div className="bg-accent rounded-xl sm:rounded-2xl shadow-lg border border-neutral p-4 sm:p-6 md:p-8">
-          <div className="mb-4 pb-4 border-b border-neutral">
+          <div className="mb-6 pb-4 border-b border-neutral">
             <h2 className="text-xl sm:text-2xl font-bold text-primary">
               {sections.find((s) => s.id === activeSection)?.label}
             </h2>
