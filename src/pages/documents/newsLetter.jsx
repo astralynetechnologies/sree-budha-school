@@ -49,32 +49,9 @@ function Reveal({ children, className = "", delay = 0, threshold = 0.15, from = 
 }
 
 const AnnualNewsletter = () => {
-  const newsletters = [
-    {
-      year: "2024-25",
-      title: "Building Tomorrow Together",
-      description: "Highlights of academic achievements, cultural events, sports victories, and student success stories from the academic year 2024-25.",
-      coverImage: "📰",
-      pdfUrl: "/documents/newsletter-2024-25.pdf",
-      featured: true
-    },
-    {
-      year: "2023-24",
-      title: "Excellence in Education",
-      description: "A comprehensive look at our school's achievements, new initiatives, and memorable moments from the year 2023-24.",
-      coverImage: "📑",
-      pdfUrl: "/documents/newsletter-2023-24.pdf",
-      featured: false
-    },
-    {
-      year: "2022-23",
-      title: "Journey of Growth",
-      description: "Celebrating three decades of excellence with special features on alumni achievements and school milestones.",
-      coverImage: "📄",
-      pdfUrl: "/documents/newsletter-2022-23.pdf",
-      featured: false
-    }
-  ];
+  const [newsletters, setNewsletters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const highlightCards = [
     {
@@ -98,6 +75,122 @@ const AnnualNewsletter = () => {
       description: "Dedicated teachers and their innovative approaches"
     }
   ];
+
+  useEffect(() => {
+    const fetchNewsletters = async () => {
+      try {
+        setLoading(true);
+        const apiUrl = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000';
+        const response = await fetch(`${apiUrl}/api/newsletter`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch newsletters');
+        }
+        
+        const data = await response.json();
+        
+        // Filter only active newsletters and sort by createdAt (newest first)
+        const activeNewsletters = data.docs
+          .filter(newsletter => newsletter.isActive)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        setNewsletters(activeNewsletters);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching newsletters:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsletters();
+  }, []);
+
+  // Extract year from title or use createdAt date
+  const getYear = (newsletter) => {
+    // Try to extract year from title (e.g., "Newsletter 2024-25" or "Newsletter 2024")
+    const yearMatch = newsletter.title.match(/(\d{4}(?:-\d{2,4})?)/);
+    if (yearMatch) {
+      return yearMatch[1];
+    }
+    // Fallback to creation year
+    return new Date(newsletter.createdAt).getFullYear().toString();
+  };
+
+  // Get file URL
+  const getFileUrl = (newsletter) => {
+    if (newsletter.file && typeof newsletter.file === 'object') {
+      return newsletter.file.url;
+    }
+    return null;
+  };
+
+  // Generate icon based on index
+  const getIcon = (index) => {
+    const icons = ["📰", "📚", "📄", "📖", "📋", "📑", "📜"];
+    return icons[index % icons.length];
+  };
+
+  if (loading) {
+    return (
+      <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <div className="w-16 h-16 border-4 border-[#0D47A1] border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-gray-600 text-lg">Loading newsletters...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <div className="text-6xl mb-4">⚠️</div>
+            <p className="text-gray-900 text-xl font-semibold mb-2">Unable to load newsletters</p>
+            <p className="text-gray-600">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (newsletters.length === 0) {
+    return (
+      <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center">
+            <Reveal>
+              <div className="inline-flex items-center px-4 py-2 bg-[#0D47A1]/10 rounded-full border border-[#0D47A1]/20 mb-6">
+                <div className="w-2 h-2 bg-[#0D47A1] rounded-full mr-2 animate-pulse"></div>
+                <span className="text-[#0D47A1] font-semibold text-sm tracking-wide">PUBLICATIONS</span>
+              </div>
+            </Reveal>
+            
+            <Reveal delay={100}>
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                Annual <span className="bg-gradient-to-r from-[#0D47A1] to-[#1565C0] bg-clip-text text-transparent">Newsletter</span>
+              </h1>
+            </Reveal>
+            
+            <Reveal delay={200}>
+              <div className="text-6xl mb-4">📰</div>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                No newsletters available at the moment. Check back soon!
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const featuredNewsletter = newsletters[0];
+  const previousNewsletters = newsletters.slice(1);
 
   return (
     <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 lg:py-24 overflow-hidden">
@@ -160,12 +253,12 @@ const AnnualNewsletter = () => {
               <div className="grid md:grid-cols-2">
                 {/* Left side - Cover */}
                 <div className="bg-gradient-to-br from-[#0D47A1] to-[#1565C0] p-12 flex flex-col items-center justify-center text-white">
-                  <div className="text-8xl mb-6">{newsletters[0].coverImage}</div>
+                  <div className="text-8xl mb-6">{getIcon(0)}</div>
                   <div className="text-center">
                     <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
-                      <span className="font-bold text-lg">Academic Year {newsletters[0].year}</span>
+                      <span className="font-bold text-lg">{getYear(featuredNewsletter)}</span>
                     </div>
-                    <h3 className="text-3xl font-bold mb-3">{newsletters[0].title}</h3>
+                    <h3 className="text-3xl font-bold mb-3">{featuredNewsletter.title}</h3>
                     <div className="w-20 h-1 bg-yellow-400 mx-auto"></div>
                   </div>
                 </div>
@@ -179,7 +272,7 @@ const AnnualNewsletter = () => {
                   </div>
                   
                   <p className="text-gray-700 text-lg leading-relaxed mb-8">
-                    {newsletters[0].description}
+                    {featuredNewsletter.description || "Discover the latest highlights, achievements, and memorable moments from our school community."}
                   </p>
 
                   <div className="space-y-4 mb-8">
@@ -193,7 +286,7 @@ const AnnualNewsletter = () => {
                       <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span>50+ pages of content</span>
+                      <span>Comprehensive coverage</span>
                     </div>
                     <div className="flex items-center gap-3 text-gray-600">
                       <svg className="w-5 h-5 text-[#0D47A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,19 +296,22 @@ const AnnualNewsletter = () => {
                     </div>
                   </div>
 
-                  <a 
-                    href={newsletters[0].pdfUrl}
-                    download
-                    className="group inline-flex items-center justify-center w-full px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  >
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Download Newsletter
-                    <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </a>
+                  {getFileUrl(featuredNewsletter) && (
+                    <a 
+                      href={getFileUrl(featuredNewsletter)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center justify-center w-full px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Download Newsletter
+                      <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -223,46 +319,51 @@ const AnnualNewsletter = () => {
         </Reveal>
 
         {/* Previous Editions */}
-        <div>
-          <Reveal delay={600}>
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-              Previous Editions
-            </h2>
-          </Reveal>
-          
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {newsletters.slice(1).map((newsletter, index) => (
-              <Reveal key={index} delay={700 + index * 100}>
-                <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden border border-gray-100">
-                  <div className="bg-gradient-to-r from-gray-700 to-gray-900 p-8 text-center">
-                    <div className="text-6xl mb-4">{newsletter.coverImage}</div>
-                    <div className="inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full mb-2">
-                      <span className="font-bold text-white text-sm">Year {newsletter.year}</span>
+        {previousNewsletters.length > 0 && (
+          <div>
+            <Reveal delay={600}>
+              <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+                Previous Editions
+              </h2>
+            </Reveal>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {previousNewsletters.map((newsletter, index) => (
+                <Reveal key={newsletter.id} delay={700 + index * 100}>
+                  <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden border border-gray-100">
+                    <div className="bg-gradient-to-r from-gray-700 to-gray-900 p-8 text-center">
+                      <div className="text-6xl mb-4">{getIcon(index + 1)}</div>
+                      <div className="inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full mb-2">
+                        <span className="font-bold text-white text-sm">{getYear(newsletter)}</span>
+                      </div>
+                      <h3 className="text-xl font-bold text-white line-clamp-2">{newsletter.title}</h3>
                     </div>
-                    <h3 className="text-xl font-bold text-white">{newsletter.title}</h3>
-                  </div>
-                  
-                  <div className="p-6">
-                    <p className="text-gray-600 mb-6 leading-relaxed">
-                      {newsletter.description}
-                    </p>
                     
-                    <a 
-                      href={newsletter.pdfUrl}
-                      download
-                      className="group inline-flex items-center justify-center w-full px-6 py-3 bg-gray-100 hover:bg-[#0D47A1] text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-300"
-                    >
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      Download PDF
-                    </a>
+                    <div className="p-6">
+                      <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
+                        {newsletter.description || "View this edition of our annual newsletter."}
+                      </p>
+                      
+                      {getFileUrl(newsletter) && (
+                        <a 
+                          href={getFileUrl(newsletter)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group inline-flex items-center justify-center w-full px-6 py-3 bg-gray-100 hover:bg-[#0D47A1] text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-300"
+                        >
+                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          Download PDF
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Call to Action */}
         <Reveal delay={900}>
