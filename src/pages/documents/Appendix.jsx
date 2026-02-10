@@ -7,6 +7,7 @@ export default function AppendixPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [appendixData, setAppendixData] = useState({});
+  const [staffSummary, setStaffSummary] = useState(null);
   const [activeSection, setActiveSection] = useState('general');
 
   // Section mapping
@@ -27,22 +28,22 @@ export default function AppendixPage() {
         setError(null);
 
         // Fetch all appendix data
-        const response = await fetch(
+        const appendixResponse = await fetch(
           `${process.env.NEXT_PUBLIC_CMS_URL}/api/appendix?where[isActive][equals]=true&limit=200&sort=serialNumber`
         );
 
-        if (!response.ok) {
+        if (!appendixResponse.ok) {
           throw new Error('Failed to fetch mandatory disclosure data');
         }
 
-        const data = await response.json();
+        const appendixDataResult = await appendixResponse.json();
 
-        if (!data.docs || data.docs.length === 0) {
+        if (!appendixDataResult.docs || appendixDataResult.docs.length === 0) {
           throw new Error('No mandatory disclosure data found');
         }
 
         // Group data by section
-        const groupedData = data.docs.reduce((acc, item) => {
+        const groupedData = appendixDataResult.docs.reduce((acc, item) => {
           if (!acc[item.section]) {
             acc[item.section] = [];
           }
@@ -51,6 +52,18 @@ export default function AppendixPage() {
         }, {});
 
         setAppendixData(groupedData);
+
+        // Fetch staff summary separately
+        const staffResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_CMS_URL}/api/staff-summary?where[isActive][equals]=true&limit=1`
+        );
+
+        if (staffResponse.ok) {
+          const staffData = await staffResponse.json();
+          if (staffData.docs && staffData.docs.length > 0) {
+            setStaffSummary(staffData.docs[0]);
+          }
+        }
       } catch (err) {
         console.error('Fetch error:', err);
         setError(err.message);
@@ -178,73 +191,80 @@ export default function AppendixPage() {
     </div>
   );
 
-  const renderAcademics = (items) => (
-    <div className="space-y-4">
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
-        >
-          <h4 className="text-sm font-semibold text-primary mb-3">
-            {item.serialNumber}. {item.title}
-          </h4>
-
-          {item.staffSummary && (
+  const renderAcademics = (items) => {
+    return (
+      <div className="space-y-4">
+        {/* Render Staff Summary once at the top if it exists */}
+        {staffSummary && (
+          <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-lg p-5 border-2 border-primary/20">
+            <h4 className="text-base font-bold text-primary mb-4">Teaching Staff Summary</h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="bg-accent p-3 rounded-lg border border-primary/10">
                 <p className="text-xs text-light-dark mb-1">Total Teachers</p>
                 <p className="text-xl font-bold text-primary">
-                  {item.staffSummary.totalTeachers}
+                  {staffSummary.totalTeachers}
                 </p>
               </div>
               <div className="bg-accent p-3 rounded-lg border border-primary/10">
                 <p className="text-xs text-light-dark mb-1">PGT</p>
                 <p className="text-xl font-bold text-primary">
-                  {item.staffSummary.pgt}
+                  {staffSummary.pgt}
                 </p>
               </div>
               <div className="bg-accent p-3 rounded-lg border border-primary/10">
                 <p className="text-xs text-light-dark mb-1">TGT</p>
                 <p className="text-xl font-bold text-primary">
-                  {item.staffSummary.tgt}
+                  {staffSummary.tgt}
                 </p>
               </div>
               <div className="bg-accent p-3 rounded-lg border border-primary/10">
                 <p className="text-xs text-light-dark mb-1">PRT</p>
                 <p className="text-xl font-bold text-primary">
-                  {item.staffSummary.prt}
+                  {staffSummary.prt}
                 </p>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {(item.document || item.documentUrl) && (
-            <a
-              href={item.document?.url || item.documentUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-sm text-accent bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors mt-3"
-            >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        {/* Render all academic items */}
+        {items.map((item) => (
+          <div
+            key={item.id}
+            className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
+          >
+            <h4 className="text-sm font-semibold text-primary mb-3">
+              {item.serialNumber}. {item.title}
+            </h4>
+
+            {(item.document || item.documentUrl) && (
+              <a
+                href={item.document?.url || item.documentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm text-accent bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              View Document
-            </a>
-          )}
-        </div>
-      ))}
-    </div>
-  );
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+                View Document
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   const renderStaff = (items) => (
     <div className="space-y-3">
@@ -258,15 +278,15 @@ export default function AppendixPage() {
               <h4 className="text-sm font-semibold text-primary mb-1">
                 {item.serialNumber}. {item.title}
               </h4>
-              {item.details && (
-                <p className="text-base text-dark">{item.details}</p>
-              )}
-              {item.staffDetails?.count !== undefined && (
-                <p className="text-base text-dark">{item.staffDetails.count}</p>
+              <p className="text-base text-dark">{item.details}</p>
+              {item.staffDetails?.count && (
+                <p className="text-sm text-light-dark mt-1">
+                  Count: {item.staffDetails.count}
+                </p>
               )}
               {item.staffDetails?.teacherStudentRatio && (
-                <p className="text-base text-dark">
-                  {item.staffDetails.teacherStudentRatio}
+                <p className="text-sm text-light-dark mt-1">
+                  Ratio: {item.staffDetails.teacherStudentRatio}
                 </p>
               )}
             </div>
@@ -284,70 +304,54 @@ export default function AppendixPage() {
           className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
         >
           <h4 className="text-sm font-semibold text-primary mb-3">
-            {item.title}
+            Year {item.resultData?.year}
           </h4>
-          {item.resultData && (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-primary/20">
-                    <th className="text-left py-2 px-3 text-primary font-semibold">
-                      Year
-                    </th>
-                    <th className="text-left py-2 px-3 text-primary font-semibold">
-                      Registered
-                    </th>
-                    <th className="text-left py-2 px-3 text-primary font-semibold">
-                      Passed
-                    </th>
-                    <th className="text-left py-2 px-3 text-primary font-semibold">
-                      Pass %
-                    </th>
-                    <th className="text-left py-2 px-3 text-primary font-semibold">
-                      Remarks
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-primary/10">
-                    <td className="py-2 px-3 text-dark">
-                      {item.resultData.year}
-                    </td>
-                    <td className="py-2 px-3 text-dark">
-                      {item.resultData.registered}
-                    </td>
-                    <td className="py-2 px-3 text-dark">
-                      {item.resultData.passed}
-                    </td>
-                    <td className="py-2 px-3">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary/20 text-secondary">
-                        {item.resultData.passPercentage}%
-                      </span>
-                    </td>
-                    <td className="py-2 px-3 text-dark">
-                      {item.resultData.remarks}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-accent p-3 rounded-lg border border-primary/10">
+              <p className="text-xs text-light-dark mb-1">Registered</p>
+              <p className="text-xl font-bold text-primary">
+                {item.resultData?.registered}
+              </p>
             </div>
-          )}
+            <div className="bg-accent p-3 rounded-lg border border-primary/10">
+              <p className="text-xs text-light-dark mb-1">Passed</p>
+              <p className="text-xl font-bold text-primary">
+                {item.resultData?.passed}
+              </p>
+            </div>
+            <div className="bg-accent p-3 rounded-lg border border-primary/10">
+              <p className="text-xs text-light-dark mb-1">Pass %</p>
+              <p className="text-xl font-bold text-primary">
+                {item.resultData?.passPercentage}%
+              </p>
+            </div>
+            <div className="bg-accent p-3 rounded-lg border border-primary/10">
+              <p className="text-xs text-light-dark mb-1">Remarks</p>
+              <p className="text-sm font-semibold text-primary">
+                {item.resultData?.remarks}
+              </p>
+            </div>
+          </div>
         </div>
       ))}
     </div>
   );
 
   const renderInfrastructure = (items) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="space-y-3">
       {items.map((item) => (
         <div
           key={item.id}
           className="bg-neutral rounded-lg p-4 hover:shadow-md transition-shadow"
         >
-          <h4 className="text-xs font-semibold text-light-dark mb-2">
-            {item.title}
-          </h4>
-          <p className="text-xl font-bold text-primary">{item.details}</p>
+          <div className="flex justify-between items-start gap-4">
+            <div className="flex-1">
+              <h4 className="text-sm font-semibold text-primary mb-1">
+                {item.serialNumber}. {item.title}
+              </h4>
+              <p className="text-base text-dark">{item.details}</p>
+            </div>
+          </div>
         </div>
       ))}
     </div>
@@ -358,21 +362,8 @@ export default function AppendixPage() {
 
     if (items.length === 0) {
       return (
-        <div className="bg-neutral rounded-lg p-8 text-center">
-          <svg
-            className="w-12 h-12 text-light-dark mx-auto mb-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-            />
-          </svg>
-          <p className="text-light-dark">No data available for this section</p>
+        <div className="text-center py-8 text-light-dark">
+          <p>No data available for this section</p>
         </div>
       );
     }
@@ -392,7 +383,7 @@ export default function AppendixPage() {
       case 'infrastructure':
         return renderInfrastructure(items);
       default:
-        return renderGeneralInfo(items);
+        return <div>Section not found</div>;
     }
   };
 
