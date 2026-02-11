@@ -178,13 +178,13 @@ const Departments = () => {
                 <div className="h-80 bg-gray-50 flex items-center justify-center">No departments available</div>
               ) : (
                 <>
-                  <div className="relative h-80 overflow-hidden">
+                  <div className="relative min-h-80 max-h-[600px] overflow-hidden">
                     <img
                       src={departments[activeDept]?.image || '/placeholder-dept.jpg'}
                       alt={departments[activeDept]?.name}
-                      className="w-full h-full object-fill"
+                      className="w-full h-auto object-contain"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none"></div>
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="p-3 bg-[#FBC02D] rounded-xl">
