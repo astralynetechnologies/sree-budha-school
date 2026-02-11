@@ -182,7 +182,7 @@ const Departments = () => {
                     <img
                       src={departments[activeDept]?.image || '/placeholder-dept.jpg'}
                       alt={departments[activeDept]?.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-fill"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div className="absolute bottom-6 left-6 right-6">
