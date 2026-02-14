@@ -433,7 +433,7 @@ export default function Home() {
                   <Reveal delay={500}>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
                       <a
-                        href="about-foundation/objectives"
+                        href="the-school/objectives"
                         className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                       >
                         Learn More
@@ -628,7 +628,7 @@ export default function Home() {
                 <Reveal delay={500} from="right">
                   <div className="pt-8">
                     <a
-                      href="/about-school/messages"
+                      href="/the-school/objectives"
                       className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#0D47A1] to-[#1565C0] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                     >
                       Learn More About Us
