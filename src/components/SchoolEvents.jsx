@@ -116,17 +116,17 @@ const SchoolEvents = () => {
                 key={event.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
-                {/* Event Image */}
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={event.images?.url || '/placeholder.png'}
-                    alt={event.images?.alt || event.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.target.src = '/placeholder.png';
-                    }}
-                  />
-                </div>
+               {/* Event Image */}
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={event.media?.url || '/placeholder.png'}
+                  alt={event.media?.alt || event.title}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.src = '/placeholder.png';
+                  }}
+                />
+              </div>
                 
                 {/* Event Content */}
                 <div className="p-6">
