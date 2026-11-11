@@ -299,14 +299,10 @@ export default function Home() {
           <>
             {/* Background Video - YouTube Embed (only on larger screens) */}
             <div className="absolute inset-0 overflow-hidden -z-20">
-              <video
-                src="/assets/herovideo.mp4"
+              <img
+                src="/front.jpeg"
+                alt="Sree Buddha Central School"
                 className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
               />
             </div>
 
